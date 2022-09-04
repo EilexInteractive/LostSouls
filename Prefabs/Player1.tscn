@@ -1,0 +1,274 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://Scripts/Characters/PlayerController.cs" type="Script" id=1]
+[ext_resource path="res://Animations/Battler_1.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Sprites/Weapons/Sword_1.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Health/HealthBarUnder.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/UI/InventoryUI.cs" type="Script" id=5]
+[ext_resource path="res://Fonts/Pixeled.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Sprites/TextWindow.png" type="Texture" id=7]
+[ext_resource path="res://Fonts/MachineStd.otf" type="DynamicFontData" id=8]
+[ext_resource path="res://Scripts/UI/UIController.cs" type="Script" id=9]
+[ext_resource path="res://Prefabs/InventoryItem.tscn" type="PackedScene" id=10]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 5.0
+height = 6.0
+
+[sub_resource type="Animation" id=4]
+resource_name = "New Anim"
+length = 1.5
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -9, 5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 23, -5 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Swing"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 90.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -10, 5 ), Vector2( 0, 2 ), Vector2( -10, 5 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "SwingFlipped"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -90.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -10, 5 ), Vector2( 0, 22 ), Vector2( -10, 5 ) ]
+}
+
+[sub_resource type="DynamicFont" id=6]
+size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=7]
+default_font = SubResource( 6 )
+/colors/mNew = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 10
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="Theme" id=9]
+default_font = SubResource( 8 )
+
+[node name="Player" type="KinematicBody2D"]
+collision_mask = 0
+script = ExtResource( 1 )
+_AttackCooldown = 0.3
+_AttackAnimSpeed = 5.0
+_SwordAnchorPointFlipped = Vector2( 22, -5 )
+_SwordAnchorPointNoFlip = Vector2( 7, -5 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = ExtResource( 2 )
+animation = "Idle"
+
+[node name="Sword" type="Sprite" parent="AnimatedSprite"]
+position = Vector2( -9, 5 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 3 )
+offset = Vector2( 23, -5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 0, 3 )
+shape = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.25, 0.25 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimatedSprite/Sword")
+"anims/New Anim" = SubResource( 4 )
+anims/RESET = SubResource( 2 )
+anims/Swing = SubResource( 3 )
+anims/SwingFlipped = SubResource( 5 )
+
+[node name="RaycastX" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 20, 0 )
+
+[node name="RaycastY" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, -20 )
+
+[node name="Canvas" type="CanvasModulate" parent="."]
+script = ExtResource( 9 )
+_MessageTime = 0.02
+
+[node name="HealthBar" type="TextureProgress" parent="Canvas"]
+margin_left = -151.0
+margin_top = 73.0
+margin_right = -143.0
+margin_bottom = 105.0
+value = 100.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 4 )
+fill_mode = 3
+tint_progress = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label" type="Label" parent="Canvas/HealthBar"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 9.0
+margin_bottom = 33.0
+theme = SubResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "HP"
+align = 1
+autowrap = true
+
+[node name="XPBar" type="TextureProgress" parent="Canvas"]
+margin_left = -141.0
+margin_top = 73.0
+margin_right = -133.0
+margin_bottom = 105.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 4 )
+fill_mode = 3
+tint_progress = Color( 0, 0.505882, 1, 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label2" type="Label" parent="Canvas/XPBar"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 9.0
+margin_bottom = 33.0
+theme = SubResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "XP"
+align = 1
+autowrap = true
+
+[node name="TextureRect" type="TextureRect" parent="Canvas"]
+visible = false
+margin_left = -125.0
+margin_top = 45.0
+margin_right = 126.0
+margin_bottom = 103.0
+texture = ExtResource( 7 )
+expand = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Canvas/TextureRect"]
+margin_left = 12.0
+margin_top = 10.0
+margin_right = 238.0
+margin_bottom = 48.0
+theme = SubResource( 9 )
+text = "Hello World"
+
+[node name="InventoryRect" type="ColorRect" parent="Canvas"]
+visible = false
+margin_left = 33.0
+margin_top = -79.0
+margin_right = 148.0
+margin_bottom = 78.0
+color = Color( 1, 1, 1, 0.12549 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+_ItemButton = ExtResource( 10 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Canvas/InventoryRect"]
+margin_left = 5.0
+margin_top = 7.0
+margin_right = 112.0
+margin_bottom = 153.0
+
+[node name="PickupLabel" type="Label" parent="Canvas"]
+visible = false
+margin_left = 106.0
+margin_top = 94.0
+margin_right = 154.0
+margin_bottom = 108.0
+text = "Pick Up"
