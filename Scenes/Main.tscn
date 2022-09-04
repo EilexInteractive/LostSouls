@@ -49,3 +49,4 @@ _SceneName = "Room_1"
 
 [node name="Character" parent="." instance=ExtResource( 3 )]
 position = Vector2( -22, -32 )
+z_index = -1

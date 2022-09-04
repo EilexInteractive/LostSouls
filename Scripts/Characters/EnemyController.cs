@@ -10,6 +10,7 @@ public class EnemyController : CharacterController
     private PlayerController _Player;
     private Navigation2D _Nav;
     private Vector2[] _Paths = new Vector2[] { };
+    
 
     
 
@@ -20,7 +21,8 @@ public class EnemyController : CharacterController
         base._Ready();
 
         // Set Character & Controller
-        _OwningCharacter = new Character("Pirate", false);
+        int roomLevel = GetNode<SceneController>("/root/Main").GetRoomLevel();
+        _OwningCharacter = new Character("Pirate", false, roomLevel);
         _OwningCharacter.SetOwningController(this);
         _Player = GetNode<PlayerController>("/root/Main/Player");
         _Nav = GetNode<Navigation2D>("/root/Main/Navigation2D");
@@ -29,7 +31,11 @@ public class EnemyController : CharacterController
         // Create a sword & Equip it
         Weapon weapon = new Weapon("Basic Sword", "This is a basic sword", 3, _OwningCharacter);
         _OwningCharacter.GetInventory().AddItem(weapon);
-        _OwningCharacter.GetInventory().EquipWeapon(weapon); }
+        _OwningCharacter.GetInventory().EquipWeapon(weapon); 
+        
+        
+    }
+    
     
 
     public override void _Process(float delta)
@@ -110,6 +116,8 @@ public class EnemyController : CharacterController
     {
         base.TriggerDeathAnim();
         GetNode<TextureProgress>("HealthBar").Hide();
+        
+        
     }
 
     protected override void Attack()
@@ -130,4 +138,5 @@ public class EnemyController : CharacterController
     }
 
     public AI_HealthBar GetHealthBar() => GetNode<AI_HealthBar>("HealthBar") as AI_HealthBar;
+    public int GetCharacterLevel() => _OwningCharacter.GetCurrentLevel();
 }

@@ -31,6 +31,8 @@ public class PlayerController : CharacterController
 
     // === Owner === //
 
+    private bool _DeathScreenPlayed = false;
+
     public override void _Ready()
     {
         base._Ready();
@@ -210,6 +212,8 @@ public class PlayerController : CharacterController
                         controller.ApplyingForce = new Vector2(0, -5);
                     }
                 }
+                
+                
             }
         }
     }
@@ -220,6 +224,7 @@ public class PlayerController : CharacterController
         {
             GD.Print("Hello World");
             enemy.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
+            _OwningCharacter.AddXP(GenerateXP(enemy.GetOwningCharacter().GetCurrentLevel()));
         }
     }
 
@@ -279,5 +284,33 @@ public class PlayerController : CharacterController
         }
     }
 
+    public override void TriggerDeathAnim()
+    {
+        base.TriggerDeathAnim();
+
+        if (!_DeathScreenPlayed)
+        {
+            GetNode<Button>("Canvas/DeathScreen/Button").Disabled = false;          // Enable the respawn button
+            
+            GetNode<AnimationPlayer>("Canvas/DeathScreen/AnimationPlayer").Play("DeathScreenIn");
+        }
+            
+
+        _DeathScreenPlayed = true;
+    }
+
+    public void OnRespawnPressed()
+    {
+        _OwningCharacter.Respawn();
+        GetTree().ReloadCurrentScene();
+    }
+
+    private float GenerateXP(int enemyLevel)
+    {
+        return (float)GD.RandRange(1, 6) * enemyLevel;
+    }
+
     public UIController GetUI() => GetNode<UIController>("Canvas");
 }
+
+

@@ -24,11 +24,11 @@ public class Character
     protected float _CurrentDefencePoints;
     
     // === XP Point System === //
-    protected float _CurrrentXP;
+    protected float _CurrentXP;
     protected float _NextLevelXP;
     protected int _CurrentLevel;
 
-    public Character(string characterName = "Character", bool isPlayer = false)
+    public Character(string characterName = "Character", bool isPlayer = false, int level = 1)
     {
         _IsPlayer = isPlayer;
         _CharacterName = characterName;
@@ -37,7 +37,7 @@ public class Character
 
         _Inventory = new InventoryComponent(this);
 
-        SetupStats();           // Setup the stats of the characters 
+        SetupStats(level);           // Setup the stats of the characters 
         
         _CurrentAttackPoints = _MaxAttackPoints;
         _CurrentDefencePoints = _MaxDefencePoints;
@@ -45,7 +45,7 @@ public class Character
         
     }
 
-    public void SetupStats()
+    public void SetupStats(int level = 1)
     {
         if (_IsPlayer)
         {
@@ -54,7 +54,7 @@ public class Character
         }
         else
         {
-            // TODO: Replace this with random stats
+            _CurrentLevel = level;                  // Set the current level of the enemy based on the room
             _MaxAttackPoints = 20;
             _MaxDefencePoints = 30;
         }
@@ -105,6 +105,30 @@ public class Character
         return true;
     }
 
+    public void AddXP(float xp)
+    {
+        if (_CurrentXP + xp > _NextLevelXP)
+        {
+            var remainingXP = _NextLevelXP - (_CurrentXP + xp);
+            LevelUp();
+            AddXP(remainingXP);
+        }
+        else
+        {
+            _CurrentXP += xp;
+        }
+
+        var pc = _OwningController as PlayerController;
+        pc?.GetUI()?.UpdateXP(_CurrentXP, _NextLevelXP, _CurrentLevel);
+    }
+
+    private void LevelUp()
+    {
+        _CurrentLevel++;
+        _NextLevelXP = _NextLevelXP * 1.4f;
+        _CurrentXP = 0;
+    }
+
     private void UpdateHealthUI()
     {
         if (_OwningController is PlayerController)
@@ -117,6 +141,15 @@ public class Character
             controller?.GetHealthBar().UpdateHealth(_CurrentHealth);
         }
 
+    }
+
+    public void Respawn()
+    {
+        if (_OwningController is PlayerController)
+        {
+            _IsAlive = true;
+            _CurrentHealth = _MaxHealth;
+        }
     }
 
 

@@ -5,6 +5,7 @@ using System.Security.Policy;
 public class UIController : CanvasModulate
 {
     private TextureProgress _HealthBar;
+    private TextureProgress _XPBar;
     private Label _PickupLabel;
     
     // === Message Details
@@ -37,6 +38,13 @@ public class UIController : CanvasModulate
     public void UpdateHealthBar(float _CurrentHealth)
     {
         _HealthBar.Value = _CurrentHealth;
+    }
+
+    public void UpdateXP(float CurrentXP, float MaxXP, int CurrentLevel)
+    {
+        _XPBar.MaxValue = MaxXP;
+        _XPBar.Value = CurrentXP;
+        GetNode<Label>("Label2").Text = CurrentLevel.ToString();
     }
 
     public void SetMessage(string message)

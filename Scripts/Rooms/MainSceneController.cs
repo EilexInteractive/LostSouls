@@ -14,6 +14,7 @@ public class MainSceneController : SceneController
     private bool _PostFightDialog = false;              // If we have displayed the post fight dialog
     private RoomData _RoomSaveData;
     
+    
     public override void _Ready()
     {
         base._Ready();

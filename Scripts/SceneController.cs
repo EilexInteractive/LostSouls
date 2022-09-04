@@ -3,6 +3,8 @@ using System;
 
 public class SceneController : Node2D
 {
+    [Export] protected int _RoomLevel;                    // What level of difficulty this level is
+    
     public virtual void SaveRoom()
     {
         
@@ -12,4 +14,6 @@ public class SceneController : Node2D
     {
         
     }
+
+    public int GetRoomLevel() => _RoomLevel;
 }
