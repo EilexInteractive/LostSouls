@@ -33,7 +33,8 @@ public class CharacterController : KinematicBody2D
         // Reference to the sword sprite
         _SwordSprite = GetNode<Sprite>("AnimatedSprite/Sword");
         // Set the speed that the sword animation will play at
-        _SwordAnim.PlaybackSpeed = _AttackAnimSpeed;
+        if(_SwordSprite != null)
+            _SwordAnim.PlaybackSpeed = _AttackAnimSpeed;
         
         // Get the reference to the animated sprite
         _Anim = GetNode<AnimatedSprite>("AnimatedSprite");
@@ -93,9 +94,21 @@ public class CharacterController : KinematicBody2D
         if (!NewGame)
         {
             if (_OwningCharacter.IsAlive() == false)
+            {
                 CanMove = false;
+                if (this is EnemyController)
+                {
+                    var ec = this as EnemyController;
+                    ec?.AlreadyDead();
+                    ec?.GetHealthBar().Hide();
+                    
+                }
+            }
+            else
+            {
+
+            }
             
-            TriggerDeathAnim();
         }
     }
     public Character GetOwningCharacter() => _OwningCharacter;

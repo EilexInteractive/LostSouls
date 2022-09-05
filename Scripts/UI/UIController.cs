@@ -15,6 +15,7 @@ public class UIController : CanvasModulate
     private string _Message;
     private string _CurrentMessage;
     private int _MessageIndex = 0;
+    private bool _IsMessageFinished = false;
 
     public override void _Ready()
     {
@@ -42,9 +43,11 @@ public class UIController : CanvasModulate
 
     public void UpdateXP(float CurrentXP, float MaxXP, int CurrentLevel)
     {
-        _XPBar.MaxValue = MaxXP;
-        _XPBar.Value = CurrentXP;
-        GetNode<Label>("Label2").Text = CurrentLevel.ToString();
+        // Set the text to be our current level
+        GetNode<Label>("XPBar/Label2").Text = CurrentLevel.ToString();
+        // Setup values
+        GetNode<TextureProgress>("XPBar").MaxValue = MaxXP;
+        GetNode<TextureProgress>("XPBar").Value = CurrentXP;
     }
 
     public void SetMessage(string message)
@@ -55,6 +58,22 @@ public class UIController : CanvasModulate
         _CurrentMessage = "";
         _MessageIndex = 0;
         _MessagePrintTimer = new Timer(_MessageTime, true, PrintMessage);
+        var player = GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController();
+        if (player != null)
+        {
+            player.CanMove = false;
+            var pc = player as PlayerController;;
+            pc.IsInDialog = true;
+        }
+            
+    }
+
+    public void FinishMessage()
+    {
+        _MessagePrintTimer = null;
+        _CurrentMessage = _Message;
+        GetNode<RichTextLabel>("TextureRect/RichTextLabel").Text = _CurrentMessage;
+        _IsMessageFinished = true;
     }
     
 
@@ -65,7 +84,20 @@ public class UIController : CanvasModulate
         GetNode<RichTextLabel>("TextureRect/RichTextLabel").Text = _CurrentMessage;
 
         if (_CurrentMessage.Length() >= _Message.Length())
+        {
             _MessagePrintTimer = null;
+            _IsMessageFinished = true;
+        }
+            
+    }
+    
+    public void HideMessageRect()
+    {
+        _MessageRect.Hide();
+        var player = GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController();
+        player.CanMove = true;
+        var pc = player as PlayerController;
+        pc.IsInDialog = false;
     }
 
     public void TogglePickupLabel(bool toggle, string message = "")
@@ -79,9 +111,9 @@ public class UIController : CanvasModulate
             _PickupLabel.Text = message;
     }
 
-    public void HideMessageRect()
-    {
-        _MessageRect.Hide();
-    }
+    
+
+    public bool IsMessageFinished() => _IsMessageFinished;
+    public string GetMessage() => _Message;
 
 }

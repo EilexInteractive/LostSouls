@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 
@@ -62,7 +63,7 @@ public class EnemyController : CharacterController
 
         var velocity = new Vector2();
 
-        _Paths = _Nav.GetSimplePath(GlobalPosition, _PlayerPosition, false);
+        _Paths = _Nav.GetSimplePath(GlobalPosition, _PlayerPosition);
         if (_Paths.Length > 1)
         {
             var distance = _Paths[1] - GlobalPosition;
@@ -101,10 +102,13 @@ public class EnemyController : CharacterController
 
         if (_OwningCharacter.IsAlive() == false)
             return;
+        
+        GD.Print(vel.ToString());
  
         if (vel == new Vector2())
         {
-            _Anim.Play("Idle");
+            _Anim.Play("Walk");
+            
         }
         else
         {
@@ -118,6 +122,11 @@ public class EnemyController : CharacterController
         GetNode<TextureProgress>("HealthBar").Hide();
         
         
+    }
+
+    public void AlreadyDead()
+    {
+        _Anim.Play("AlreadyDead");
     }
 
     protected override void Attack()

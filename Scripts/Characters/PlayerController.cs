@@ -12,8 +12,9 @@ public class PlayerController : CharacterController
     // === Movement Settings === //
 
     private bool _IsInventoryOpen = false;
-    
-    
+    public bool IsInDialog;                // If the dialog menu is open
+
+
     // === Components === //
     private RayCast2D _RaycastX;
     private RayCast2D _RaycastY;
@@ -32,6 +33,7 @@ public class PlayerController : CharacterController
     // === Owner === //
 
     private bool _DeathScreenPlayed = false;
+    private bool _IsShowingFriendlyInteract = false;
 
     public override void _Ready()
     {
@@ -45,6 +47,7 @@ public class PlayerController : CharacterController
         _OwningCharacter = GetNode<GameController>("/root/GameController").GetPlayerCharacter();
         _OwningCharacter.SetOwningController(this);
         GetUI().UpdateHealthBar(_OwningCharacter.GetCurrentHealth());
+        GetUI().UpdateXP(_OwningCharacter.GetCurrentXP(), _OwningCharacter.GetMaxXP(), _OwningCharacter.GetCurrentLevel());
     }
 
     public override void _Process(float delta)
@@ -55,13 +58,31 @@ public class PlayerController : CharacterController
         if (Input.IsActionPressed("Attack"))
             Attack();
         
-        if(Input.IsActionPressed("Test_Button"))
-            _OwningCharacter.GetInventory().PrintInventory();
+        DetectFriendlyInteraction();
 
         if (Input.IsActionPressed("Inventory"))
         {
             ToggleInventory();
         }
+
+        if (Input.IsActionJustPressed("Dialog"))
+        {
+            if (IsInDialog)
+            {
+                if (GetUI().GetMessage() != "")
+                {
+                    if (GetUI().IsMessageFinished())
+                    {
+                        GetUI().HideMessageRect();
+                    }
+                    else
+                    {
+                        GetUI().FinishMessage();
+                    }
+                }
+            }
+        }
+        
         
         if(Input.IsActionPressed("Interact"))
             Interact();
@@ -122,6 +143,30 @@ public class PlayerController : CharacterController
         UpdateRaycastPosition(velocity);
         
 
+    }
+
+    private void DetectFriendlyInteraction()
+    {
+        if (_RaycastX.IsColliding())
+        {
+            if (_RaycastX.GetCollider() is Friendly)
+            {
+                _InteractableItem = _RaycastX.GetCollider() as Friendly;
+                GetUI().TogglePickupLabel(true, "Interact");
+            }
+        } else if (_RaycastY.IsColliding())
+        {
+            if (_RaycastY.GetCollider() is Friendly)
+            {
+                _InteractableItem = _RaycastY.GetCollider() as Friendly;
+                GetUI().TogglePickupLabel(true, "Interact");
+            }
+        }
+        else
+        {
+            if(_IsShowingFriendlyInteract)
+                GetUI().TogglePickupLabel(false);
+        }
     }
 
     protected override void Attack()
@@ -197,23 +242,24 @@ public class PlayerController : CharacterController
             Node2D collidingNode = _RaycastY.GetCollider() as Node2D;
             if (collidingNode is CharacterController)
             {
-                var enemyController = collidingNode as CharacterController;
-                if (enemyController != null)
+                if (collidingNode is EnemyController)
                 {
-                    AttackEnemy(enemyController);
-                    if (_RaycastY.CastTo == new Vector2(0, 20))
+                    var enemyController = collidingNode as CharacterController;
+                    if (enemyController != null)
                     {
-                        var controller = enemyController as EnemyController;
-                        controller.ApplyingForce = new Vector2(0, 5);
-                    }
-                    else
-                    {
-                        var controller = enemyController as EnemyController;
-                        controller.ApplyingForce = new Vector2(0, -5);
+                        AttackEnemy(enemyController);
+                        if (_RaycastY.CastTo == new Vector2(0, 20))
+                        {
+                            var controller = enemyController as EnemyController;
+                            controller.ApplyingForce = new Vector2(0, 5);
+                        }
+                        else
+                        {
+                            var controller = enemyController as EnemyController;
+                            controller.ApplyingForce = new Vector2(0, -5);
+                        }
                     }
                 }
-                
-                
             }
         }
     }
@@ -224,7 +270,7 @@ public class PlayerController : CharacterController
         {
             GD.Print("Hello World");
             enemy.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
-            _OwningCharacter.AddXP(GenerateXP(enemy.GetOwningCharacter().GetCurrentLevel()));
+            //_OwningCharacter.AddXP(GenerateXP(enemy.GetOwningCharacter().GetCurrentLevel()));
         }
     }
 
@@ -245,6 +291,10 @@ public class PlayerController : CharacterController
             {
                 var lever = _InteractableItem as LeverController;
                 lever.OpenDoor();
+            } else if (_InteractableItem is Friendly)
+            {
+                var friend = _InteractableItem as Friendly;
+                friend.Interact();
             }
         }
     }
@@ -290,8 +340,8 @@ public class PlayerController : CharacterController
 
         if (!_DeathScreenPlayed)
         {
+            GetNode<ColorRect>("Canvas/DeathScreen").Show();
             GetNode<Button>("Canvas/DeathScreen/Button").Disabled = false;          // Enable the respawn button
-            
             GetNode<AnimationPlayer>("Canvas/DeathScreen/AnimationPlayer").Play("DeathScreenIn");
         }
             
@@ -302,6 +352,7 @@ public class PlayerController : CharacterController
     public void OnRespawnPressed()
     {
         _OwningCharacter.Respawn();
+        GetNode<ColorRect>("Canvas/DeathScreen").Hide();
         GetTree().ReloadCurrentScene();
     }
 

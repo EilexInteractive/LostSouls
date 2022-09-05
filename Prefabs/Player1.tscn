@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/Characters/PlayerController.cs" type="Script" id=1]
 [ext_resource path="res://Animations/Battler_1.tres" type="SpriteFrames" id=2]
@@ -7,9 +7,10 @@
 [ext_resource path="res://Scripts/UI/InventoryUI.cs" type="Script" id=5]
 [ext_resource path="res://Fonts/Pixeled.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Sprites/TextWindow.png" type="Texture" id=7]
-[ext_resource path="res://Fonts/MachineStd.otf" type="DynamicFontData" id=8]
+[ext_resource path="res://Fonts/alagard.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://Scripts/UI/UIController.cs" type="Script" id=9]
 [ext_resource path="res://Prefabs/InventoryItem.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Fonts/MachineStd.otf" type="DynamicFontData" id=11]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 5.0
@@ -124,7 +125,7 @@ default_font = SubResource( 6 )
 /colors/mNew = Color( 0, 0, 0, 1 )
 
 [sub_resource type="DynamicFont" id=8]
-size = 10
+size = 31
 use_filter = true
 font_data = ExtResource( 8 )
 
@@ -211,7 +212,7 @@ tracks/2/keys = {
 
 [sub_resource type="DynamicFont" id=12]
 size = 40
-font_data = ExtResource( 8 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="Theme" id=13]
 default_font = SubResource( 12 )
@@ -259,6 +260,7 @@ enabled = true
 cast_to = Vector2( 0, -20 )
 
 [node name="Canvas" type="CanvasModulate" parent="."]
+z_index = 100
 script = ExtResource( 9 )
 _MessageTime = 0.02
 
@@ -326,17 +328,19 @@ __meta__ = {
 [node name="RichTextLabel" type="RichTextLabel" parent="Canvas/TextureRect"]
 margin_left = 12.0
 margin_top = 10.0
-margin_right = 238.0
-margin_bottom = 48.0
+margin_right = 924.0
+margin_bottom = 162.0
+rect_scale = Vector2( 0.25, 0.25 )
 theme = SubResource( 9 )
 text = "Hello World"
 
 [node name="InventoryRect" type="ColorRect" parent="Canvas"]
 visible = false
-margin_left = 33.0
-margin_top = -79.0
-margin_right = 148.0
-margin_bottom = 78.0
+margin_left = -153.0
+margin_top = -105.0
+margin_right = 79.0
+margin_bottom = 391.0
+rect_scale = Vector2( 0.25, 0.25 )
 color = Color( 1, 1, 1, 0.12549 )
 script = ExtResource( 5 )
 __meta__ = {
@@ -347,8 +351,13 @@ _ItemButton = ExtResource( 10 )
 [node name="VBoxContainer" type="VBoxContainer" parent="Canvas/InventoryRect"]
 margin_left = 5.0
 margin_top = 7.0
-margin_right = 112.0
-margin_bottom = 153.0
+margin_right = 220.0
+margin_bottom = 484.0
+
+[node name="Button" parent="Canvas/InventoryRect/VBoxContainer" instance=ExtResource( 10 )]
+margin_right = 215.0
+margin_bottom = 20.0
+rect_scale = Vector2( 1, 1 )
 
 [node name="PickupLabel" type="Label" parent="Canvas"]
 visible = false
@@ -359,6 +368,7 @@ margin_bottom = 108.0
 text = "Pick Up"
 
 [node name="DeathScreen" type="ColorRect" parent="Canvas"]
+visible = false
 margin_left = -303.0
 margin_top = -112.0
 margin_right = 283.0

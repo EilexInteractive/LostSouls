@@ -24,9 +24,9 @@ public class Character
     protected float _CurrentDefencePoints;
     
     // === XP Point System === //
-    protected float _CurrentXP;
-    protected float _NextLevelXP;
-    protected int _CurrentLevel;
+    protected float _CurrentXP = 0;
+    protected float _NextLevelXP = 100;
+    protected int _CurrentLevel = 1;
 
     public Character(string characterName = "Character", bool isPlayer = false, int level = 1)
     {
@@ -34,6 +34,7 @@ public class Character
         _CharacterName = characterName;
         _CurrentHealth = _MaxHealth;
         UpdateHealthUI();
+        _CurrentLevel = level;
 
         _Inventory = new InventoryComponent(this);
 
@@ -67,7 +68,7 @@ public class Character
     /// <param name="dp">Damage points</param>
     public void TakeDamage(float dp)
     {
-        //dp *= _Inventory.GetEquippedWeapon().GenerateDP();              // Add the sword modifier to the damage
+        dp *= _Inventory.GetEquippedWeapon().GenerateDP();              // Add the sword modifier to the damage
         
         // Determine the points to be applied
         var percentage = _CurrentDefencePoints / 10;
@@ -107,6 +108,9 @@ public class Character
 
     public void AddXP(float xp)
     {
+        if (xp <= 0)
+            return;
+        
         if (_CurrentXP + xp > _NextLevelXP)
         {
             var remainingXP = _NextLevelXP - (_CurrentXP + xp);
@@ -161,6 +165,8 @@ public class Character
     public float GetCurrentDP() => _CurrentDefencePoints;
     public bool IsAlive() => _IsAlive;
     public int GetCurrentLevel() => _CurrentLevel;
+    public float GetMaxXP() => _NextLevelXP;
+    public float GetCurrentXP() => _CurrentXP;
     public InventoryComponent GetInventory() => _Inventory;
     public CharacterController GetController() => _OwningController;
 }

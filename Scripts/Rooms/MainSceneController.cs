@@ -13,18 +13,27 @@ public class MainSceneController : SceneController
     private bool _InitialDialogComplete = false;
     private bool _PostFightDialog = false;              // If we have displayed the post fight dialog
     private RoomData _RoomSaveData;
+
+    [Export] private PackedScene _EnemySpawn;
     
     
     public override void _Ready()
     {
         base._Ready();
         
-        LoadRoomData();
-
-        _Enemy = GetNode<EnemyController>("Character");
-        _Player = GetNode<PlayerController>("Player");
+        // Spawn the new enemy to this scene
+        var enemyInstance = _EnemySpawn.Instance();
+        AddChild(enemyInstance);
+        var enemyNode = enemyInstance as EnemyController;
+        enemyNode.Position = GetNode<Node2D>("SpawnPoint").Position;
+        _Enemy = enemyNode;
         
+        LoadRoomData();
+        
+        _Player = GetNode<PlayerController>("Player");
 
+        
+        
 
         if (!_InitialDialogComplete)
         {
@@ -42,39 +51,38 @@ public class MainSceneController : SceneController
         
         if(StartCombatTimer != null)
             StartCombatTimer.UpdateTimer(delta);
+        
 
         if (!_Enemy.GetOwningCharacter().IsAlive() && !_PostFightDialog)
         {
             _PostFightDialog = true;
             _Player.GetUI()?.SetMessage("Where am i?? Maybe this door will have more answers");
-            FightOverTimer = new Timer(3.0f, false, HideDialog);
         }
-        
-        if(FightOverTimer != null)
-            FightOverTimer.UpdateTimer(delta);
+
+        if (!_Enemy.GetOwningCharacter().IsAlive())
+        {
+            GetNode<ChangeScene>("ChangeScene").CanChangeScene = true;
+        }
             
 
-    }
+        
 
-    private void HideDialog()
-    {
-        _Player.GetUI()?.HideMessageRect();
-        FightOverTimer = null;
+
     }
 
     private void StartCombat()
     {
         _InitialDialogComplete = true;
         _Enemy.CanMove = true;
+        _Player.CanMove = true;
         StartCombatTimer = null;                // Clear the timer once combat has started
-        _Player.GetUI()?.HideMessageRect();             // Hide the message rect once combat has started
     }
 
     public override void SaveRoom()
     {
         List<Character> characters = new List<Character>();             // Create a list for all the characters
         characters.Add(GetNode<CharacterController>("Character").GetOwningCharacter());         // Add the enemy
-        EntranceRoom room = new EntranceRoom(characters);               // Create the room data
+        EntranceRoom room = new EntranceRoom(_Enemy.Position, characters);               // Create the room data
         GetNode<GameController>("/root/GameController").SaveRoomData(room);           // Save the room
     }
 
@@ -94,6 +102,9 @@ public class MainSceneController : SceneController
 
             Character enemy = _RoomSaveData.CharactersInRoom[0];
             GetNode<CharacterController>("Character").SetOwningCharacter(enemy, false);
+            GetNode<CharacterController>("Character").Position = roomData.enemyPos;
+            GetNode<ChangeScene>("ChangeScene").CanChangeScene = true;
+            GetNode<CharacterController>("Player").Position = GetNode<Node2D>("ReturnPos").GlobalPosition;
         }
     }
 }
@@ -102,8 +113,10 @@ public class MainSceneController : SceneController
 public class EntranceRoom : RoomData
 {
     public bool DialogComplete;
-    public EntranceRoom(List<Character> characters, bool dialogComplete = true) : base("Main", characters)
+    public Vector2 enemyPos;
+    public EntranceRoom(Vector2 pos, List<Character> characters, bool dialogComplete = true) : base("Main", characters)
     {
+        enemyPos = pos;
         DialogComplete = dialogComplete;
     }
 }

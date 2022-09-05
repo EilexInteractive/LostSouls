@@ -33,7 +33,7 @@ public class ItemDatabase : Node
         _Items.Add(new ItemDropData(new HealthPotion(25), ItemRarity.Common));
         _Items.Add(new ItemDropData(new HealthPotion(50), ItemRarity.Uncommon));
         _Items.Add(new ItemDropData(new HealthPotion(75), ItemRarity.Rare));
-        _Items.Add(new ItemDropData(new Weapon("Old Sword", "Rusty old sword that's been sitting around for a while", 2, null, 5, 10), ItemRarity.Common));
+        _Items.Add(new ItemDropData(new Weapon("Old Sword", "Rusty old sword that's been sitting around for a while", 2, null, 1, 1.2f), ItemRarity.Common));
         
     }
 

@@ -1,8 +1,13 @@
 using Godot;
 using System;
 
+
+
 public class LootChest : Area2D, IInteractable
 {
+    public event Action OnChestOpen;
+    
+    
     public bool IsOpen;
     private AnimatedSprite _Anim;
 
@@ -14,6 +19,8 @@ public class LootChest : Area2D, IInteractable
         _Inventory = new InventoryComponent(null);          // Create the inventory component
         _Anim = GetNode<AnimatedSprite>("AnimatedSprite");              // Get reference to the animator
         GenerateLoot();
+        
+        
     }
 
     public void OnBodyEntered(Node body)
@@ -41,9 +48,9 @@ public class LootChest : Area2D, IInteractable
     {
         if(!IsOpen)
             _Anim.Play("Open");
-        
-        
-        // TODO: Display chest inventory
+
+
+        OnChestOpen?.Invoke();
     }
 
     private void GenerateLoot()
