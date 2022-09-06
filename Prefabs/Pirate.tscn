@@ -110,7 +110,6 @@ tracks/1/keys = {
 }
 
 [node name="Character" type="KinematicBody2D" groups=["Enemy"]]
-collision_mask = 0
 script = ExtResource( 2 )
 _AttackCooldown = 0.5
 _MovementSpeed = 35.0
