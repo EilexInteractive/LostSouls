@@ -9,13 +9,13 @@ public class UIController : CanvasModulate
     private Label _PickupLabel;
     
     // === Message Details
-    private TextureRect _MessageRect;
-    private Timer _MessagePrintTimer;
+    private TextureRect _MessageRect;                       // Reference to the message container
+    private Timer _MessagePrintTimer;                       // Timer that will add a letter to the message
     [Export] private float _MessageTime;                    // How much each character should be
-    private string _Message;
-    private string _CurrentMessage;
-    private int _MessageIndex = 0;
-    private bool _IsMessageFinished = false;
+    private string _Message;                                // Reference to the full message
+    private string _CurrentMessage;                         // Part of the message that is currently being displayed
+    private int _MessageIndex = 0;                          // Character that we are up to in the message
+    private bool _IsMessageFinished = false;                // If the message has finished printing
 
     public override void _Ready()
     {
