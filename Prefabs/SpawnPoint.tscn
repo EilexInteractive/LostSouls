@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://SpawnPointController.cs" type="Script" id=1]
+
+[node name="SpawnPoint" type="Node2D" groups=["SpawnPoint"]]
+script = ExtResource( 1 )
