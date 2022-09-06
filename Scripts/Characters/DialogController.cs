@@ -5,6 +5,7 @@ public class DialogController : Node2D
 {
     private Friendly Owner;
     private bool _DialogOpen = false;
+    private event Action _DialogEvent = null;
 
     private Timer _CloseDialogTimer;
 
@@ -26,11 +27,18 @@ public class DialogController : Node2D
 
     public void CloseDialog()
     {
+        GD.Print("Closing Dialog");
         _DialogOpen = false;
         var player =
             GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController() as PlayerController;
         player?.GetUI()?.HideMessageRect();
-    }
 
+        if (_DialogEvent != null)
+        {
+            _DialogEvent.Invoke();
+        }
+    }
+    
     public void SetOwner(Friendly friend) => Owner = friend;
+    public void SetDialogEvent(Action actionEvent) => _DialogEvent = actionEvent;
 }

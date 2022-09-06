@@ -98,6 +98,10 @@ public class UIController : CanvasModulate
         player.CanMove = true;
         var pc = player as PlayerController;
         pc.IsInDialog = false;
+
+        var friend = GetNode<Friendly>("Friendly");
+        if(friend != null)
+            friend.GetDialogController()?.CloseDialog();
     }
 
     public void TogglePickupLabel(bool toggle, string message = "")

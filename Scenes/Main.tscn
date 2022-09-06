@@ -45,16 +45,12 @@ _DoorPosition = Vector2( 0, -6 )
 _TileMapName = "Floor"
 _NewDoorIndex = 54
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 58, 18 )
-__meta__ = {
-"_edit_group_": true
-}
-
 [node name="ChangeScene" parent="." instance=ExtResource( 4 )]
 position = Vector2( 18, -79 )
 _SceneName = "Room_1"
 CanChangeScene = false
 
 [node name="ReturnPoint" type="Node2D" parent="."]
-position = Vector2( 17, -56 )
+position = Vector2( 17, -54 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]

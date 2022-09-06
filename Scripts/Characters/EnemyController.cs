@@ -102,12 +102,10 @@ public class EnemyController : CharacterController
 
         if (_OwningCharacter.IsAlive() == false)
             return;
-        
-        GD.Print(vel.ToString());
- 
+
         if (vel == new Vector2())
         {
-            _Anim.Play("Walk");
+            _Anim.Play("Idle");
             
         }
         else
@@ -119,9 +117,9 @@ public class EnemyController : CharacterController
     public override void TriggerDeathAnim()
     {
         base.TriggerDeathAnim();
-        GetNode<TextureProgress>("HealthBar").Hide();
-        
-        
+        GetNode<TextureProgress>("HealthBar").Hide();                               // Hide the texture progress
+        GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;              // Disable the collision once they have died
+
     }
 
     public void AlreadyDead()

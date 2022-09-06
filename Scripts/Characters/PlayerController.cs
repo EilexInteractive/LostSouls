@@ -35,6 +35,8 @@ public class PlayerController : CharacterController
     private bool _DeathScreenPlayed = false;
     private bool _IsShowingFriendlyInteract = false;
 
+    private event Action _DialogEvent; 
+
     public override void _Ready()
     {
         base._Ready();
@@ -55,12 +57,12 @@ public class PlayerController : CharacterController
         base._Process(delta);
 
         // Check for attack input & Attack
-        if (Input.IsActionPressed("Attack"))
+        if (Input.IsActionJustPressed("Attack"))
             Attack();
         
         DetectFriendlyInteraction();
 
-        if (Input.IsActionPressed("Inventory"))
+        if (Input.IsActionJustPressed("Inventory"))
         {
             ToggleInventory();
         }
@@ -74,6 +76,7 @@ public class PlayerController : CharacterController
                     if (GetUI().IsMessageFinished())
                     {
                         GetUI().HideMessageRect();
+                        _DialogEvent?.Invoke();
                     }
                     else
                     {
@@ -362,6 +365,7 @@ public class PlayerController : CharacterController
     }
 
     public UIController GetUI() => GetNode<UIController>("Canvas");
+    public void SetDialogEvent(Action dialogEvent) => _DialogEvent = dialogEvent;
 }
 
 

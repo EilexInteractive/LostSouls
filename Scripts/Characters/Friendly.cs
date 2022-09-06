@@ -102,6 +102,7 @@ public class Friendly : CharacterController, IInteractable
 
     public void EnableInteractionPrompt() => _InteractionPrompt.Show();
     public void DisableInteractionPrompt() => _InteractionPrompt.Hide();
+    public DialogController GetDialogController() => GetNode<DialogController>("DialogController");
 
 
 }

@@ -1,8 +1,8 @@
 [gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/Characters/PlayerController.cs" type="Script" id=1]
-[ext_resource path="res://Animations/Battler_1.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://Sprites/Weapons/Sword_1.png" type="Texture" id=3]
+[ext_resource path="res://Animations/Player_1.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Sprites/Items/Rusty Sword.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Health/HealthBarUnder.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/UI/InventoryUI.cs" type="Script" id=5]
 [ext_resource path="res://Fonts/Pixeled.ttf" type="DynamicFontData" id=6]
@@ -326,6 +326,7 @@ __meta__ = {
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Canvas/TextureRect"]
+modulate = Color( 0.372549, 0.243137, 0, 1 )
 margin_left = 12.0
 margin_top = 10.0
 margin_right = 924.0
@@ -338,10 +339,10 @@ text = "Hello World"
 visible = false
 margin_left = -153.0
 margin_top = -105.0
-margin_right = 79.0
-margin_bottom = 391.0
+margin_right = 143.0
+margin_bottom = 591.0
 rect_scale = Vector2( 0.25, 0.25 )
-color = Color( 1, 1, 1, 0.12549 )
+color = Color( 1, 1, 1, 0.301961 )
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_group_": true
@@ -351,13 +352,8 @@ _ItemButton = ExtResource( 10 )
 [node name="VBoxContainer" type="VBoxContainer" parent="Canvas/InventoryRect"]
 margin_left = 5.0
 margin_top = 7.0
-margin_right = 220.0
-margin_bottom = 484.0
-
-[node name="Button" parent="Canvas/InventoryRect/VBoxContainer" instance=ExtResource( 10 )]
-margin_right = 215.0
-margin_bottom = 20.0
-rect_scale = Vector2( 1, 1 )
+margin_right = 296.0
+margin_bottom = 692.0
 
 [node name="PickupLabel" type="Label" parent="Canvas"]
 visible = false

@@ -4,7 +4,7 @@ using System;
 [Serializable]
 public class Timer
 {
-    private float _TimerLength;
+    private float _TimerLength;                 
     private float _CurrentTime;
     private bool _Loop;
     private Action _OnCompleteAction;

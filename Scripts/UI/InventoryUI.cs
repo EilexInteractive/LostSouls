@@ -6,8 +6,6 @@ using System.Collections.Generic;
 public class InventoryUI : ColorRect
 {
     [Export] private PackedScene _ItemButton;           // Reference to the button that will spawn with it details
-    private Timer _CloseLimitTimer;                 // Timer to prevent flickering of the UI
-    private Timer _OpenLimitTimer;                  // Timer to prevent flickering of the UI
 
     private bool _CanOpen = true;
     private bool _CanClose = false;
@@ -18,17 +16,11 @@ public class InventoryUI : ColorRect
     {
         base._Process(delta);
         
-        _CloseLimitTimer?.UpdateTimer(delta);
-        _OpenLimitTimer?.UpdateTimer(delta);
     }
 
 
     public void OpenInventory(InventoryComponent inventory)
     {
-        if (_CanOpen == false)
-            return;
-        
-        
         this.Show();                    // Show the inventory
 
         foreach (var item in inventory.GetInventoryItems())
@@ -49,17 +41,10 @@ public class InventoryUI : ColorRect
             
             _SpawnedButtons.Add(btnNode);
         }
-
-        _CanClose = false;
-        _CanOpen = false;
-        _CloseLimitTimer = new Timer(0.3f, false, SetCanCloseTimer);
+        
     }
 
-    public void SetCanCloseTimer()
-    {
-        _CanClose = true;
-        _CloseLimitTimer = null;
-    }
+
 
     public void RemoveItemButton(Button btn)
     {
@@ -72,8 +57,6 @@ public class InventoryUI : ColorRect
 
     public void CloseInventory()
     {
-        if (!_CanClose)
-            return;
 
         if (_SpawnedButtons.Count > 0)
         {
@@ -85,20 +68,10 @@ public class InventoryUI : ColorRect
         }
 
         _SpawnedButtons.Clear();
-        
-        _CanOpen = false;
-        _CanClose = false;
-        _OpenLimitTimer = new Timer(0.3f, false, SetCanOpenTimer);
 
         this.Hide();                // Hide the inventory
 
         
 
-    }
-
-    public void SetCanOpenTimer()
-    {
-        _CanOpen = true;
-        _OpenLimitTimer = null;
     }
 }
