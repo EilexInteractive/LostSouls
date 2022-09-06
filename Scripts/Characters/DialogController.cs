@@ -29,6 +29,7 @@ public class DialogController : Node2D
     {
         GD.Print("Closing Dialog");
         _DialogOpen = false;
+        
         var player =
             GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController() as PlayerController;
         player?.GetUI()?.HideMessageRect();

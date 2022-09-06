@@ -109,7 +109,7 @@ tracks/1/keys = {
 "values": [ Vector2( -10, 5 ), Vector2( 0, 22 ), Vector2( -10, 5 ) ]
 }
 
-[node name="Character" type="KinematicBody2D"]
+[node name="Character" type="KinematicBody2D" groups=["Enemy"]]
 collision_mask = 0
 script = ExtResource( 2 )
 _AttackCooldown = 0.5

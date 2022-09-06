@@ -68,7 +68,7 @@ public class Room_1 : SceneController
             
             // Setup the new message for the friendly person
             GetNode<Friendly>("Friendly").DialogMessage =
-                "See you found some of your soul. Maybe you could become the great warrior you were...";
+                "See you found some of your soul. Maybe you could become the great warrior you once were...";
             GetNode<Friendly>("Friendly").EnableInteractionPrompt();
             player.SetDialogEvent(UnlockDoor);
         }

@@ -63,7 +63,7 @@ public class EnemyController : CharacterController
 
         var velocity = new Vector2();
 
-        _Paths = _Nav.GetSimplePath(GlobalPosition, _PlayerPosition);
+        _Paths = _Nav.GetSimplePath(GlobalPosition, _PlayerPosition, false);
         if (_Paths.Length > 1)
         {
             var distance = _Paths[1] - GlobalPosition;

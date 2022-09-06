@@ -271,9 +271,12 @@ public class PlayerController : CharacterController
     {
         if (enemy != null)
         {
+            if (enemy is Friendly)
+                return;
+            
             GD.Print("Hello World");
             enemy.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
-            //_OwningCharacter.AddXP(GenerateXP(enemy.GetOwningCharacter().GetCurrentLevel()));
+            _OwningCharacter.AddXP(GenerateXP(enemy.GetOwningCharacter().GetCurrentLevel()));
         }
     }
 

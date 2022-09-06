@@ -102,6 +102,8 @@ public class UIController : CanvasModulate
         var friend = GetNode<Friendly>("Friendly");
         if(friend != null)
             friend.GetDialogController()?.CloseDialog();
+
+        _IsMessageFinished = false;
     }
 
     public void TogglePickupLabel(bool toggle, string message = "")
