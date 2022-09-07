@@ -50,8 +50,8 @@ public class Character
     {
         if (_IsPlayer)
         {
-            _MaxAttackPoints = 100;
-            _MaxDefencePoints = 100;
+            _MaxAttackPoints = 75;
+            _MaxDefencePoints = 75;
         }
         else
         {

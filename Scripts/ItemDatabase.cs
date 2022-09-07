@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 
 public enum ItemRarity
 {
@@ -30,10 +31,15 @@ public class ItemDatabase : Node
     public override void _Ready()
     {
         base._Ready();
+        // Create health potions
         _Items.Add(new ItemDropData(new HealthPotion(25), ItemRarity.Common));
         _Items.Add(new ItemDropData(new HealthPotion(50), ItemRarity.Uncommon));
         _Items.Add(new ItemDropData(new HealthPotion(75), ItemRarity.Rare));
+        _Items.Add(new ItemDropData(new HealthPotion(100), ItemRarity.Legendary));
+        
+        // Common Weapons
         _Items.Add(new ItemDropData(new Weapon("Old Sword", "Rusty old sword that's been sitting around for a while", 2, null, 1, 1.2f), ItemRarity.Common));
+        _Items.Add(new ItemDropData(new Weapon("Norse Axe", "A steel axe commonly used by great viking warriors", 5, null, 1.2f, 1.4f), ItemRarity.Common));
         
     }
 
@@ -60,6 +66,69 @@ public class ItemDatabase : Node
 
 
         return null;
+    }
+
+    public Item GetRandomItem(ItemRarity rare)
+    {
+        List<Item> PotenialItems = new List<Item>();
+        
+        switch (rare)
+        {
+            case ItemRarity.Common:
+                PotenialItems = GetCommonItems();
+                break;
+            case ItemRarity.Uncommon:
+                PotenialItems = GetUncommonItems();
+                break;
+            case ItemRarity.Rare:
+                PotenialItems = GetRareItems();
+                break;
+            case ItemRarity.Legendary:
+                PotenialItems = GetLegendItems();
+                break;
+        }
+
+        return PotenialItems[(int)GD.RandRange(0, PotenialItems.Count - 1)];
+    }
+
+    public List<Item> GetCommonItems()
+    {
+        List<Item> common = new List<Item>();
+        foreach(var item in _Items)
+            if(item._ItemRarity == ItemRarity.Common)
+                common.Add(item._ItemDetails);
+
+        return common;
+    }
+
+    public List<Item> GetUncommonItems()
+    {
+        List<Item> uncommon = new List<Item>();
+        foreach(var item in _Items)
+            if(item._ItemRarity == ItemRarity.Common)
+                uncommon.Add(item._ItemDetails);
+
+        return uncommon;
+    }
+
+    public List<Item> GetRareItems()
+    {
+        List<Item> rare = new List<Item>();
+        foreach(var item in _Items)
+            if(item._ItemRarity == ItemRarity.Common)
+                rare.Add(item._ItemDetails);
+
+        return rare;
+    }
+
+    public List<Item> GetLegendItems()
+    {
+        List<Item> legend = new List<Item>();
+        foreach(var item in _Items)
+            if(item._ItemRarity == ItemRarity.Common)
+                legend.Add(item._ItemDetails);
+
+        return legend;
     }
     
     

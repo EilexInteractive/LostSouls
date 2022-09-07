@@ -5,6 +5,7 @@ public class ChangeScene : Area2D
 {
     [Export] private string _SceneName;
     [Export] public bool CanChangeScene = true;
+    
 
     private void ChangeToScene()
     {

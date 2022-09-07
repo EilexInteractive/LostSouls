@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Animations/Demons.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Scripts/Characters/EnemyController.cs" type="Script" id=2]
-[ext_resource path="res://Sprites/Items/Rusty Sword.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Items/Old Sword.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Health/HealthBarUnder.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/UI/AI_HealthBar.cs" type="Script" id=5]
 
@@ -112,7 +112,7 @@ tracks/1/keys = {
 [node name="Character" type="KinematicBody2D" groups=["Enemy"]]
 script = ExtResource( 2 )
 _AttackCooldown = 0.5
-_MovementSpeed = 35.0
+_MovementSpeed = 1000.0
 _AttackAnimSpeed = 5.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

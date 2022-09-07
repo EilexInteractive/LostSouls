@@ -26,6 +26,12 @@ public class ItemPickup : Area2D, IInteractable
             }
         }
     }
+
+    public void SetItem(Item item)
+    {
+        OwningItem = item;
+        _ItemSprite.Texture = GD.Load<Texture>("res://Sprites/Items/" + item.GetItemName() + ".png");
+    }
     
 
     public void OnBodyEnter(Node node)
@@ -34,7 +40,7 @@ public class ItemPickup : Area2D, IInteractable
         if (node is PlayerController)
         {
             var player = node as PlayerController;          // Get the controller
-            player?.GetUI()?.TogglePickupLabel(true, "Pickup Item");        // Toggle pick up prompt
+            player?.GetUI()?.ToggleItemInfo(true, OwningItem);
             player._InteractableItem = this;                // Set this is the interactable item
         }
     }
@@ -45,7 +51,7 @@ public class ItemPickup : Area2D, IInteractable
         if (node is PlayerController)
         {
             var player = node as PlayerController;                  // Get the player controller
-            player?.GetUI()?.TogglePickupLabel(false);              // Hide the prompt to pickup
+            player?.GetUI()?.ToggleItemInfo(false);              // Hide the prompt to pickup
             player._InteractableItem = null;                        // Empty the interactable item
         }
     }

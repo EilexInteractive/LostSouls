@@ -13,6 +13,7 @@ public class EnemyController : CharacterController
     private Vector2[] _Paths = new Vector2[] { };
     
 
+    // === MOVEMENT DETAILS === //
     
 
 
@@ -47,13 +48,20 @@ public class EnemyController : CharacterController
         if (_Player != null)
             _PlayerPosition = _Player.Position;
 
-
-        AnimationUpdate(new Vector2());
-        DetectPlayerAttack();
-        FollowPlayer(delta);
+        
+        
 
         
        
+    }
+
+    public override void _PhysicsProcess(float delta)
+    {
+        base._PhysicsProcess(delta);
+        
+        DetectPlayerAttack();
+        FollowPlayer(delta);
+        
     }
 
     private void FollowPlayer(float delta)
@@ -80,7 +88,7 @@ public class EnemyController : CharacterController
             Update();
         }
 
-        MoveAndCollide(velocity);
+        MoveAndSlide(velocity);
         AnimationUpdate(velocity);
     }
 
@@ -137,7 +145,6 @@ public class EnemyController : CharacterController
         {
             _SwordAnim.Play("Swing");
             player.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
-            GD.Print("Enemy Attacked Player");
         }
 
         _CanAttack = false;

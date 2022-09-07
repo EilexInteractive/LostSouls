@@ -6,8 +6,8 @@ public class UIController : CanvasModulate
 {
     private TextureProgress _HealthBar;
     private TextureProgress _XPBar;
-    private Label _PickupLabel;
-    
+    private Label _PickupContainer;
+
     // === Message Details
     private TextureRect _MessageRect;                       // Reference to the message container
     private Timer _MessagePrintTimer;                       // Timer that will add a letter to the message
@@ -24,7 +24,7 @@ public class UIController : CanvasModulate
         // Get the required nodes
         _HealthBar = GetNode<TextureProgress>("HealthBar");
         _MessageRect = GetNode<TextureRect>("TextureRect");
-        _PickupLabel = GetNode<Label>("PickupLabel");
+        _PickupContainer = GetNode<Label>("PickupLabel");
     }
 
     public override void _Process(float delta)
@@ -108,13 +108,36 @@ public class UIController : CanvasModulate
 
     public void TogglePickupLabel(bool toggle, string message = "")
     {
-        if (toggle)
-            _PickupLabel.Show();
+        if (toggle && message != "")
+        {
+            GetNode<Label>("PickupLabel").Show();
+            GetNode<Label>("PickupLabel").Text = message;
+        }
         else
-            _PickupLabel.Hide();
+        {
+            GetNode<Label>("PickupLabel").Hide();
+        }
+    }
 
-        if (message != "")
-            _PickupLabel.Text = message;
+    public void ToggleItemInfo(bool toggle, Item item = null)
+    {
+        if (item != null)
+        {
+            if (toggle)
+            {
+                GetNode<ColorRect>("InteractableInfo").Show();
+                GetNode<Label>("InteractableInfo/ItemName").Text = item.GetItemName();
+                GetNode<Label>("InteractableInfo/ItemDescription").Text = item.GetItemDesc();
+            }
+            else
+            {
+                GetNode<ColorRect>("InteractableInfo").Hide();
+            }
+        }
+        else
+        {
+            GetNode<ColorRect>("InteractableInfo").Hide();
+        }
     }
 
     

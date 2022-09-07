@@ -1,8 +1,8 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scripts/Characters/PlayerController.cs" type="Script" id=1]
 [ext_resource path="res://Animations/Player_1.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://Sprites/Items/Rusty Sword.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Items/Old Sword.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Health/HealthBarUnder.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/UI/InventoryUI.cs" type="Script" id=5]
 [ext_resource path="res://Fonts/Pixeled.ttf" type="DynamicFontData" id=6]
@@ -132,6 +132,18 @@ font_data = ExtResource( 8 )
 [sub_resource type="Theme" id=9]
 default_font = SubResource( 8 )
 
+[sub_resource type="DynamicFont" id=14]
+font_data = ExtResource( 8 )
+
+[sub_resource type="Theme" id=15]
+default_font = SubResource( 14 )
+
+[sub_resource type="DynamicFont" id=16]
+font_data = ExtResource( 8 )
+
+[sub_resource type="Theme" id=17]
+default_font = SubResource( 16 )
+
 [sub_resource type="Animation" id=10]
 resource_name = "DeathScreenIn"
 tracks/0/type = "value"
@@ -260,7 +272,7 @@ enabled = true
 cast_to = Vector2( 0, -20 )
 
 [node name="Canvas" type="CanvasModulate" parent="."]
-z_index = 100
+z_index = 4096
 script = ExtResource( 9 )
 _MessageTime = 0.02
 
@@ -355,12 +367,44 @@ margin_top = 7.0
 margin_right = 296.0
 margin_bottom = 692.0
 
+[node name="InteractableInfo" type="ColorRect" parent="Canvas"]
+visible = false
+margin_left = -150.0
+margin_top = -103.0
+margin_right = 14.0
+margin_bottom = 9.0
+rect_scale = Vector2( 0.25, 0.25 )
+color = Color( 1, 1, 1, 0.301961 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ItemName" type="Label" parent="Canvas/InteractableInfo"]
+modulate = Color( 1, 0.588235, 0.0627451, 1 )
+margin_right = 160.0
+margin_bottom = 26.0
+theme = SubResource( 15 )
+text = "Item Name"
+align = 1
+valign = 1
+
+[node name="ItemDescription" type="Label" parent="Canvas/InteractableInfo"]
+modulate = Color( 1, 0.588235, 0.0627451, 1 )
+margin_top = 32.0
+margin_right = 160.0
+margin_bottom = 112.0
+theme = SubResource( 15 )
+text = "Item Description"
+align = 1
+autowrap = true
+
 [node name="PickupLabel" type="Label" parent="Canvas"]
 visible = false
-margin_left = 106.0
-margin_top = 94.0
-margin_right = 154.0
-margin_bottom = 108.0
+margin_left = 93.0
+margin_top = 89.0
+margin_right = 150.0
+margin_bottom = 104.0
+theme = SubResource( 17 )
 text = "Pick Up"
 
 [node name="DeathScreen" type="ColorRect" parent="Canvas"]

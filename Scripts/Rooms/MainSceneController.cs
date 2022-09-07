@@ -21,16 +21,13 @@ public class MainSceneController : SceneController
     public override void _Ready()
     {
         base._Ready();
+        // Get reference to the enemy
+        _Enemy = GetTree().GetNodesInGroup("Enemy")[0] as EnemyController;
+        _Enemy.CanMove = false;     // Stop character from moving before the sequence starts
+
+        LoadRoomData();             // Load the room data
         
-        // Spawn the new enemy to this scene
-        var enemyInstance = _EnemySpawn.Instance();
-        AddChild(enemyInstance);
-        var enemyNode = enemyInstance as EnemyController;
-        enemyNode.Position = GetNode<Node2D>("SpawnPoint").Position;
-        _Enemy = enemyNode;
-        
-        LoadRoomData();
-        
+        // Get the player controller
         _Player = GetNode<PlayerController>("Player");
 
         
@@ -85,8 +82,8 @@ public class MainSceneController : SceneController
     public override void SaveRoom()
     {
         List<CharacterSaveData> characters = new List<CharacterSaveData>();             // Create a list for all the characters
-        Character character = GetNode<CharacterController>("Character").GetOwningCharacter();
-        Vector2 pos = GetNode<CharacterController>("Character").Position;
+        Character character = GetNode<CharacterController>("Enemy_1").GetOwningCharacter();
+        Vector2 pos = GetNode<CharacterController>("Enemy_1").Position;
         characters.Add(new CharacterSaveData(character, pos));
         EntranceRoom room = new EntranceRoom(_Enemy.Position, characters);               // Create the room data
         GetNode<GameController>("/root/GameController").SaveRoomData(room);           // Save the room
