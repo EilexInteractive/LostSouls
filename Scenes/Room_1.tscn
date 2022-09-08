@@ -14,6 +14,7 @@
 [node name="Main" type="Node2D"]
 script = ExtResource( 6 )
 _RoomLevel = 1
+_RoomName = "Room_1"
 _MinEnemySpawn = 3
 _MaxEnemySpawn = 3
 EnemyPrefab = ExtResource( 9 )
