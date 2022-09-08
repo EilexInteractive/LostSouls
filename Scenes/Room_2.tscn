@@ -122,3 +122,7 @@ position = Vector2( 96, 1 )
 position = Vector2( -139, 198 )
 LoadItemName = "Norse Axe"
 _itemRarity = 1
+
+[node name="ChangeScene2" parent="." instance=ExtResource( 9 )]
+position = Vector2( -94, 427 )
+_SceneName = "Room_1"
