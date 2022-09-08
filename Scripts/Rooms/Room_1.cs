@@ -89,7 +89,7 @@ public class Room_1 : SceneController
             var roomData = _SaveData as Room_1_SaveData;
             if (roomData != null)
             {
-                // Loop through each character in the room
+                // Loop through each character in the room & update them
                 foreach (var characters in _SaveData.CharactersInRoom)
                 {
                     var enemies = GetTree().GetNodesInGroup("Enemy");                   // Get all the enemies
@@ -106,6 +106,13 @@ public class Room_1 : SceneController
 
                 // Update the player information
                 GetNode<CharacterController>("Player").Position = GetNode<Node2D>("ReturnPoint").Position;
+
+                // Setup the loot chest
+                var lootChest = GetTree().GetNodesInGroup("Loot")[0] as LootChest;
+                lootChest.IsOpen = true;
+                lootChest.AlreadyOpen();
+
+                UnlockDoor();                       // Display the unlocked door
             }
         }
 
@@ -115,9 +122,6 @@ public class Room_1 : SceneController
 [Serializable]
 public class Room_1_SaveData : RoomData
 {
-    public bool _ChestOpen;
-    public bool _InteractionComplete;
-    
     public Room_1_SaveData(string roomName, List<CharacterSaveData> characters) : base(roomName, characters)
     {
         

@@ -79,7 +79,6 @@ public class LootChest : Area2D, IInteractable
             var db = GetNode<ItemDatabase>("/root/ItemDatabase");
             if (db != null)
             {
-                GD.Print("Hello World");
                 Item item = db.GetRandomItem(_ChestRarity);
                 SpawnItem(item);
             }
@@ -105,4 +104,6 @@ public class LootChest : Area2D, IInteractable
 
         itemDetails.Position = SpawnPoint;
     }
+
+    public void AlreadyOpen() => _Anim.Play("AlreadyOpen");
 }
