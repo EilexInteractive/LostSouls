@@ -32,11 +32,11 @@ public class GameController : Node
         Save.RoomData.Add(data);
     }
 
-    public RoomData LoadRoomData(string RoomName)
+    public RoomData LoadRoomData(string roomName)
     {
         foreach (var room in Save.RoomData)
         {
-            if (room.RoomName == RoomName)
+            if (room.RoomName == roomName)
             {
                 return room;
             }
