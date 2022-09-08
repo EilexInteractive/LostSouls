@@ -31,7 +31,7 @@ public class ItemDatabase : Node
     public override void _Ready()
     {
         base._Ready();
-        // Create health potions
+        // Health Potions
         _Items.Add(new ItemDropData(new HealthPotion(25), ItemRarity.Common));
         _Items.Add(new ItemDropData(new HealthPotion(50), ItemRarity.Uncommon));
         _Items.Add(new ItemDropData(new HealthPotion(75), ItemRarity.Rare));
@@ -40,7 +40,10 @@ public class ItemDatabase : Node
         // Common Weapons
         _Items.Add(new ItemDropData(new Weapon("Old Sword", "Rusty old sword that's been sitting around for a while", 2, null, 1, 1.2f), ItemRarity.Common));
         _Items.Add(new ItemDropData(new Weapon("Norse Axe", "A steel axe commonly used by great viking warriors", 5, null, 1.2f, 1.4f), ItemRarity.Common));
+        _Items.Add(new ItemDropData(new Weapon("Sword of Strength", "A heavy sword used by only the strongest of the dungeon", 7, null, 1.5f, 1.8f), ItemRarity.Common));
         
+        // Uncommon Weapons
+        _Items.Add(new ItemDropData(new Weapon("Sword of Knights", "This sword was used by only the greatest of knights", 15, null, 1.7f, 2.0f), ItemRarity.Uncommon));
     }
 
     public Item GetItem(string itemName)
@@ -88,7 +91,9 @@ public class ItemDatabase : Node
                 break;
         }
 
-        return PotenialItems[(int)GD.RandRange(0, PotenialItems.Count - 1)];
+        float randValue = (float)GD.RandRange(0, PotenialItems.Count - 1);
+
+        return PotenialItems[(int)randValue];   
     }
 
     public List<Item> GetCommonItems()
@@ -105,7 +110,7 @@ public class ItemDatabase : Node
     {
         List<Item> uncommon = new List<Item>();
         foreach(var item in _Items)
-            if(item._ItemRarity == ItemRarity.Common)
+            if(item._ItemRarity == ItemRarity.Uncommon)
                 uncommon.Add(item._ItemDetails);
 
         return uncommon;
@@ -115,7 +120,7 @@ public class ItemDatabase : Node
     {
         List<Item> rare = new List<Item>();
         foreach(var item in _Items)
-            if(item._ItemRarity == ItemRarity.Common)
+            if(item._ItemRarity == ItemRarity.Rare)
                 rare.Add(item._ItemDetails);
 
         return rare;
@@ -125,7 +130,7 @@ public class ItemDatabase : Node
     {
         List<Item> legend = new List<Item>();
         foreach(var item in _Items)
-            if(item._ItemRarity == ItemRarity.Common)
+            if(item._ItemRarity == ItemRarity.Legendary)
                 legend.Add(item._ItemDetails);
 
         return legend;

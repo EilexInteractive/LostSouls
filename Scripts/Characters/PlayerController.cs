@@ -310,13 +310,14 @@ public class PlayerController : CharacterController
         {
             _Anim.FlipH = false;
             _FacingDirection = FacingDirection.RIGHT;
-            _SwordSprite.Offset = _SwordAnchorPointNoFlip;
-
+            _SwordSprite.Position = _SwordAnchorPointNoFlip;
+            _SwordSprite.FlipH = false;
         } else if (vel.x < 0)
         {
             _Anim.FlipH = true;
             _FacingDirection = FacingDirection.LEFT;
-            _SwordSprite.Offset = _SwordAnchorPointFlipped;
+            _SwordSprite.Position = _SwordAnchorPointFlipped;
+            _SwordSprite.FlipH = true;
         }
     }
 

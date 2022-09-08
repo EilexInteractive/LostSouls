@@ -8,7 +8,7 @@
 [ext_resource path="res://Scripts/Rooms/Room_1.cs" type="Script" id=6]
 [ext_resource path="res://Prefabs/Lever.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Prefabs/Friendly.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Prefabs/Pirate.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Prefabs/Demon.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Prefabs/SpawnPoint.tscn" type="PackedScene" id=10]
 
 [node name="Main" type="Node2D"]
@@ -100,7 +100,11 @@ position = Vector2( 64, 160 )
 position = Vector2( 40, 166 )
 
 [node name="SpawnPoint2" parent="." instance=ExtResource( 10 )]
-position = Vector2( 153, 248 )
+position = Vector2( 116, 326 )
 
 [node name="SpawnPoint3" parent="." instance=ExtResource( 10 )]
 position = Vector2( -71, 247 )
+
+[node name="ChangeScene" parent="." instance=ExtResource( 5 )]
+position = Vector2( 50, 537 )
+_SceneName = "Main"

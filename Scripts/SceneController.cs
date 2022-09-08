@@ -16,8 +16,14 @@ public class SceneController : Node2D
     public override void _Ready()
     {
         base._Ready();
+
+        // Setup the players weapon
+        var playerController = GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController();
+        playerController.SetEquippedItem(GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetInventory().GetEquippedWeapon());
         
+        // Get all the spawn points
         var spawnPoints = GetTree().GetNodesInGroup("SpawnPoint");
+        // Generate a random number of enemies
         _NumOfEnemies = (int)GD.RandRange(_MinEnemySpawn, _MaxEnemySpawn);
         for (int i = 0; i < _NumOfEnemies; ++i)
         {

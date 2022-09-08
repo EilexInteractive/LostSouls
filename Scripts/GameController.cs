@@ -16,7 +16,7 @@ public class GameController : Node
     public void CreateNewPlayer()
     {
         _Player = new Character("Player", true);
-        Weapon firstWeapon = new Weapon("Steel Sword", "A  basic sword left in the dungeon", 1, _Player, 1.0f, 1.3f);
+        Weapon firstWeapon = GetNode<ItemDatabase>("/root/ItemDatabase").GetItem("Old Sword") as Weapon;
         _Player.GetInventory().AddItem(firstWeapon);
         _Player.GetInventory().EquipWeapon(firstWeapon);
 

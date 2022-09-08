@@ -70,9 +70,11 @@ public class LootChest : Area2D, IInteractable
         if (!_ContainsLoot)
             return;
 
-        int randValue = (int)GD.RandRange(0, 3);                // Amount of spawned items
+        GD.Randomize();
+        float randValue = (float)GD.RandRange(1, 4);                // Amount of spawned item
+
         
-        for (int i = 0; i < randValue; ++i)
+        for (int i = 1; i < (int)randValue; ++i)
         {
             var db = GetNode<ItemDatabase>("/root/ItemDatabase");
             if (db != null)
@@ -82,7 +84,9 @@ public class LootChest : Area2D, IInteractable
                 SpawnItem(item);
             }
         }
+        
     }
+    
 
     private void SpawnItem(Item item)
     {

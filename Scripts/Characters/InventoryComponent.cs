@@ -58,6 +58,8 @@ public class InventoryComponent
         if (_Inventory.Contains(weapon))
         {
             _EquippedWeapon = weapon;
+            var pc = _OwningCharacter.GetController() as PlayerController;
+            pc?.SetEquippedItem(weapon);
         }
     }
 

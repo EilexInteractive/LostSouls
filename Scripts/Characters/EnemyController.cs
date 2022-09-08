@@ -14,7 +14,7 @@ public class EnemyController : CharacterController
     
 
     // === MOVEMENT DETAILS === //
-    
+    private Vector2 _LastPosition;
 
 
 
@@ -48,11 +48,6 @@ public class EnemyController : CharacterController
         if (_Player != null)
             _PlayerPosition = _Player.Position;
 
-        
-        
-
-        
-       
     }
 
     public override void _PhysicsProcess(float delta)
@@ -110,8 +105,7 @@ public class EnemyController : CharacterController
 
         if (_OwningCharacter.IsAlive() == false)
             return;
-
-        if (vel == new Vector2())
+        if (_LastPosition == Position)
         {
             _Anim.Play("Idle");
             
@@ -120,6 +114,8 @@ public class EnemyController : CharacterController
         {
             _Anim.Play("Walk");
         }
+
+        _LastPosition = Position;
     }
 
     public override void TriggerDeathAnim()

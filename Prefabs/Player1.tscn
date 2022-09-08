@@ -1,7 +1,7 @@
 [gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scripts/Characters/PlayerController.cs" type="Script" id=1]
-[ext_resource path="res://Animations/Player_1.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Animations/PlayerCharacters/Player_NoArmour.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Sprites/Items/Old Sword.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Health/HealthBarUnder.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/UI/InventoryUI.cs" type="Script" id=5]
@@ -63,7 +63,7 @@ tracks/2/keys = {
 resource_name = "Swing"
 length = 1.5
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -72,10 +72,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1, 1.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 90.0, 0.0 ]
+"values": [ Vector2( -18, 2.5 ), Vector2( 0.664, -7.095 ), Vector2( -18, 2.5 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:position")
+tracks/1/path = NodePath(".:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -84,7 +84,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1, 1.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -10, 5 ), Vector2( 0, 2 ), Vector2( -10, 5 ) ]
+"values": [ 0.0, 90.0, 0.0 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -112,7 +112,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1, 1.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -10, 5 ), Vector2( 0, 22 ), Vector2( -10, 5 ) ]
+"values": [ Vector2( -10, 2.5 ), Vector2( -5.204, 17.776 ), Vector2( -10, 2.5 ) ]
 }
 
 [sub_resource type="DynamicFont" id=6]
@@ -234,18 +234,20 @@ collision_mask = 0
 script = ExtResource( 1 )
 _AttackCooldown = 0.3
 _AttackAnimSpeed = 5.0
-_SwordAnchorPointFlipped = Vector2( 22, -5 )
-_SwordAnchorPointNoFlip = Vector2( 7, -5 )
+_SwordAnchorPointFlipped = Vector2( -10, 2.5 )
+_SwordAnchorPointNoFlip = Vector2( -18, 2.5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 2 )
 animation = "Idle"
+flip_h = true
 
-[node name="Sword" type="Sprite" parent="AnimatedSprite"]
+[node name="Sword" type="Sprite" parent="."]
 position = Vector2( -9, 5 )
 scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 3 )
 offset = Vector2( 23, -5 )
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -257,7 +259,7 @@ current = true
 zoom = Vector2( 0.25, 0.25 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../AnimatedSprite/Sword")
+root_node = NodePath("../Sword")
 "anims/New Anim" = SubResource( 4 )
 anims/RESET = SubResource( 2 )
 anims/Swing = SubResource( 3 )
@@ -369,10 +371,10 @@ margin_bottom = 692.0
 
 [node name="InteractableInfo" type="ColorRect" parent="Canvas"]
 visible = false
-margin_left = -150.0
-margin_top = -103.0
-margin_right = 14.0
-margin_bottom = 9.0
+margin_left = -129.0
+margin_top = 76.0
+margin_right = 35.0
+margin_bottom = 188.0
 rect_scale = Vector2( 0.25, 0.25 )
 color = Color( 1, 1, 1, 0.301961 )
 __meta__ = {

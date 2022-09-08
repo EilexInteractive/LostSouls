@@ -25,14 +25,13 @@ public class MainSceneController : SceneController
         _Enemy = GetTree().GetNodesInGroup("Enemy")[0] as EnemyController;
         _Enemy.CanMove = false;     // Stop character from moving before the sequence starts
 
-        LoadRoomData();             // Load the room data
+        
         
         // Get the player controller
         _Player = GetNode<PlayerController>("Player");
-
         
         
-
+        LoadRoomData();             // Load the room data
         if (!_InitialDialogComplete)
         {
             // Setup a message to display on screen
@@ -41,6 +40,8 @@ public class MainSceneController : SceneController
         }
 
         _ChangeSeenTimer = new Timer(5.0f, false, AllowSceneChange);
+        
+        
 
     }
 
@@ -94,16 +95,16 @@ public class MainSceneController : SceneController
         base.LoadRoomData();
         if (_SaveData != null)
         {
-            var roomData = _RoomSaveData as EntranceRoom;
+            var roomData = _SaveData as EntranceRoom;
             if (roomData.DialogComplete)
             {
                 _InitialDialogComplete = true;
                 _PostFightDialog = true;
             }
 
-            CharacterSaveData enemy = _RoomSaveData.CharactersInRoom[0];
-            GetNode<CharacterController>("Character").SetOwningCharacter(enemy.CharacterRef, false);
-            GetNode<CharacterController>("Character").Position = enemy.Position;
+            CharacterSaveData enemy = _SaveData.CharactersInRoom[0];
+            GetNode<CharacterController>("Enemy_1").SetOwningCharacter(enemy.CharacterRef, false);
+            GetNode<CharacterController>("Enemy_1").Position = enemy.Position;
             GetNode<ChangeScene>("ChangeScene").CanChangeScene = false;
             GetNode<CharacterController>("Player").Position = GetNode<Node2D>("ReturnPoint").Position;
         }

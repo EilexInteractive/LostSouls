@@ -31,7 +31,7 @@ public class CharacterController : KinematicBody2D
         // Get reference to the sword animation player
         _SwordAnim = GetNode<AnimationPlayer>("AnimationPlayer");
         // Reference to the sword sprite
-        _SwordSprite = GetNode<Sprite>("AnimatedSprite/Sword");
+        _SwordSprite = GetNode<Sprite>("Sword");
         // Set the speed that the sword animation will play at
         if(_SwordSprite != null)
             _SwordAnim.PlaybackSpeed = _AttackAnimSpeed;
@@ -111,6 +111,12 @@ public class CharacterController : KinematicBody2D
             
         }
     }
+
+    public void SetEquippedItem(Weapon weapon)
+    {
+        _SwordSprite.Texture = GD.Load<Texture>("res://Sprites/Items/" + weapon.GetItemName() + ".png");
+    }
+    
     public Character GetOwningCharacter() => _OwningCharacter;
     public float GetAttackCooldown() => _AttackCooldown;
 
