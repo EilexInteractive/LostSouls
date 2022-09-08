@@ -102,10 +102,13 @@ public class MainSceneController : SceneController
                 _PostFightDialog = true;
             }
 
+            // Setup the enemy
             CharacterSaveData enemy = _SaveData.CharactersInRoom[0];
             GetNode<CharacterController>("Enemy_1").SetOwningCharacter(enemy.CharacterRef, false);
             GetNode<CharacterController>("Enemy_1").Position = enemy.Position;
+            // Prevent from reloading scene
             GetNode<ChangeScene>("ChangeScene").CanChangeScene = false;
+            // Update the players position to the return point
             GetNode<CharacterController>("Player").Position = GetNode<Node2D>("ReturnPoint").Position;
         }
     }
