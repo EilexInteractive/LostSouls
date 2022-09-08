@@ -82,6 +82,9 @@ public class Room_1 : SceneController
     public override void LoadRoomData()
     {
         base.LoadRoomData();
+
+        GameController gc = GetNode<GameController>("/root/GameController");
+        _SaveData = gc.LoadRoomData(_RoomName);                // Load this room
         
         if (_SaveData != null)
         {
@@ -97,9 +100,12 @@ public class Room_1 : SceneController
                     foreach (var enemy in enemies)
                     {
                         // Update the character data & Position
-                        GetNode<CharacterController>("Enemy_" + characterIndex + 1).SetOwningCharacter(_SaveData.CharactersInRoom[characterIndex].CharacterRef);
-                        GetNode<CharacterController>("Enemy_" + characterIndex + 1).Position =
-                            _SaveData.CharactersInRoom[characterIndex].Position;
+                        var enemyNode = GetNode<CharacterController>("Enemy_" + characterIndex + 1);
+                        if(enemyNode != null)
+                        {
+                            enemyNode.SetOwningCharacter(_SaveData.CharactersInRoom[characterIndex].CharacterRef);
+                            enemyNode.Position = _SaveData.CharactersInRoom[characterIndex].Position;
+                        }
                         
                     }
                 }
@@ -121,6 +127,10 @@ public class Room_1 : SceneController
                 {
                     playerController.Position = GetNode<Node2D>("ReturnPoint").Position;
                 }
+
+                // Disable interaction with the frie
+                var friend = GetNode<Friendly>("Friendly");
+                friend?.DisableInteractionPrompt();
             }
         }
 
