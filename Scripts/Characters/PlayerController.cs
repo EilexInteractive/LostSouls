@@ -175,6 +175,10 @@ public class PlayerController : CharacterController
     protected override void Attack()
     {
         base.Attack();
+
+        // Don't attack if our inventory is open
+        if(_IsInventoryOpen)
+            return;
         // Don't perform method if we don't have the sword animation
         if (_SwordAnim == null || !_CanAttack)
             return;
