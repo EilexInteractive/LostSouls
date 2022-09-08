@@ -24,7 +24,7 @@ public class ChangeScene : Area2D
     public override void _Ready()
     {
         base._Ready();
-        _CanSaveRoomTimer = new Timer(2.0f, false, ToggleSaveRoom);
+        _CanSaveRoomTimer = new Timer(1.0f, false, ToggleSaveRoom);
 
     }
 
