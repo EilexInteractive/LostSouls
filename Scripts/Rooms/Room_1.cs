@@ -113,6 +113,14 @@ public class Room_1 : SceneController
                 lootChest.AlreadyOpen();
 
                 UnlockDoor();                       // Display the unlocked door
+
+
+                // Set the player position to the return point
+                var playerController = GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController() as PlayerController;
+                if(playerController != null)
+                {
+                    playerController.Position = GetNode<Node2D>("ReturnPoint").Position;
+                }
             }
         }
 
@@ -122,7 +130,7 @@ public class Room_1 : SceneController
 [Serializable]
 public class Room_1_SaveData : RoomData
 {
-    public Room_1_SaveData(string roomName, List<CharacterSaveData> characters) : base(roomName, characters)
+    public Room_1_SaveData(string roomName, List<CharacterSaveData> characters) : base("Room_1", characters)
     {
         
     }

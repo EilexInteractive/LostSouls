@@ -101,7 +101,6 @@ public class CharacterController : KinematicBody2D
                     var ec = this as EnemyController;
                     ec?.AlreadyDead();
                     ec?.GetHealthBar().Hide();
-                    
                 }
             }
             else
