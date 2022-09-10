@@ -7,6 +7,8 @@ public class Character
     // === General Details === //
     protected bool _IsPlayer = false;                 // If this is controlled by the player or not
     protected string _CharacterName;
+    
+    [NonSerialized]
     protected CharacterController _OwningController;
     protected InventoryComponent _Inventory;
     
@@ -56,8 +58,9 @@ public class Character
         else
         {
             _CurrentLevel = level;                  // Set the current level of the enemy based on the room
-            _MaxAttackPoints = 20;
-            _MaxDefencePoints = 30;
+            _MaxAttackPoints = 30;
+            _MaxDefencePoints = 50;
+            
         }
     }
     
@@ -68,13 +71,16 @@ public class Character
     /// <param name="dp">Damage points</param>
     public void TakeDamage(float dp)
     {
-        dp *= _Inventory.GetEquippedWeapon().GenerateDP();              // Add the sword modifier to the damage
+        float ArmourMod = 1.0f;
+
+        if(_Inventory.GetEquippedArmour() != null)
+            ArmourMod = _Inventory.GetEquippedArmour().GenerateMod();       // Add armour modifier
         
         // Determine the points to be applied
         var percentage = _CurrentDefencePoints / 10;
-        dp /= percentage;
-        
+        dp /= percentage;                   // Apply the amrour mod to the damage
 
+        dp /= ArmourMod;
         _CurrentHealth -= dp;           // Reduce the health
         
         // Check if the player is still alive

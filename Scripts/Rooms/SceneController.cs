@@ -6,6 +6,7 @@ public class SceneController : Node2D
     [Export] protected int _RoomLevel;                    // What level of difficulty this level is
     protected RoomData _SaveData;                           // Reference to the save data of the room
     [Export] protected string _RoomName;
+    public string RoomName { get => _RoomName; }
 
     [Export] protected int _MinEnemySpawn;                // Minimum amount of enemies that will spawn
     [Export] protected int _MaxEnemySpawn;                // Maximum amount of enemies that will spawn
@@ -17,6 +18,17 @@ public class SceneController : Node2D
     public override void _Ready()
     {
         base._Ready();
+
+
+        // If we are loading a new game
+        if(GetNode<GameController>("/root/GameController").IsLoadedGame)
+        {
+            var gc = GetNode<GameController>("/root/GameController");
+            GetNode<PlayerController>("/root/Main/Player").SetOwningCharacter(gc.LoadGameData.Player);
+            GetNode<PlayerController>("/root/Main/Player").GetOwningCharacter().SetOwningController(GetNode<PlayerController>("/root/Main/Player"));
+            GetNode<PlayerController>("/root/Main/Player").Position = gc.LoadGameData.Position;
+        }        
+
 
         // Setup the players weapon
         var playerController = GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController();
@@ -76,7 +88,7 @@ public class SceneController : Node2D
     public virtual void LoadRoomData()
     {
         GameController gc = GetNode<GameController>("/root/GameController");
-        _SaveData = gc?.LoadRoomData(_RoomName);                // Load this room
+        _SaveData = gc.LoadRoomData(_RoomName);                // Load this room
     }
 
     public int GetRoomLevel() => _RoomLevel;

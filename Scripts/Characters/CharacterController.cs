@@ -1,17 +1,23 @@
 ﻿using Godot;
 using System;
 
+public enum FacingDirection
+{
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+}
+
 public class CharacterController : KinematicBody2D
 {
     protected Character _OwningCharacter;             // Reference to the character that owns this controller
     protected AnimatedSprite _Anim;
     public bool CanMove;
-    protected Sprite _SwordSprite;                    // Reference to the sword sprite
-    
-        
-        
-    protected AnimationPlayer _SwordAnim;
-    
+    protected FacingDirection _FacingDirection;           // Direction we are facing
+
+    protected bool _IsAttacking = false;
+
 
     [Export] protected float _AttackCooldown;   
     protected Timer AttackCooldownTimer;
@@ -20,6 +26,8 @@ public class CharacterController : KinematicBody2D
     [Export] protected float _MovementSpeed = 1;              // How fast the character will move
     [Export] protected float _AttackAnimSpeed;
 
+    protected AudioStreamPlayer2D _SwordAudio;
+
     protected bool EnableForce;
     public Vector2 ApplyingForce = new Vector2();
     
@@ -27,24 +35,15 @@ public class CharacterController : KinematicBody2D
     {
         base._Ready();
         
-        
-        // Get reference to the sword animation player
-        _SwordAnim = GetNode<AnimationPlayer>("AnimationPlayer");
-        // Reference to the sword sprite
-        _SwordSprite = GetNode<Sprite>("Sword");
-        // Set the speed that the sword animation will play at
-        if(_SwordSprite != null)
-            _SwordAnim.PlaybackSpeed = _AttackAnimSpeed;
-        
         // Get the reference to the animated sprite
         _Anim = GetNode<AnimatedSprite>("AnimatedSprite");
+        _SwordAudio = GetNode<AudioStreamPlayer2D>("SwordAudio");
     }
 
     public virtual void TriggerDeathAnim()
     {
         if (_Anim != null)
         {
-            _SwordSprite.Hide();
             _Anim.Play("Death");
         }
     }
@@ -101,6 +100,7 @@ public class CharacterController : KinematicBody2D
                     var ec = this as EnemyController;
                     ec?.AlreadyDead();
                     ec?.GetHealthBar().Hide();
+                    GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
                 }
             }
             else
@@ -111,9 +111,14 @@ public class CharacterController : KinematicBody2D
         }
     }
 
-    public void SetEquippedItem(Weapon weapon)
+    public virtual void SetEquippedItem(Weapon weapon)
     {
-        _SwordSprite.Texture = GD.Load<Texture>("res://Sprites/Items/" + weapon.GetItemName() + ".png");
+        
+    }
+
+    public void SetEquippedArmour(Armour armour)
+    {
+        _Anim.SetSpriteFrames(GD.Load<SpriteFrames>("res://Animations/Armour/" + armour.GetItemName() + ".tres"));
     }
     
     public Character GetOwningCharacter() => _OwningCharacter;

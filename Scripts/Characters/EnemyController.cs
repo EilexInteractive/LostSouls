@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-
 public class EnemyController : CharacterController
 {
     private Vector2 _PlayerPosition;                    // Reference to the player position
@@ -31,7 +30,7 @@ public class EnemyController : CharacterController
         
 
         // Create a sword & Equip it
-        Weapon weapon = new Weapon("Basic Sword", "This is a basic sword", 3, _OwningCharacter);
+        Weapon weapon = GetNode<ItemDatabase>("/root/ItemDatabase").GetItem("Old Sword") as Weapon;
         _OwningCharacter.GetInventory().AddItem(weapon);
         _OwningCharacter.GetInventory().EquipWeapon(weapon); 
         
@@ -84,7 +83,30 @@ public class EnemyController : CharacterController
         }
 
         MoveAndSlide(velocity);
+        SetFacingDirection(velocity);
         AnimationUpdate(velocity);
+    }
+
+    private void SetFacingDirection(Vector2 vel)
+    {
+        if(vel == new Vector2())
+            return;
+
+        if(vel.y > 0)
+        {
+            _FacingDirection = FacingDirection.DOWN;
+        } else 
+        {
+            _FacingDirection = FacingDirection.UP;
+        }
+
+        if(vel.x > 0)
+        {
+            _FacingDirection = FacingDirection.RIGHT;
+        } else if(vel.x < 0)
+        {
+            _FacingDirection = FacingDirection.LEFT;
+        }
     }
 
     private void DetectPlayerAttack()
@@ -103,19 +125,47 @@ public class EnemyController : CharacterController
     {
         base.AnimationUpdate(vel);
 
-        if (_OwningCharacter.IsAlive() == false)
+        if (_OwningCharacter.IsAlive() == false || _IsAttacking)
             return;
-        if (_LastPosition == Position)
+
+        if(vel == new Vector2() || _LastPosition == this.Position)
         {
-            _Anim.Play("Idle");
-            
-        }
-        else
+            switch(_FacingDirection)
+            {
+                case FacingDirection.LEFT:
+                    _Anim.Play("IdleLeft");
+                    break;
+                case FacingDirection.RIGHT:
+                    _Anim.Play("IdleRight");
+                    break;
+                case FacingDirection.DOWN:
+                    _Anim.Play("IdleDown");
+                    break;
+                case FacingDirection.UP:
+                    _Anim.Play("IdleUp");
+                    break;
+            }
+        } else 
         {
-            _Anim.Play("Walk");
+            switch(_FacingDirection)
+            {
+                case FacingDirection.LEFT:
+                    _Anim.Play("WalkLeft");
+                    break;
+                case FacingDirection.RIGHT:
+                    _Anim.Play("WalkRight");
+                    break;
+                case FacingDirection.UP:
+                    _Anim.Play("WalkUp");
+                    break;
+                case FacingDirection.DOWN:
+                    _Anim.Play("WalkDown");
+                    break;
+            }
         }
 
-        _LastPosition = Position;
+        _LastPosition = this.Position;
+        
     }
 
     public override void TriggerDeathAnim()
@@ -128,7 +178,13 @@ public class EnemyController : CharacterController
 
     public void AlreadyDead()
     {
-        _Anim.Play("AlreadyDead");
+        if(_OwningCharacter.IsAlive() == false)
+        {
+            _Anim.Play("AlreadyDead");
+            GetNode<TextureProgress>("HealthBar").Hide();                               // Hide the texture progress
+            GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;              // Disable the collision once they have died
+        }
+            
     }
 
     protected override void Attack()
@@ -136,16 +192,46 @@ public class EnemyController : CharacterController
         
         base.Attack();
 
+        _IsAttacking = true;
+
         var player = GetNode<PlayerController>("/root/Main/Player");
         if (player != null)
         {
-            _SwordAnim.Play("Swing");
+            PlayAttackAnimation();
             player.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
         }
 
         _CanAttack = false;
         
     }
+
+    private void PlayAttackAnimation()
+    {
+        switch(_FacingDirection)
+        {
+            case FacingDirection.LEFT:
+                _Anim.Play("AttackLeft");
+                break;
+            case FacingDirection.RIGHT:
+                _Anim.Play("AttackRight");
+                break;
+            case FacingDirection.DOWN:
+                _Anim.Play("AttackDown");
+                break;
+            case FacingDirection.UP:
+                _Anim.Play("AttackUp");
+                break;
+        }
+    }
+    
+    public void OnAnimFinished()
+    {
+        if(_IsAttacking)
+        {
+            _IsAttacking = false;
+        }
+    }
+
 
     public AI_HealthBar GetHealthBar() => GetNode<AI_HealthBar>("HealthBar") as AI_HealthBar;
     public int GetCharacterLevel() => _OwningCharacter.GetCurrentLevel();

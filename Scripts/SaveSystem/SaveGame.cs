@@ -16,12 +16,14 @@ public abstract class RoomData
 }
 
 [Serializable]
-public class SaveGame
+public class Save
 {
     public List<RoomData> RoomData = new List<RoomData>();
-    private Character _Player;
-    private string _CurrentRoomName = "";
+    public Character _Player;
+    public Vector2 PlayerPosition;
+    public string _CurrentRoomName = "";
 }
+
 
 [Serializable]
 public class CharacterSaveData

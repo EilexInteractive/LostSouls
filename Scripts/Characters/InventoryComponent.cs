@@ -8,10 +8,10 @@ public class InventoryComponent
     private Character _OwningCharacter;                         // Reference to the owning character
 
     private List<Item> _Inventory = new List<Item>();               // List of items in inventory
-    private int _InventorySize = 5;                                     // How many items can be stored in the inventory
+    private int _InventorySize = 25;                                     // How many items can be stored in the inventory
 
     protected Weapon _EquippedWeapon;                       // Weapon that the character currently is using
-    // TODO: Add Armour Here
+    protected Armour _EquippedArmour = null;                       // Reference to the amrour our character is currently using
 
     public InventoryComponent(Character owner)
     {
@@ -64,6 +64,18 @@ public class InventoryComponent
     }
 
 
+    public void EquipArmour(Armour armour)
+    {
+        if(_Inventory.Contains(armour))
+        {
+            _EquippedArmour = armour;
+            var pc = _OwningCharacter.GetController() as PlayerController;
+            pc?.SetEquippedArmour(armour);
+        }
+    }
+
+
     public Weapon GetEquippedWeapon() => _EquippedWeapon;
+    public Armour GetEquippedArmour() => _EquippedArmour;
     public List<Item> GetInventoryItems() => _Inventory;
 }

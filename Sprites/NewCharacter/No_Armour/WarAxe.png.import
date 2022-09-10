@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Great Sword.png-09963ad31c7972d303750e1180855615.stex"
+path="res://.import/WarAxe.png-4f8c7851614b1509250d39e24f3a555c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Items/Great Sword.png"
-dest_files=[ "res://.import/Great Sword.png-09963ad31c7972d303750e1180855615.stex" ]
+source_file="res://Sprites/NewCharacter/No_Armour/WarAxe.png"
+dest_files=[ "res://.import/WarAxe.png-4f8c7851614b1509250d39e24f3a555c.stex" ]
 
 [params]
 

@@ -1,8 +1,8 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scripts/Characters/PlayerController.cs" type="Script" id=1]
-[ext_resource path="res://Animations/PlayerCharacters/Player_NoArmour.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://Sprites/Items/Old Sword.png" type="Texture" id=3]
+[ext_resource path="res://Animations/PlayerCharacters/NoArmour/Player_Halbred.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://SFX/07_human_atk_sword_1.wav" type="AudioStream" id=3]
 [ext_resource path="res://Sprites/Health/HealthBarUnder.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/UI/InventoryUI.cs" type="Script" id=5]
 [ext_resource path="res://Fonts/Pixeled.ttf" type="DynamicFontData" id=6]
@@ -11,109 +11,11 @@
 [ext_resource path="res://Scripts/UI/UIController.cs" type="Script" id=9]
 [ext_resource path="res://Prefabs/InventoryItem.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Fonts/MachineStd.otf" type="DynamicFontData" id=11]
+[ext_resource path="res://Scripts/PauseMenu.cs" type="Script" id=12]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 5.0
 height = 6.0
-
-[sub_resource type="Animation" id=4]
-resource_name = "New Anim"
-length = 1.5
-
-[sub_resource type="Animation" id=2]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -9, 5 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:offset")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 23, -5 ) ]
-}
-
-[sub_resource type="Animation" id=3]
-resource_name = "Swing"
-length = 1.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -18, 2.5 ), Vector2( 0.664, -7.095 ), Vector2( -18, 2.5 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, 90.0, 0.0 ]
-}
-
-[sub_resource type="Animation" id=5]
-resource_name = "SwingFlipped"
-length = 1.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, -90.0, 0.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -10, 2.5 ), Vector2( -5.204, 17.776 ), Vector2( -10, 2.5 ) ]
-}
 
 [sub_resource type="DynamicFont" id=6]
 size = 5
@@ -133,6 +35,7 @@ font_data = ExtResource( 8 )
 default_font = SubResource( 8 )
 
 [sub_resource type="DynamicFont" id=14]
+size = 25
 font_data = ExtResource( 8 )
 
 [sub_resource type="Theme" id=15]
@@ -229,41 +132,36 @@ font_data = ExtResource( 11 )
 [sub_resource type="Theme" id=13]
 default_font = SubResource( 12 )
 
+[sub_resource type="DynamicFont" id=18]
+size = 51
+font_data = ExtResource( 8 )
+
+[sub_resource type="Theme" id=19]
+default_font = SubResource( 18 )
+
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 0
 script = ExtResource( 1 )
 _AttackCooldown = 0.3
+_MovementSpeed = 0.75
 _AttackAnimSpeed = 5.0
 _SwordAnchorPointFlipped = Vector2( -10, 2.5 )
 _SwordAnchorPointNoFlip = Vector2( -18, 2.5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.3, 0.3 )
 frames = ExtResource( 2 )
-animation = "Idle"
-flip_h = true
-
-[node name="Sword" type="Sprite" parent="."]
-position = Vector2( -9, 5 )
-scale = Vector2( 0.6, 0.6 )
-texture = ExtResource( 3 )
-offset = Vector2( 23, -5 )
-flip_h = true
+animation = "AttackDown"
+frame = 5
+playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 0, 3 )
 shape = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.25, 0.25 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Sword")
-"anims/New Anim" = SubResource( 4 )
-anims/RESET = SubResource( 2 )
-anims/Swing = SubResource( 3 )
-anims/SwingFlipped = SubResource( 5 )
 
 [node name="RaycastX" type="RayCast2D" parent="."]
 enabled = true
@@ -276,7 +174,7 @@ cast_to = Vector2( 0, -20 )
 [node name="Canvas" type="CanvasModulate" parent="."]
 z_index = 4096
 script = ExtResource( 9 )
-_MessageTime = 0.02
+_MessageTime = 0.025
 
 [node name="HealthBar" type="TextureProgress" parent="Canvas"]
 margin_left = -151.0
@@ -371,30 +269,30 @@ margin_bottom = 692.0
 
 [node name="InteractableInfo" type="ColorRect" parent="Canvas"]
 visible = false
-margin_left = -129.0
-margin_top = 76.0
-margin_right = 35.0
-margin_bottom = 188.0
+margin_left = 112.0
+margin_top = -105.0
+margin_right = 276.0
+margin_bottom = 63.0
 rect_scale = Vector2( 0.25, 0.25 )
 color = Color( 1, 1, 1, 0.301961 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="ItemName" type="Label" parent="Canvas/InteractableInfo"]
 modulate = Color( 1, 0.588235, 0.0627451, 1 )
-margin_right = 160.0
+margin_right = 164.0
 margin_bottom = 26.0
 theme = SubResource( 15 )
 text = "Item Name"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="ItemDescription" type="Label" parent="Canvas/InteractableInfo"]
 modulate = Color( 1, 0.588235, 0.0627451, 1 )
 margin_top = 32.0
 margin_right = 160.0
-margin_bottom = 112.0
+margin_bottom = 164.0
 theme = SubResource( 15 )
 text = "Item Description"
 align = 1
@@ -440,4 +338,67 @@ margin_bottom = 141.0
 disabled = true
 text = "Respawn"
 
+[node name="PauseMenu" type="CanvasModulate" parent="."]
+visible = false
+position = Vector2( 4, 113 )
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Container" type="ColorRect" parent="PauseMenu"]
+margin_left = 56.0
+margin_top = -79.0
+margin_right = 428.0
+margin_bottom = 201.0
+rect_scale = Vector2( 0.25, 0.25 )
+color = Color( 1, 1, 1, 0.407843 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/Container"]
+margin_left = 20.0
+margin_top = -8.0
+margin_right = 352.0
+margin_bottom = 292.0
+alignment = 1
+
+[node name="ResumeGame" type="Button" parent="PauseMenu/Container/VBoxContainer"]
+pause_mode = 2
+margin_top = 34.0
+margin_right = 332.0
+margin_bottom = 89.0
+theme = SubResource( 19 )
+text = "Resume"
+
+[node name="SaveGame" type="Button" parent="PauseMenu/Container/VBoxContainer"]
+pause_mode = 2
+margin_top = 93.0
+margin_right = 332.0
+margin_bottom = 148.0
+theme = SubResource( 19 )
+text = "Save Game"
+
+[node name="LoadGame" type="Button" parent="PauseMenu/Container/VBoxContainer"]
+pause_mode = 2
+margin_top = 152.0
+margin_right = 332.0
+margin_bottom = 207.0
+theme = SubResource( 19 )
+text = "Load Game"
+
+[node name="QuitGame" type="Button" parent="PauseMenu/Container/VBoxContainer"]
+pause_mode = 2
+margin_top = 211.0
+margin_right = 332.0
+margin_bottom = 266.0
+theme = SubResource( 19 )
+text = "Quit"
+
+[node name="SwordAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="OnAnimFinished"]
 [connection signal="pressed" from="Canvas/DeathScreen/Button" to="." method="OnRespawnPressed"]
+[connection signal="pressed" from="PauseMenu/Container/VBoxContainer/ResumeGame" to="PauseMenu" method="OnResumeGame"]
+[connection signal="pressed" from="PauseMenu/Container/VBoxContainer/SaveGame" to="PauseMenu" method="OnSaveGame"]
+[connection signal="pressed" from="PauseMenu/Container/VBoxContainer/LoadGame" to="PauseMenu" method="OnLoadGame"]
+[connection signal="pressed" from="PauseMenu/Container/VBoxContainer/QuitGame" to="PauseMenu" method="OnQuitGame"]

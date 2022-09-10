@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://TileSets/World.tres" type="TileSet" id=1]
 [ext_resource path="res://Prefabs/Player1.tscn" type="PackedScene" id=2]
@@ -7,8 +7,9 @@
 [ext_resource path="res://Prefabs/Demon.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Prefabs/SpawnPoint.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Prefabs/Fire.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Prefabs/PickupItem.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Prefabs/LootChest.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Prefabs/ChangeScene.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Sprites/Lighting/light.png" type="Texture" id=10]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
@@ -17,10 +18,6 @@ _RoomName = "Room_2"
 _MinEnemySpawn = 5
 _MaxEnemySpawn = 7
 EnemyPrefab = ExtResource( 5 )
-
-[node name="ChangeScene" parent="." instance=ExtResource( 9 )]
-position = Vector2( 232, 152 )
-z_index = 10
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( -93, 382 )
@@ -118,11 +115,75 @@ position = Vector2( 64, 0 )
 [node name="Area2D6" parent="Area2D2" instance=ExtResource( 7 )]
 position = Vector2( 96, 1 )
 
-[node name="Item" parent="." instance=ExtResource( 8 )]
-position = Vector2( -139, 198 )
-LoadItemName = "Norse Axe"
-_itemRarity = 1
-
 [node name="ChangeScene2" parent="." instance=ExtResource( 9 )]
 position = Vector2( -94, 427 )
 _SceneName = "Room_1"
+
+[node name="LootChest" parent="." instance=ExtResource( 8 )]
+position = Vector2( -141, 212 )
+rotation = 3.14159
+_MinItems = 1
+_ChestRarity = 1
+
+[node name="ChangeScene" parent="." instance=ExtResource( 9 )]
+position = Vector2( 232, 152 )
+_SceneName = "Room_3"
+_PromptToChangeScene = true
+
+[node name="Lightings" type="Node2D" parent="."]
+
+[node name="Light2D" type="Light2D" parent="Lightings"]
+position = Vector2( -24, 202 )
+texture = ExtResource( 10 )
+texture_scale = 1.82
+color = Color( 1, 0.658824, 0.0117647, 1 )
+energy = 2.57
+
+[node name="Light2D2" type="Light2D" parent="Lightings"]
+position = Vector2( 8, 201 )
+texture = ExtResource( 10 )
+texture_scale = 1.82
+color = Color( 1, 0.658824, 0.0117647, 1 )
+energy = 2.57
+
+[node name="Light2D3" type="Light2D" parent="Lightings"]
+position = Vector2( 41, 201 )
+texture = ExtResource( 10 )
+texture_scale = 1.82
+color = Color( 1, 0.658824, 0.0117647, 1 )
+energy = 2.57
+
+[node name="Light2D4" type="Light2D" parent="Lightings"]
+position = Vector2( 71, 202 )
+texture = ExtResource( 10 )
+texture_scale = 1.82
+color = Color( 1, 0.658824, 0.0117647, 1 )
+energy = 2.57
+
+[node name="Light2D5" type="Light2D" parent="Lightings"]
+position = Vector2( -22.44, 279.56 )
+texture = ExtResource( 10 )
+texture_scale = 1.82
+color = Color( 1, 0.658824, 0.0117647, 1 )
+energy = 2.57
+
+[node name="Light2D6" type="Light2D" parent="Lightings"]
+position = Vector2( 9.56, 278.56 )
+texture = ExtResource( 10 )
+texture_scale = 1.82
+color = Color( 1, 0.658824, 0.0117647, 1 )
+energy = 2.57
+
+[node name="Light2D7" type="Light2D" parent="Lightings"]
+position = Vector2( 42.56, 278.56 )
+texture = ExtResource( 10 )
+texture_scale = 1.82
+color = Color( 1, 0.658824, 0.0117647, 1 )
+energy = 2.57
+
+[node name="Light2D8" type="Light2D" parent="Lightings"]
+position = Vector2( 72.56, 279.56 )
+texture = ExtResource( 10 )
+texture_scale = 1.82
+color = Color( 1, 0.658824, 0.0117647, 1 )
+energy = 2.57

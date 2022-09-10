@@ -62,6 +62,17 @@ public class InventoryUI : ColorRect
                 btn.Text += "*";
         }
     }
+
+    public void SetEquippedArmour()
+    {
+        Item equippedItem = GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetInventory().GetEquippedArmour();
+        foreach(var btn in _SpawnedButtons)
+        {
+            var itemInstance = btn as InventoryItem;
+            if(itemInstance.GetItem() == equippedItem)
+                btn.Text += "*";
+        }
+    }
     
 
 

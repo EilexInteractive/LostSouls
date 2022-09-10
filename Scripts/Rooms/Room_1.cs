@@ -56,25 +56,32 @@ public class Room_1 : SceneController
 
     public override void SaveRoom()
     {
-        
-        // Initialize a new list
+        var enemies = GetTree().GetNodesInGroup("Enemy");
         List<CharacterSaveData> characters = new List<CharacterSaveData>();
-        // Get all the enemies in the scene
-        var charactersInScene = GetTree().GetNodesInGroup("Enemy");
-        // Loop through each enemy to create a save of them
-        foreach (var enemy in charactersInScene)
+
+        for(int i = 0; i < enemies.Count; ++i)
         {
-            var saveEnemy = enemy as CharacterController;
-            if (saveEnemy != null)
-            {
-                var character = saveEnemy?.GetOwningCharacter();
-                var position = saveEnemy.Position;
-                characters.Add(new CharacterSaveData(character, position));
-            }
+            var enemyNode = enemies[i] as CharacterController;
+            var enemyChar = enemyNode.GetOwningCharacter();
+
+            CharacterSaveData saveData = new CharacterSaveData(enemyChar, enemyNode.Position);
+            characters.Add(saveData);
         }
+
+        
 
         // Save the room data
         Room_1_SaveData save = new Room_1_SaveData("Room_1", characters);
+
+        if(GetNode<LootChest>("LootChest").IsOpen)
+        {
+            save.ChestOpen = true;
+            save.InteractionComplete = true;  
+        }
+
+        save.HasMovedForward = GetNode<GameController>("/root/GameController").MovingForward;
+
+        
         GetNode<GameController>("/root/GameController").SaveRoomData(save);
 
     }
@@ -88,50 +95,44 @@ public class Room_1 : SceneController
         
         if (_SaveData != null)
         {
-            //  Get the room data & validate it
-            var roomData = _SaveData as Room_1_SaveData;
-            if (roomData != null)
+            var enemies = GetTree().GetNodesInGroup("Enemy");
+            for(int i = 0; i < enemies.Count; ++i)
             {
-                // Loop through each character in the room & update them
-                foreach (var characters in _SaveData.CharactersInRoom)
+                CharacterSaveData loadData = _SaveData.CharactersInRoom[i];
+                if(loadData != null)
                 {
-                    var enemies = GetTree().GetNodesInGroup("Enemy");                   // Get all the enemies
-                    int characterIndex = 0;                 // Current index of the character we are updating
-                    foreach (var enemy in enemies)
-                    {
-                        // Update the character data & Position
-                        var enemyNode = GetNode<CharacterController>("Enemy_" + characterIndex + 1);
-                        if(enemyNode != null)
-                        {
-                            enemyNode.SetOwningCharacter(_SaveData.CharactersInRoom[characterIndex].CharacterRef);
-                            enemyNode.Position = _SaveData.CharactersInRoom[characterIndex].Position;
-                        }
-                        
-                    }
+                    var enemyNode = enemies[i] as EnemyController;                  // Gets the request enemy node
+                    loadData.CharacterRef.SetOwningController(enemyNode);           // Set the controller to the new enemy
+                    enemyNode.SetOwningCharacter(loadData.CharacterRef);                // Sets the owner
+                    enemyNode.Position = loadData.Position;                 // Sets the position of the enemy
+                    enemyNode.AlreadyDead();                                        // Checks if the enemy has already died
                 }
-
-                // Update the player information
-                GetNode<CharacterController>("Player").Position = GetNode<Node2D>("ReturnPoint").Position;
-
-                // Setup the loot chest
-                var lootChest = GetTree().GetNodesInGroup("Loot")[0] as LootChest;
-                lootChest.IsOpen = true;
-                lootChest.AlreadyOpen();
-
-                UnlockDoor();                       // Display the unlocked door
-
-
-                // Set the player position to the return point
-                var playerController = GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController() as PlayerController;
-                if(playerController != null)
-                {
-                    playerController.Position = GetNode<Node2D>("ReturnPoint").Position;
-                }
-
-                // Disable interaction with the frie
-                var friend = GetNode<Friendly>("Friendly");
-                friend?.DisableInteractionPrompt();
             }
+
+            var roomSave = _SaveData as Room_1_SaveData;
+
+            if(roomSave.InteractionComplete)
+            {
+                GetNode<Friendly>("Friendly").DisableInteractionPrompt();
+                Vector2 safeDoorPos = new Vector2(2, 16);
+                GetNode<TileMap>("Navigation2D/Ground").SetCellv(safeDoorPos, 54);
+                UnlockDoor();
+            }
+
+            if(roomSave.ChestOpen)
+            {
+                GetNode<LootChest>("LootChest").AlreadyOpen();
+            }
+
+           if(gc.IsLoadedGame)
+           {
+                GetNode<PlayerController>("Player").Position = gc.Save.PlayerPosition;
+                gc.IsLoadedGame = false;
+           } else if(roomSave.HasMovedForward)
+           {
+                GetNode<PlayerController>("Player").Position = GetNode<Node2D>("ReturnPoint").Position;
+           }
+
         }
 
     }
@@ -140,6 +141,10 @@ public class Room_1 : SceneController
 [Serializable]
 public class Room_1_SaveData : RoomData
 {
+    public bool InteractionComplete;
+    public bool ChestOpen;
+    public bool HasMovedForward;                // If the character has moved foward into the room
+    public bool IsSafeOpen;
     public Room_1_SaveData(string roomName, List<CharacterSaveData> characters) : base("Room_1", characters)
     {
         

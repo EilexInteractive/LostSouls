@@ -38,12 +38,15 @@ public class ItemDatabase : Node
         _Items.Add(new ItemDropData(new HealthPotion(100), ItemRarity.Legendary));
         
         // Common Weapons
-        _Items.Add(new ItemDropData(new Weapon("Old Sword", "Rusty old sword that's been sitting around for a while", 2, null, 1, 1.2f), ItemRarity.Common));
-        _Items.Add(new ItemDropData(new Weapon("Norse Axe", "A steel axe commonly used by great viking warriors", 5, null, 1.2f, 1.4f), ItemRarity.Common));
-        _Items.Add(new ItemDropData(new Weapon("Sword of Strength", "A heavy sword used by only the strongest of the dungeon", 7, null, 1.5f, 1.8f), ItemRarity.Common));
+        _Items.Add(new ItemDropData(new Weapon("Old Sword", "Rusty old sword that's been sitting around for a while", 2, WeaponType.LONG_SWORD, null, 1, 1.2f), ItemRarity.Common));
+        _Items.Add(new ItemDropData(new Weapon("Norse Axe", "A steel axe commonly used by great viking warriors", 5, WeaponType.AXE, null, 1.2f, 1.4f), ItemRarity.Common));
+        _Items.Add(new ItemDropData(new Weapon("Sword of Strength", "A heavy sword used by only the strongest of the dungeon", 7, WeaponType.LONG_SWORD, null, 1.5f, 1.8f), ItemRarity.Common));
         
+        // Common Armour
+        _Items.Add(new ItemDropData(new Armour("Light Armour", "Common light weight armour used by training warriors", 3, ItemType.Armour), ItemRarity.Common));
+
         // Uncommon Weapons
-        _Items.Add(new ItemDropData(new Weapon("Sword of Knights", "This sword was used by only the greatest of knights", 15, null, 1.7f, 2.0f), ItemRarity.Uncommon));
+        _Items.Add(new ItemDropData(new Weapon("Sword of Knights", "This sword was used by only the greatest of knights", 15, WeaponType.LONG_SWORD, null, 1.7f, 2.0f), ItemRarity.Uncommon));
     }
 
     public Item GetItem(string itemName)

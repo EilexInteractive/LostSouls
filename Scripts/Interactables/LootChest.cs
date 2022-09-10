@@ -51,6 +51,9 @@ public class LootChest : Area2D, IInteractable
     {
         if (IsOpen)
             return;
+
+
+        GetNode<AudioStreamPlayer2D>("Audio").Play();
         
         // Play the animation that opens the chest
         if(!IsOpen)
@@ -71,10 +74,10 @@ public class LootChest : Area2D, IInteractable
             return;
 
         GD.Randomize();
-        float randValue = (float)GD.RandRange(1, 4);                // Amount of spawned item
+        float randValue = (float)GD.RandRange(_MinItems, _MaxItems);                // Amount of spawned item
 
         
-        for (int i = 1; i < (int)randValue; ++i)
+        for (int i = 1; i <= (int)randValue; ++i)
         {
             var db = GetNode<ItemDatabase>("/root/ItemDatabase");
             if (db != null)

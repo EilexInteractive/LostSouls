@@ -17,6 +17,8 @@ public class UIController : CanvasModulate
     private int _MessageIndex = 0;                          // Character that we are up to in the message
     private bool _IsMessageFinished = false;                // If the message has finished printing
 
+    public event Action FollowUpMessageEvent;
+
     public override void _Ready()
     {
         base._Ready();
@@ -104,6 +106,11 @@ public class UIController : CanvasModulate
             friend.GetDialogController()?.CloseDialog();
 
         _IsMessageFinished = false;
+
+        FollowUpMessageEvent?.Invoke();
+        FollowUpMessageEvent = null;
+
+        
     }
 
     public void TogglePickupLabel(bool toggle, string message = "")

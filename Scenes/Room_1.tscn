@@ -13,6 +13,9 @@
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 6 )
+__meta__ = {
+"_edit_vertical_guides_": [  ]
+}
 _RoomLevel = 1
 _RoomName = "Room_1"
 _MinEnemySpawn = 3
@@ -81,13 +84,6 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="LootChest" parent="." instance=ExtResource( 4 )]
-position = Vector2( 114, 230 )
-z_index = -1
-_ContainsLoot = false
-_MaxItems = 0
-_ChestRarity = 1
-
 [node name="Item" parent="." instance=ExtResource( 3 )]
 position = Vector2( 53, 436 )
 z_index = -1
@@ -109,3 +105,9 @@ position = Vector2( -71, 247 )
 [node name="ChangeScene" parent="." instance=ExtResource( 5 )]
 position = Vector2( 50, 537 )
 _SceneName = "Main"
+MovingForward = false
+
+[node name="LootChest" parent="." instance=ExtResource( 4 )]
+position = Vector2( 111, 230 )
+z_index = -1
+_ContainsLoot = false

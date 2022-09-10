@@ -1,11 +1,7 @@
 using Godot;
 using System;
 
-public enum FacingDirection
-{
-    LEFT,
-    RIGHT
-}
+
 
 public class PlayerController : CharacterController
 {
@@ -22,7 +18,7 @@ public class PlayerController : CharacterController
 
     // === Attack Settings === //
     
-    private FacingDirection _FacingDirection;           // Direction we are facing
+    
     // Reference to the position of the sword anchor when the sprite is flipped
     [Export] private Vector2 _SwordAnchorPointFlipped;
     // Reference to the position of the sword when the sprite is not flipped
@@ -36,6 +32,10 @@ public class PlayerController : CharacterController
     private bool _IsShowingFriendlyInteract = false;
 
     private event Action _DialogEvent; 
+
+    
+
+
 
     public override void _Ready()
     {
@@ -87,8 +87,15 @@ public class PlayerController : CharacterController
         }
         
         
-        if(Input.IsActionPressed("Interact"))
+        if(Input.IsActionJustPressed("Interact"))
             Interact();
+
+        if(Input.IsActionJustPressed("Pause"))
+        {
+            GetNode<CanvasModulate>("Canvas").Hide();
+            GetNode<PauseMenu>("PauseMenu").Show();
+            GetTree().Paused = true;
+        }
         
     }
 
@@ -121,16 +128,30 @@ public class PlayerController : CharacterController
         var velocity = new Vector2();
         
         if (Input.IsActionPressed("Move_Up"))
+        {
             velocity.y -= 1;
+            _FacingDirection = FacingDirection.UP;
+        }
+            
 
         if (Input.IsActionPressed("Move_Down"))
-            velocity.y += 1;
+            {
+                velocity.y += 1;
+                _FacingDirection = FacingDirection.DOWN;
+            }
 
         if (Input.IsActionPressed("Move_Left"))
+        {
             velocity.x -= 1;
+            _FacingDirection = FacingDirection.LEFT;
+        }
 
         if (Input.IsActionPressed("Move_Right"))
+        {
             velocity.x += 1;
+            _FacingDirection = FacingDirection.RIGHT;
+        }
+            
 
         if (velocity.Length() > 0)
             velocity = velocity.Normalized() * _MovementSpeed;
@@ -139,8 +160,6 @@ public class PlayerController : CharacterController
         var collision = MoveAndCollide(velocity);  
         // Update the animations
         AnimationUpdate(velocity);
-        // Set the direction the player is facing
-        SetFacingDirection(velocity);
         
         // Update the direction the ray cast is facing
         UpdateRaycastPosition(velocity);
@@ -176,22 +195,34 @@ public class PlayerController : CharacterController
     {
         base.Attack();
 
+        _IsAttacking = true;
+
         // Don't attack if our inventory is open
         if(_IsInventoryOpen)
             return;
-        // Don't perform method if we don't have the sword animation
-        if (_SwordAnim == null || !_CanAttack)
-            return;
 
-        if (_FacingDirection == FacingDirection.RIGHT)
+
+        // Trigger sword sound
+        if(_SwordAudio != null)
+            _SwordAudio.Play();
+
+        switch(_FacingDirection)
         {
-            _SwordAnim.Play("Swing");
-        } else if (_FacingDirection == FacingDirection.LEFT)
-        {
-            _SwordAnim.Play("SwingFlipped");
+            case FacingDirection.UP:
+                _Anim.Play("AttackUp");
+                break;
+            case FacingDirection.RIGHT:
+                _Anim.Play("AttackRight");
+                break;
+            case FacingDirection.DOWN:
+                _Anim.Play("AttackDown");
+                break;
+            case FacingDirection.LEFT:
+                _Anim.Play("AttackLeft");
+                break;
+
         }
         
-        // TODO: Apply force to the enemy when they have been hit
 
         DetectAttackRaycast();
         _CanAttack = false;
@@ -205,15 +236,46 @@ public class PlayerController : CharacterController
         // Return if we have no character or if the character is dead.
         if (_OwningCharacter != null && _OwningCharacter.IsAlive() == false)
             return;
+
+        if(_IsAttacking)
+            return;
         
         // Determine which animation to play
         if (vel == new Vector2())
         {
-            _Anim.Play("Idle");
+            switch(_FacingDirection)
+            {
+                case FacingDirection.LEFT:
+                    _Anim.Play("IdleLeft");
+                    break;
+                case FacingDirection.RIGHT:
+                    _Anim.Play("IdleRight");
+                    break;
+                case FacingDirection.UP:
+                    _Anim.Play("IdleUp");
+                    break;
+                case FacingDirection.DOWN:
+                    _Anim.Play("IdleDown");
+                    break;
+            }
         }
         else
         {
-            _Anim.Play("Walk");
+            switch(_FacingDirection)
+            {
+                case FacingDirection.LEFT:
+                    _Anim.Play("WalkLeft");
+                    break;
+                case FacingDirection.RIGHT:
+                    _Anim.Play("WalkRight");
+                    break;
+                case FacingDirection.UP:
+                    _Anim.Play("WalkUp");
+                    break;
+                case FacingDirection.DOWN:
+                    _Anim.Play("WalkDown");
+                    break;
+            }
         }
     }
     
@@ -277,8 +339,10 @@ public class PlayerController : CharacterController
         {
             if (enemy is Friendly)
                 return;
+
+            var dp = GetOwningCharacter().GetCurrentAP() * GetOwningCharacter().GetInventory().GetEquippedWeapon().GenerateDP();
             
-            enemy.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
+            enemy.GetOwningCharacter()?.TakeDamage(dp);
             _OwningCharacter.AddXP(GenerateXP(enemy.GetOwningCharacter().GetCurrentLevel()));
         }
     }
@@ -305,23 +369,6 @@ public class PlayerController : CharacterController
                 var friend = _InteractableItem as Friendly;
                 friend.Interact();
             }
-        }
-    }
-
-    private void SetFacingDirection(Vector2 vel)
-    {
-        if (vel.x > 0)
-        {
-            _Anim.FlipH = false;
-            _FacingDirection = FacingDirection.RIGHT;
-            _SwordSprite.Position = _SwordAnchorPointNoFlip;
-            _SwordSprite.FlipH = false;
-        } else if (vel.x < 0)
-        {
-            _Anim.FlipH = true;
-            _FacingDirection = FacingDirection.LEFT;
-            _SwordSprite.Position = _SwordAnchorPointFlipped;
-            _SwordSprite.FlipH = true;
         }
     }
 
@@ -359,11 +406,57 @@ public class PlayerController : CharacterController
         _DeathScreenPlayed = true;
     }
 
+    public override void SetEquippedItem(Weapon weapon)
+    {
+        base.SetEquippedItem(weapon);
+
+        
+        string animationPath = "res://Animations/PlayerCharacters/";
+        if(_OwningCharacter.GetInventory().GetEquippedArmour() == null)
+        {
+            animationPath += "NoArmour/";
+        }
+
+        switch(weapon.GetWeaponType())
+        {
+            case WeaponType.LONG_SWORD:
+                animationPath += "Player_Sword.tres";
+                break;
+            case WeaponType.AXE:
+                animationPath += "Player_Axe.tres";
+                break;
+            case WeaponType.HALBERD:
+                animationPath += "Player_Halbred.tres";
+                break;
+            case WeaponType.WARHAMMER:
+                animationPath += "Player_Warhammer.tres";
+                break;
+            case WeaponType.WAR_AXE:
+                animationPath += "Player_WarAxe.tres";
+                break;
+            default:
+                animationPath += "Player_Sword.tres";
+                GD.PrintErr("No animation for weapon type");
+                break;
+        }
+
+        _Anim.Frames = GD.Load<SpriteFrames>(animationPath);            // Load the animation
+    }
+
+    public void OnAnimFinished()
+    {
+        if(_IsAttacking)
+        {
+            _IsAttacking = false;
+        }
+    }
+
     public void OnRespawnPressed()
     {
         _OwningCharacter.Respawn();
         GetNode<ColorRect>("Canvas/DeathScreen").Hide();
-        GetTree().ReloadCurrentScene();
+        GetNode<GameController>("/root/GameController").LoadGame();
+        GetOwningCharacter().IncreaseHealth(100);           // Set the health back to full bar
     }
 
     private float GenerateXP(int enemyLevel)
