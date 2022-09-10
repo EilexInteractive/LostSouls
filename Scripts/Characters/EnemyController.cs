@@ -4,16 +4,29 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+public enum EnemyState
+{
+    NULL,
+    ATTACKING,
+    WANDERING,
+    DEFENDING
+
+}
+
 public class EnemyController : CharacterController
 {
     private Vector2 _PlayerPosition;                    // Reference to the player position
-    private PlayerController _Player;
-    private Navigation2D _Nav;
-    private Vector2[] _Paths = new Vector2[] { };
+    private PlayerController _Player;                   // Reference to the player controller
+    private Navigation2D _Nav;                          // Reference to the level navigation
+    private Vector2[] _Paths = new Vector2[] { };           // Stores the path for pathfinding
     
 
     // === MOVEMENT DETAILS === //
-    private Vector2 _LastPosition;
+    private Vector2 _LastPosition;                      // Records the last position at the end of the frame
+
+
+    // === AI === //
+    Blackboard _Blackboard = new Blackboard();              // Reference to the blackboard
 
 
 
@@ -22,17 +35,21 @@ public class EnemyController : CharacterController
         base._Ready();
 
         // Set Character & Controller
-        int roomLevel = GetNode<SceneController>("/root/Main").GetRoomLevel();
+        int roomLevel = GetNode<SceneController>("/root/Main").GetRoomLevel();        
         _OwningCharacter = new Character("Pirate", false, roomLevel);
         _OwningCharacter.SetOwningController(this);
+        // Get reference to the player controller
         _Player = GetNode<PlayerController>("/root/Main/Player");
+        // Get reference to the navigation system
         _Nav = GetNode<Navigation2D>("/root/Main/Navigation2D");
         
 
         // Create a sword & Equip it
         Weapon weapon = GetNode<ItemDatabase>("/root/ItemDatabase").GetItem("Old Sword") as Weapon;
         _OwningCharacter.GetInventory().AddItem(weapon);
-        _OwningCharacter.GetInventory().EquipWeapon(weapon); 
+        _OwningCharacter.GetInventory().EquipWeapon(weapon);
+
+        SetupBlackboard();
         
         
     }
@@ -58,40 +75,55 @@ public class EnemyController : CharacterController
         
     }
 
+    /// <summary>
+    /// Gets the player position and follows the player
+    /// </summary>
+    /// <param name="delta"></param>
     private void FollowPlayer(float delta)
     {
         if (_OwningCharacter.IsAlive() == false || !CanMove)
             return;
 
-        var velocity = new Vector2();
+        var velocity = new Vector2();                   // New reference to the velocity
 
+        // Create the path to the player
         _Paths = _Nav.GetSimplePath(GlobalPosition, _PlayerPosition, false);
         if (_Paths.Length > 1)
         {
-            var distance = _Paths[1] - GlobalPosition;
-            var direction = distance.Normalized();
+            var distance = _Paths[1] - GlobalPosition;          // Get the distance
+            var direction = distance.Normalized();              // Get the direction
+
+            // Check the if the distance not close to the player 
             if (distance.Length() > 1.5 || _Paths.Length > 2)
             {
+                // Get the direction to move in and apply the movement speed
                 velocity = new Vector2(direction * (_MovementSpeed * delta));
             }
             else
             {
+                // If within distance go to idle
                 velocity = new Vector2();
             }
 
-            Update();
+            Update();           // Refresh the update
         }
 
-        MoveAndSlide(velocity);
-        SetFacingDirection(velocity);
+        MoveAndCollide(velocity);                 // move the character
+        SetFacingDirection(velocity); 
         AnimationUpdate(velocity);
     }
 
+    /// <summary>
+    /// Sets the direction the character will be facing
+    /// </summary>
+    /// <param name="vel">Velocity to determine which way the enemy needs to face</param>
     private void SetFacingDirection(Vector2 vel)
     {
+        // Return if the enemy is not moving
         if(vel == new Vector2())
             return;
 
+        // Determine up/down direction first as non-priorty
         if(vel.y > 0)
         {
             _FacingDirection = FacingDirection.DOWN;
@@ -100,6 +132,7 @@ public class EnemyController : CharacterController
             _FacingDirection = FacingDirection.UP;
         }
 
+        // Determine left/right direction as priorty
         if(vel.x > 0)
         {
             _FacingDirection = FacingDirection.RIGHT;
@@ -109,25 +142,40 @@ public class EnemyController : CharacterController
         }
     }
 
+    /// <summary>
+    /// Detect if they are in range to attack the player
+    /// </summary>
     private void DetectPlayerAttack()
     {
         // If the character is dead he can no longer attack
         if (!_OwningCharacter.IsAlive())
             return;
+        
+        // Update the player position
         _PlayerPosition = GetNode<PlayerController>("/root/Main/Player").Position;
+        
+        // Determine the distance 
         var distanceToPlayer = this.Position.DistanceTo(_PlayerPosition);
 
+        // If close to the player start attacking
         if (distanceToPlayer < 20.0f && _CanAttack)
             Attack();
     }
 
+
+    /// <summary>
+    /// Determines the animation play based on the move direction of the enemy
+    /// </summary>
+    /// <param name="vel">Movement Direction</param>
     protected override void AnimationUpdate(Vector2 vel)
     {
         base.AnimationUpdate(vel);
 
+        // Don't perform animations if the enemy is attacking or dead
         if (_OwningCharacter.IsAlive() == false || _IsAttacking)
             return;
 
+        
         if(vel == new Vector2() || _LastPosition == this.Position)
         {
             switch(_FacingDirection)
@@ -199,6 +247,7 @@ public class EnemyController : CharacterController
         {
             PlayAttackAnimation();
             player.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
+            // TODO: Add Dodge feature for character
         }
 
         _CanAttack = false;
@@ -224,12 +273,21 @@ public class EnemyController : CharacterController
         }
     }
     
+    /// <summary>
+    /// When attack animation has finished reset the attack property
+    /// </summary>
     public void OnAnimFinished()
     {
         if(_IsAttacking)
         {
             _IsAttacking = false;
         }
+    }
+
+    protected virtual void SetupBlackboard()
+    {
+        _Blackboard.SetValueAsNode2D("Target", null);
+        _Blackboard.SetValueAsEnemyState("CurrentState", EnemyState.ATTACKING);
     }
 
 
