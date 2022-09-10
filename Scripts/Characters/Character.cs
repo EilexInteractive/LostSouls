@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using System;
 
 [Serializable]
@@ -57,10 +57,7 @@ public class Character
         }
         else
         {
-            _CurrentLevel = level;                  // Set the current level of the enemy based on the room
-            _MaxAttackPoints = 30;
-            _MaxDefencePoints = 50;
-            
+            // TODO: Generate AI Based on level
         }
     }
     
