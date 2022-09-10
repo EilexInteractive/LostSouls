@@ -15,8 +15,8 @@
 script = ExtResource( 4 )
 _RoomLevel = 1
 _RoomName = "Room_2"
-_MinEnemySpawn = 5
-_MaxEnemySpawn = 7
+_MinEnemySpawn = 3
+_MaxEnemySpawn = 5
 EnemyPrefab = ExtResource( 5 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
@@ -76,17 +76,11 @@ position = Vector2( -91, 305 )
 [node name="SpawnPoint2" parent="." instance=ExtResource( 6 )]
 position = Vector2( -138, 146 )
 
-[node name="SpawnPoint3" parent="." instance=ExtResource( 6 )]
-position = Vector2( 61, 119 )
-
 [node name="SpawnPoint4" parent="." instance=ExtResource( 6 )]
 position = Vector2( 112, 238 )
 
 [node name="SpawnPoint5" parent="." instance=ExtResource( 6 )]
-position = Vector2( 221, 113 )
-
-[node name="SpawnPoint6" parent="." instance=ExtResource( 6 )]
-position = Vector2( 248, 132 )
+position = Vector2( 241, 101 )
 
 [node name="SpawnPoint7" parent="." instance=ExtResource( 6 )]
 position = Vector2( 67, 17 )
