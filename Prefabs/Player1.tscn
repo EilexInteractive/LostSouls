@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scripts/Characters/PlayerController.cs" type="Script" id=1]
 [ext_resource path="res://Animations/PlayerCharacters/NoArmour/Player_Halbred.tres" type="SpriteFrames" id=2]
@@ -55,6 +55,13 @@ font_data = ExtResource( 8 )
 
 [sub_resource type="Theme" id=25]
 default_font = SubResource( 24 )
+
+[sub_resource type="DynamicFont" id=26]
+size = 43
+font_data = ExtResource( 8 )
+
+[sub_resource type="Theme" id=27]
+default_font = SubResource( 26 )
 
 [sub_resource type="DynamicFont" id=14]
 size = 25
@@ -272,6 +279,7 @@ theme = SubResource( 9 )
 text = "Hello World"
 
 [node name="InventoryRect" type="ColorRect" parent="Canvas/CanvasLayer"]
+visible = false
 margin_left = 14.0
 margin_top = 26.0
 margin_right = 453.0
@@ -288,6 +296,7 @@ margin_right = 437.0
 margin_bottom = 689.0
 
 [node name="ViewingItem" type="ColorRect" parent="Canvas/CanvasLayer/InventoryRect"]
+visible = false
 anchor_left = -0.087
 anchor_top = -0.143
 anchor_right = 2.799
@@ -334,15 +343,35 @@ margin_top = 353.0
 margin_right = 456.0
 margin_bottom = 359.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
+[node name="ItemDescription" type="RichTextLabel" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
 margin_left = 29.0
 margin_top = 380.0
 margin_right = 457.0
 margin_bottom = 611.0
 theme = SubResource( 25 )
 bbcode_enabled = true
-text = "[center]Item Description[/center]"
+bbcode_text = "[center]Item Description[/center]"
+text = "Item Description"
 override_selected_font_color = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
+margin_left = 33.0
+margin_top = 629.0
+margin_right = 469.0
+margin_bottom = 678.0
+
+[node name="DropBtn" type="Button" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem/HBoxContainer"]
+margin_right = 206.0
+margin_bottom = 49.0
+theme = SubResource( 27 )
+text = "Drop Item"
+
+[node name="ActionBtn" type="Button" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem/HBoxContainer"]
+margin_left = 210.0
+margin_right = 436.0
+margin_bottom = 49.0
+theme = SubResource( 27 )
+text = "Equip Item"
 
 [node name="InteractableInfo" type="ColorRect" parent="Canvas/CanvasLayer"]
 visible = false
@@ -476,6 +505,8 @@ text = "Quit"
 stream = ExtResource( 3 )
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="OnAnimFinished"]
+[connection signal="pressed" from="Canvas/CanvasLayer/InventoryRect/ViewingItem/HBoxContainer/DropBtn" to="Canvas/CanvasLayer/InventoryRect" method="OnDropPressed"]
+[connection signal="pressed" from="Canvas/CanvasLayer/InventoryRect/ViewingItem/HBoxContainer/ActionBtn" to="Canvas/CanvasLayer/InventoryRect" method="OnActionPressed"]
 [connection signal="pressed" from="Canvas/CanvasLayer/DeathScreen/Button" to="." method="OnRespawnPressed"]
 [connection signal="pressed" from="PauseMenu/CanvasLayer/Container/VBoxContainer/ResumeGame" to="PauseMenu" method="OnResumeGame"]
 [connection signal="pressed" from="PauseMenu/CanvasLayer/Container/VBoxContainer/SaveGame" to="PauseMenu" method="OnSaveGame"]
