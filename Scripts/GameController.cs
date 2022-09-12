@@ -33,7 +33,7 @@ public class GameController : Node
         _Player.GetInventory().AddItem(firstWeapon);
         _Player.GetInventory().EquipWeapon(firstWeapon);
 
-        HealthPotion HPItem = new HealthPotion(20);
+        HealthPotion HPItem = new HealthPotion(20, ItemRarity.Common);
         _Player.GetInventory().AddItem(HPItem);
 
     }
