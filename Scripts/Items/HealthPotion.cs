@@ -17,4 +17,6 @@ public class HealthPotion : Item
             _Owner.GetInventory().RemoveItem(this);
         }
     }
+
+    public float GetHP() => _HP_Amount;
 }

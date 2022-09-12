@@ -23,4 +23,6 @@ public class Armour : Item
         GD.Randomize();
         return (float)GD.RandRange(_MinDamageMod, _MaxDamageMod);
     }
+
+    public float GetMaxDefence() => _MaxDamageMod;
 }

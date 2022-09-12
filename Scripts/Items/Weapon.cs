@@ -35,4 +35,5 @@ public class Weapon : Item
     public float GenerateDP() => (float)GD.RandRange(_AttackModifierMin, _AttackModifierMax);
     public float GetCooldown() => _CooldownTimer;
     public WeaponType GetWeaponType() => _WeaponType;
+    public float GetMaxAttack() => _AttackModifierMax;
 }
