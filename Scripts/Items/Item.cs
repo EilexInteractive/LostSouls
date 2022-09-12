@@ -43,6 +43,7 @@ public abstract class Item
     public int GetItemCost() => _ItemCost;
     public ItemType GetItemType() => _ItemType;
     public Character GetOwner() => _Owner;
+    public ItemRarity GetItemRarity() => _Rarity;
     
     // === SETTERS === //
     public void SetOwner(Character owner) => _Owner = owner;
