@@ -26,27 +26,27 @@ public struct ItemDropData
 
 public class ItemDatabase : Node
 {
-    private List<ItemDropData> _Items = new List<ItemDropData>();
+    private List<Item> _Items = new List<Item>();
 
     public override void _Ready()
     {
         base._Ready();
         // Health Potions
-        _Items.Add(new ItemDropData(new HealthPotion(25), ItemRarity.Common));
-        _Items.Add(new ItemDropData(new HealthPotion(50), ItemRarity.Uncommon));
-        _Items.Add(new ItemDropData(new HealthPotion(75), ItemRarity.Rare));
-        _Items.Add(new ItemDropData(new HealthPotion(100), ItemRarity.Legendary));
+        _Items.Add(new HealthPotion(25, ItemRarity.Common));
+        _Items.Add(new HealthPotion(50, ItemRarity.Uncommon));
+        _Items.Add(new HealthPotion(75, ItemRarity.Rare)));
+        _Items.Add(new HealthPotion(100, ItemRarity.Legendary));
         
         // Common Weapons
-        _Items.Add(new ItemDropData(new Weapon("Old Sword", "Rusty old sword that's been sitting around for a while", 2, WeaponType.LONG_SWORD, null, 1, 1.2f), ItemRarity.Common));
-        _Items.Add(new ItemDropData(new Weapon("Norse Axe", "A steel axe commonly used by great viking warriors", 5, WeaponType.AXE, null, 1.2f, 1.4f), ItemRarity.Common));
-        _Items.Add(new ItemDropData(new Weapon("Sword of Strength", "A heavy sword used by only the strongest of the dungeon", 7, WeaponType.LONG_SWORD, null, 1.5f, 1.8f), ItemRarity.Common));
-        _Items.Add(new ItemDropData(new Weapon("Axe of Hell", "The demons weapon of choice", 12, WeaponType.WAR_AXE, null, 1.4f, 1.7f), ItemRarity.Common));
+        _Items.Add(new Weapon("Old Sword", "Rusty old sword that's been sitting around for a while", 2, WeaponType.LONG_SWORD, null, 1, 1.2f));
+        _Items.Add(new Weapon("Norse Axe", "A steel axe commonly used by great viking warriors", 5, WeaponType.AXE, null, 1.2f, 1.4f));
+        _Items.Add(new Weapon("Sword of Strength", "A heavy sword used by only the strongest of the dungeon", 7, WeaponType.LONG_SWORD, null, 1.5f, 1.8f));
+        _Items.Add(new Weapon("Axe of Hell", "The demons weapon of choice", 12, WeaponType.WAR_AXE, null, 1.4f, 1.7f));
         // Common Armour
-        _Items.Add(new ItemDropData(new Armour("Light Armour", "Common light weight armour used by training warriors", 3, ItemType.Armour), ItemRarity.Common));
+        _Items.Add(new Armour("Light Armour", "Common light weight armour used by training warriors", 3, ItemType.Armour));
 
         // Uncommon Weapons
-        _Items.Add(new ItemDropData(new Weapon("Sword of Knights", "This sword was used by only the greatest of knights", 15, WeaponType.LONG_SWORD, null, 1.7f, 2.0f), ItemRarity.Uncommon));
+        _Items.Add(new Weapon("Sword of Knights", "This sword was used by only the greatest of knights", 15, WeaponType.LONG_SWORD, null, 1.7f, 2.0f, 0.3f, ItemRarity.Uncommon));
         
     }
 
@@ -54,8 +54,8 @@ public class ItemDatabase : Node
     {
         foreach (var item in _Items)
         {
-            if (item._ItemDetails.GetItemName() == itemName)
-                return item._ItemDetails;
+            if (item.GetItemName() == itemName)
+                return item;
         }
 
         return null;
@@ -65,9 +65,9 @@ public class ItemDatabase : Node
     {
         foreach (var item in _Items)
         {
-            if (item._ItemDetails.GetItemName() == itemName && item._ItemRarity == rarity)
+            if (item.GetItemName() == itemName && item.GetItemRarity() == rarity)
             {
-                return item._ItemDetails;
+                return item;
             }
         }
 
@@ -104,8 +104,8 @@ public class ItemDatabase : Node
     {
         List<Item> common = new List<Item>();
         foreach(var item in _Items)
-            if(item._ItemRarity == ItemRarity.Common)
-                common.Add(item._ItemDetails);
+            if(item.GetItemRarity() == ItemRarity.Common)
+                common.Add(item);
 
         return common;
     }
@@ -114,8 +114,8 @@ public class ItemDatabase : Node
     {
         List<Item> uncommon = new List<Item>();
         foreach(var item in _Items)
-            if(item._ItemRarity == ItemRarity.Uncommon)
-                uncommon.Add(item._ItemDetails);
+            if(item.GetItemRarity() == ItemRarity.Uncommon)
+                uncommon.Add(item);
 
         return uncommon;
     }
@@ -124,8 +124,8 @@ public class ItemDatabase : Node
     {
         List<Item> rare = new List<Item>();
         foreach(var item in _Items)
-            if(item._ItemRarity == ItemRarity.Rare)
-                rare.Add(item._ItemDetails);
+            if(item.GetItemRarity() == ItemRarity.Rare)
+                rare.Add(item);
 
         return rare;
     }
@@ -134,8 +134,8 @@ public class ItemDatabase : Node
     {
         List<Item> legend = new List<Item>();
         foreach(var item in _Items)
-            if(item._ItemRarity == ItemRarity.Legendary)
-                legend.Add(item._ItemDetails);
+            if(item.GetItemRarity() == ItemRarity.Legendary)
+                legend.Add(item);
 
         return legend;
     }
