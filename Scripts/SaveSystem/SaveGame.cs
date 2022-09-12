@@ -7,6 +7,7 @@ public abstract class RoomData
 {
     public string RoomName;
     public List<CharacterSaveData> CharactersInRoom = new List<CharacterSaveData>();
+    public List<ChestSave> RoomChest = new List<ChestSave>();
 
     public RoomData(string roomName, List<CharacterSaveData> characters)
     {
@@ -36,4 +37,10 @@ public class CharacterSaveData
         CharacterRef = ch;
         Position = pos;
     }
+}
+
+[Serializable]
+public class ChestSave
+{
+    public bool IsOpen;
 }

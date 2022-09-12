@@ -36,18 +36,13 @@ public class EnemyController : CharacterController
 
         // Set Character & Controller
         int roomLevel = GetNode<SceneController>("/root/Main").GetRoomLevel();        
-        _OwningCharacter = new Character("Pirate", false, roomLevel);
+        _OwningCharacter = new Character("Demon", false, roomLevel);
         _OwningCharacter.SetOwningController(this);
+        GenerateCharacter();
         // Get reference to the player controller
         _Player = GetNode<PlayerController>("/root/Main/Player");
         // Get reference to the navigation system
         _Nav = GetNode<Navigation2D>("/root/Main/Navigation2D");
-        
-
-        // Create a sword & Equip it
-        Weapon weapon = GetNode<ItemDatabase>("/root/ItemDatabase").GetItem("Old Sword") as Weapon;
-        _OwningCharacter.GetInventory().AddItem(weapon);
-        _OwningCharacter.GetInventory().EquipWeapon(weapon);
 
         SetupBlackboard();
         
@@ -63,6 +58,12 @@ public class EnemyController : CharacterController
 
         if (_Player != null)
             _PlayerPosition = _Player.Position;
+
+        if(_Blackboard.GetValueAsEnemyState("EnemyState") == EnemyState.ATTACKING)
+        {
+            _Blackboard.SetValueAsVector2("TargetLocation",
+                GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController().Position);
+        }
 
     }
 
@@ -87,7 +88,7 @@ public class EnemyController : CharacterController
         var velocity = new Vector2();                   // New reference to the velocity
 
         // Create the path to the player
-        _Paths = _Nav.GetSimplePath(GlobalPosition, _PlayerPosition, false);
+        _Paths = _Nav.GetSimplePath(GlobalPosition, _Blackboard.GetValueAsVector2("TargetLocation"), false);
         if (_Paths.Length > 1)
         {
             var distance = _Paths[1] - GlobalPosition;          // Get the distance
@@ -221,6 +222,7 @@ public class EnemyController : CharacterController
         base.TriggerDeathAnim();
         GetNode<TextureProgress>("HealthBar").Hide();                               // Hide the texture progress
         GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;              // Disable the collision once they have died
+        _Anim.ZIndex = -1;
 
     }
 
@@ -231,6 +233,7 @@ public class EnemyController : CharacterController
             _Anim.Play("AlreadyDead");
             GetNode<TextureProgress>("HealthBar").Hide();                               // Hide the texture progress
             GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;              // Disable the collision once they have died
+            _Anim.ZIndex = -1;                  // Set the z index
         }
             
     }
@@ -286,11 +289,82 @@ public class EnemyController : CharacterController
 
     protected virtual void SetupBlackboard()
     {
-        _Blackboard.SetValueAsNode2D("Target", null);
-        _Blackboard.SetValueAsEnemyState("CurrentState", EnemyState.ATTACKING);
+        _Blackboard.SetValueAsNode2D("EnemyTarget", GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController());
+        _Blackboard.SetValueAsEnemyState("EnemyState", EnemyState.ATTACKING);
+    }
+
+    private void GenerateCharacter()
+    {
+        var roomLevel = GetNode<SceneController>("/root/Main").GetRoomLevel();              // Get the level of the room
+        if(_OwningCharacter != null)
+        {
+            if(roomLevel == 1)
+            {
+                _OwningCharacter.SetupAI_Stats((float)GD.RandRange(25, 40), (float)GD.RandRange(25, 40));
+                _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
+                LoadEnemySprite(EnemyType.WOLF_DEMON);
+                EquipWeapon("Old Sword");
+                
+            } else if(roomLevel == 2)
+            {
+                float randValue = GD.Randf();
+                if(randValue > 65)
+                {
+                    // Setup the character
+                    _OwningCharacter.SetEnemyType(EnemyType.WINGED_DEMON);
+                    _OwningCharacter.SetupAI_Stats((float)GD.RandRange(30, 65), (float)GD.RandRange(30, 65));
+                    LoadEnemySprite(EnemyType.WINGED_DEMON);
+                    EquipWeapon("Old Sword");
+                } else 
+                {
+                    // Setup the character
+                    _OwningCharacter.SetupAI_Stats((float)GD.RandRange(25, 40), (float)GD.RandRange(25, 40));
+                    _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
+                    LoadEnemySprite(EnemyType.WOLF_DEMON);
+
+                    // Equip the weapon
+                    EquipWeapon("The HellBard");
+                }
+            }
+        }
+    }
+
+    private void LoadEnemySprite(EnemyType type)
+    {
+        // Set the initial path
+        string animationPath = "res://Animations/EnemyCharacter/";
+
+        // Check what type of armour the demon is wearing
+        if(_OwningCharacter.GetInventory().GetEquippedArmour() == null)
+        {
+            animationPath += "NoArmour/";
+        }
+
+        // Determine which type of enemy we need to load
+        switch(type)
+        {
+            case EnemyType.WOLF_DEMON:
+                animationPath += "Wolf_Demon.tres";
+                break;
+            case EnemyType.WINGED_DEMON:
+                animationPath += "Winged_Demon.tres";
+                break;
+
+        }
+
+        // Get the frames from the generated path
+        _Anim.Frames = GD.Load<SpriteFrames>(animationPath);
+    }
+
+    private void EquipWeapon(string weaponName)
+    {
+        Weapon enemyWeapon = GetNode<ItemDatabase>("/root/ItemDatabase").GetItem(weaponName) as Weapon;
+        _OwningCharacter.GetInventory().AddItem(enemyWeapon);
+        _OwningCharacter.GetInventory().EquipWeapon(enemyWeapon);
     }
 
 
     public AI_HealthBar GetHealthBar() => GetNode<AI_HealthBar>("HealthBar") as AI_HealthBar;
     public int GetCharacterLevel() => _OwningCharacter.GetCurrentLevel();
+    public Blackboard GetBlackboard() => _Blackboard;
 }

@@ -101,8 +101,8 @@ public class LootChest : Area2D, IInteractable
 
         Vector2 SpawnPoint = new Vector2
         {
-            x = Position.x + ((float)GD.RandRange(-25, 25)),
-            y = Position.y + ((float)GD.RandRange(-25, 25))
+            x = Position.x + ((float)GD.RandRange(-10, 10)),
+            y = Position.y + ((float)GD.RandRange(-10, 10))
         };
 
         itemDetails.Position = SpawnPoint;

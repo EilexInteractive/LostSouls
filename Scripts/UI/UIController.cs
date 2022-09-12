@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Security.Policy;
 
-public class UIController : CanvasModulate
+public class UIController : Control
 {
     private TextureProgress _HealthBar;
     private TextureProgress _XPBar;
@@ -24,9 +24,9 @@ public class UIController : CanvasModulate
         base._Ready();
 
         // Get the required nodes
-        _HealthBar = GetNode<TextureProgress>("HealthBar");
-        _MessageRect = GetNode<TextureRect>("TextureRect");
-        _PickupContainer = GetNode<Label>("PickupLabel");
+        _HealthBar = GetNode<TextureProgress>("CanvasLayer/HealthBar");
+        _MessageRect = GetNode<TextureRect>("CanvasLayer/TextureRect");
+        _PickupContainer = GetNode<Label>("CanvasLayer/PickupLabel");
     }
 
     public override void _Process(float delta)
@@ -46,16 +46,16 @@ public class UIController : CanvasModulate
     public void UpdateXP(float CurrentXP, float MaxXP, int CurrentLevel)
     {
         // Set the text to be our current level
-        GetNode<Label>("XPBar/Label2").Text = CurrentLevel.ToString();
+        GetNode<Label>("CanvasLayer/XPBar/Label2").Text = CurrentLevel.ToString();
         // Setup values
-        GetNode<TextureProgress>("XPBar").MaxValue = MaxXP;
-        GetNode<TextureProgress>("XPBar").Value = CurrentXP;
+        GetNode<TextureProgress>("CanvasLayer/XPBar").MaxValue = MaxXP;
+        GetNode<TextureProgress>("CanvasLayer/XPBar").Value = CurrentXP;
     }
 
     public void SetMessage(string message)
     {
         _MessageRect.Show();
-        GetNode<RichTextLabel>("TextureRect/RichTextLabel").Text = "";
+        GetNode<RichTextLabel>("CanvasLayer/TextureRect/RichTextLabel").Text = "";
         _Message = message;
         _CurrentMessage = "";
         _MessageIndex = 0;
@@ -74,7 +74,7 @@ public class UIController : CanvasModulate
     {
         _MessagePrintTimer = null;
         _CurrentMessage = _Message;
-        GetNode<RichTextLabel>("TextureRect/RichTextLabel").Text = _CurrentMessage;
+        GetNode<RichTextLabel>("CanvasLayer/TextureRect/RichTextLabel").Text = _CurrentMessage;
         _IsMessageFinished = true;
     }
     
@@ -83,7 +83,7 @@ public class UIController : CanvasModulate
     {
         _CurrentMessage += _Message[_MessageIndex];
         _MessageIndex++;
-        GetNode<RichTextLabel>("TextureRect/RichTextLabel").Text = _CurrentMessage;
+        GetNode<RichTextLabel>("CanvasLayer/TextureRect/RichTextLabel").Text = _CurrentMessage;
 
         if (_CurrentMessage.Length() >= _Message.Length())
         {
@@ -117,12 +117,12 @@ public class UIController : CanvasModulate
     {
         if (toggle && message != "")
         {
-            GetNode<Label>("PickupLabel").Show();
-            GetNode<Label>("PickupLabel").Text = message;
+            GetNode<Label>("CanvasLayer/PickupLabel").Show();
+            GetNode<Label>("CanvasLayer/PickupLabel").Text = message;
         }
         else
         {
-            GetNode<Label>("PickupLabel").Hide();
+            GetNode<Label>("CanvasLayer/PickupLabel").Hide();
         }
     }
 
@@ -132,18 +132,18 @@ public class UIController : CanvasModulate
         {
             if (toggle)
             {
-                GetNode<ColorRect>("InteractableInfo").Show();
-                GetNode<Label>("InteractableInfo/ItemName").Text = item.GetItemName();
-                GetNode<Label>("InteractableInfo/ItemDescription").Text = item.GetItemDesc();
+                GetNode<ColorRect>("CanvasLayer/InteractableInfo").Show();
+                GetNode<Label>("CanvasLayer/InteractableInfo/ItemName").Text = item.GetItemName();
+                GetNode<Label>("CanvasLayer/InteractableInfo/ItemDescription").Text = item.GetItemDesc();
             }
             else
             {
-                GetNode<ColorRect>("InteractableInfo").Hide();
+                GetNode<ColorRect>("CanvasLayer/InteractableInfo").Hide();
             }
         }
         else
         {
-            GetNode<ColorRect>("InteractableInfo").Hide();
+            GetNode<ColorRect>("CanvasLayer/InteractableInfo").Hide();
         }
     }
 

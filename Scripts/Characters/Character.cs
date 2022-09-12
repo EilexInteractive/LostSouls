@@ -1,12 +1,19 @@
 using Godot;
 using System;
 
+public enum EnemyType
+{
+    WOLF_DEMON,
+    WINGED_DEMON
+}
+
 [Serializable]
 public class Character
 {
     // === General Details === //
     protected bool _IsPlayer = false;                 // If this is controlled by the player or not
     protected string _CharacterName;
+    protected EnemyType _EnemyType;
     
     [NonSerialized]
     protected CharacterController _OwningController;
@@ -55,11 +62,16 @@ public class Character
             _MaxAttackPoints = 75;
             _MaxDefencePoints = 75;
         }
-        else
-        {
-            // TODO: Generate AI Based on level
-        }
     }
+
+    public void SetupAI_Stats(float maxAttack, float maxDefence)
+    {
+        _MaxAttackPoints = maxAttack;
+        _MaxDefencePoints = maxDefence;
+
+        _CurrentAttackPoints = _MaxAttackPoints;
+        _CurrentDefencePoints = _MaxDefencePoints;
+    }  
     
 
     /// <summary>
@@ -159,7 +171,6 @@ public class Character
         }
     }
 
-
     public void SetOwningController(CharacterController controller) => _OwningController = controller;
 
 
@@ -172,4 +183,6 @@ public class Character
     public float GetCurrentXP() => _CurrentXP;
     public InventoryComponent GetInventory() => _Inventory;
     public CharacterController GetController() => _OwningController;
+    public EnemyType GetEnemyType() => _EnemyType;
+    public void SetEnemyType(EnemyType type) => _EnemyType = type; 
 }

@@ -4,27 +4,17 @@ using System;
 public class InventoryItem : Button
 {
     private Item _OwningItem;                   // Reference to the item that's being displayed
+    private InventoryUI _InvUI;                        // Reference to the inventory UI
 
-    public void Setup(Item item)
+    public void Setup(Item item, InventoryUI ui)
     {
         _OwningItem = item;
+        _InvUI = ui;
     } 
 
     public void OnPressed()
     {
-        _OwningItem.UseItem();                  // Use the item
-        
-        
-        if (_OwningItem.GetItemType() == ItemType.Consumable)
-        {
-            // If it's a consumable make sure to remove it from the inventory
-            GetNode<InventoryUI>("/root/Main/Player/Canvas/InventoryRect").RemoveItemButton(this);
-        } else if (_OwningItem.GetItemType() == ItemType.Weapon)
-        {
-            // If it's a weapon than equip the weapon & update the inventory
-            GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetInventory().EquipWeapon(_OwningItem as Weapon);
-            GetNode<InventoryUI>("/root/Main/Player/Canvas/InventoryRect").SetEquippedWeapon();
-        }
+        _InvUI.SetViewingItem(_OwningItem, this);
     }
 
     public Item GetItem() => _OwningItem;

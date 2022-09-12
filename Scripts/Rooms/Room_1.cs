@@ -11,7 +11,6 @@ public class Room_1 : SceneController
     private PackedScene _EnemyCharacter;                // Reference to the enemy character
     
     private bool _AllEnemiesDead = false;               // if all the enemies have died
-    private RoomData _SaveData;
     
     
     // === UNLOCK DOOR === //
@@ -95,19 +94,7 @@ public class Room_1 : SceneController
         
         if (_SaveData != null)
         {
-            var enemies = GetTree().GetNodesInGroup("Enemy");
-            for(int i = 0; i < enemies.Count; ++i)
-            {
-                CharacterSaveData loadData = _SaveData.CharactersInRoom[i];
-                if(loadData != null)
-                {
-                    var enemyNode = enemies[i] as EnemyController;                  // Gets the request enemy node
-                    loadData.CharacterRef.SetOwningController(enemyNode);           // Set the controller to the new enemy
-                    enemyNode.SetOwningCharacter(loadData.CharacterRef);                // Sets the owner
-                    enemyNode.Position = loadData.Position;                 // Sets the position of the enemy
-                    enemyNode.AlreadyDead();                                        // Checks if the enemy has already died
-                }
-            }
+            LoadEnemyCharacters();
 
             var roomSave = _SaveData as Room_1_SaveData;
 

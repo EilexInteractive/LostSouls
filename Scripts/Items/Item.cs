@@ -18,13 +18,15 @@ public abstract class Item
     protected ItemType _ItemType;
 
     protected Character _Owner;
+    protected ItemRarity _Rarity;
 
-    public Item(string name, string desc, int cost, ItemType type)
+    public Item(string name, string desc, int cost, ItemType type, ItemRarity rare = ItemRarity.Common)
     {
         _ItemName = name;
         _ItemDescription = desc;
         _ItemCost = cost;
         _ItemType = type;
+        _Rarity = rare;
     }
 
     

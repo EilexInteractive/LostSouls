@@ -122,3 +122,7 @@ texture = ExtResource( 9 )
 _SceneName = "Room_2"
 MovingForward = false
 _PromptToChangeScene = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+z_index = -10
+color = Color( 0.372549, 0.329412, 0.329412, 1 )

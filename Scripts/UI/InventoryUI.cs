@@ -10,6 +10,9 @@ public class InventoryUI : ColorRect
     private bool _CanOpen = true;
     private bool _CanClose = false;
 
+    private Item _ViewingItem;
+    private Button _ViewingBtn;
+
     private List<Button> _SpawnedButtons = new List<Button>();
 
     public override void _Process(float delta)
@@ -38,7 +41,7 @@ public class InventoryUI : ColorRect
             var itemButton = btnNode as InventoryItem;
             if (itemButton != null)
             {
-                itemButton.Setup(item);
+                itemButton.Setup(item, this);
                 SetEquippedWeapon();
             }
             
@@ -47,6 +50,21 @@ public class InventoryUI : ColorRect
             
             _SpawnedButtons.Add(btnNode);
         }
+        
+    }
+
+    public void SetViewingItem(Item item, Button itemBtn)
+    {
+        GetNode<ColorRect>("ViewingItem").Show();
+        _ViewingItem = item;
+        _ViewingBtn = itemBtn;
+
+        
+    }
+
+    private string GetPathToIcon(Item item)
+    {
+        var iconPath = "res://Sprites/Icon/";
         
     }
 
@@ -61,6 +79,28 @@ public class InventoryUI : ColorRect
             if (itemInstance.GetItem() == equippedItem)
                 btn.Text += "*";
         }
+    }
+
+    public void OnActionPressed()
+    {
+        _ViewingItem.UseItem();                  // Use the item
+        
+        
+        if (_ViewingItem.GetItemType() == ItemType.Consumable)
+        {
+            // If it's a consumable make sure to remove it from the inventory
+            GetNode<InventoryUI>("/root/Main/Player/Canvas/CanvasLayer/InventoryRect").RemoveItemButton(_ViewingBtn));
+        } else if (_ViewingItem.GetItemType() == ItemType.Weapon)
+        {
+            // If it's a weapon than equip the weapon & update the inventory
+            GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetInventory().EquipWeapon(_ViewingItem as Weapon);
+            GetNode<InventoryUI>("/root/Main/Player/Canvas/CanvasLayer/InventoryRect").SetEquippedWeapon();
+        }
+    }
+
+    public void OnDropPressed()
+    {
+        // TODO: Remove from inventory
     }
 
     public void SetEquippedArmour()
@@ -100,6 +140,7 @@ public class InventoryUI : ColorRect
 
         _SpawnedButtons.Clear();
 
+        GetNode<ColorRect>("ViewingItem").Hide();
         this.Hide();                // Hide the inventory
 
         

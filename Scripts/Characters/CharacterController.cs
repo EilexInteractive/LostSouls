@@ -118,7 +118,7 @@ public class CharacterController : KinematicBody2D
 
     public void SetEquippedArmour(Armour armour)
     {
-        _Anim.SetSpriteFrames(GD.Load<SpriteFrames>("res://Animations/Armour/" + armour.GetItemName() + ".tres"));
+        _Anim.Frames = GD.Load<SpriteFrames>("res://Animations/Armour/" + armour.GetItemName() + ".tres");
     }
     
     public Character GetOwningCharacter() => _OwningCharacter;

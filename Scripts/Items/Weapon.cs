@@ -19,7 +19,7 @@ public class Weapon : Item
 
     protected WeaponType _WeaponType;
     
-    public Weapon(string name, string desc, int cost, WeaponType type, Character owner = null, float minAttack = 1.0f, float maxAttack = 1.0f, float cooldown = 0.3f) : base(name, desc, cost, ItemType.Weapon)
+    public Weapon(string name, string desc, int cost, WeaponType type, Character owner = null, float minAttack = 1.0f, float maxAttack = 1.0f, float cooldown = 0.3f, ItemRarity rare = ItemRarity.Common) : base(name, desc, cost, ItemType.Weapon, rare)
     {
         _AttackModifierMin = minAttack;
         _AttackModifierMax = maxAttack;

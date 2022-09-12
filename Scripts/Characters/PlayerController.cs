@@ -92,8 +92,8 @@ public class PlayerController : CharacterController
 
         if(Input.IsActionJustPressed("Pause"))
         {
-            GetNode<CanvasModulate>("Canvas").Hide();
-            GetNode<PauseMenu>("PauseMenu").Show();
+            GetNode<Control>("Canvas").Hide();
+            GetNode<CanvasLayer>("PauseMenu/CanvasLayer").Show();
             GetTree().Paused = true;
         }
         
@@ -105,13 +105,13 @@ public class PlayerController : CharacterController
 
         if (_IsInventoryOpen)
         {
-            GetNode<InventoryUI>("Canvas/InventoryRect").CloseInventory();
+            GetNode<InventoryUI>("Canvas/CanvasLayer/InventoryRect").CloseInventory();
             _IsInventoryOpen = false;
         }
         else
         {
             
-            GetNode<InventoryUI>("Canvas/InventoryRect").OpenInventory(_OwningCharacter.GetInventory());
+            GetNode<InventoryUI>("Canvas/CanvasLayer/InventoryRect").OpenInventory(_OwningCharacter.GetInventory());
             _IsInventoryOpen = true;
         }
         
@@ -397,9 +397,9 @@ public class PlayerController : CharacterController
 
         if (!_DeathScreenPlayed)
         {
-            GetNode<ColorRect>("Canvas/DeathScreen").Show();
-            GetNode<Button>("Canvas/DeathScreen/Button").Disabled = false;          // Enable the respawn button
-            GetNode<AnimationPlayer>("Canvas/DeathScreen/AnimationPlayer").Play("DeathScreenIn");
+            GetNode<ColorRect>("Canvas/CanvasLayer/DeathScreen").Show();
+            GetNode<Button>("Canvas/CanvasLayer/DeathScreen/Button").Disabled = false;          // Enable the respawn button
+            GetNode<AnimationPlayer>("Canvas/CanvasLayer/DeathScreen/AnimationPlayer").Play("DeathScreenIn");
         }
             
 

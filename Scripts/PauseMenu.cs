@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class PauseMenu : CanvasModulate
+public class PauseMenu : Control
 {
 
     
@@ -10,7 +10,7 @@ public class PauseMenu : CanvasModulate
     {
         GetTree().Paused = false;
         this.Hide();
-        GetNode<CanvasModulate>("../Canvas").Show();
+        GetNode<CanvasLayer>("CanvasLayer").Hide();
     }
 
     public void OnSaveGame()

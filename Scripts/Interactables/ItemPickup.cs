@@ -32,6 +32,7 @@ public class ItemPickup : Area2D, IInteractable
         OwningItem = item;
         _ItemSprite.Texture = GD.Load<Texture>("res://Sprites/Items/" + item.GetItemName() + ".png");
     }
+
     
 
     public void OnBodyEnter(Node node)

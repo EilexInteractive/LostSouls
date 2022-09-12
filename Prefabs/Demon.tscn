@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Animations/EnemyCharacter/NoArmour/DemonLongSword.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Animations/EnemyCharacter/NoArmour/Wolf_Demon.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Scripts/Characters/EnemyController.cs" type="Script" id=2]
+[ext_resource path="res://SFX/07_human_atk_sword_1.wav" type="AudioStream" id=3]
 [ext_resource path="res://Sprites/Health/HealthBarUnder.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/UI/AI_HealthBar.cs" type="Script" id=5]
 
@@ -12,7 +13,7 @@ height = 6.0
 [node name="Character" type="KinematicBody2D" groups=["Enemy"]]
 script = ExtResource( 2 )
 _AttackCooldown = 0.5
-_MovementSpeed = 1000.0
+_MovementSpeed = 25.0
 _AttackAnimSpeed = 5.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -37,5 +38,8 @@ nine_patch_stretch = true
 script = ExtResource( 5 )
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="SwordAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="OnAnimFinished"]

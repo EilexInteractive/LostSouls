@@ -13,6 +13,7 @@ shape = SubResource( 1 )
 one_way_collision_margin = 0.0
 
 [node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
 
 [connection signal="body_entered" from="." to="." method="OnBodyEnter"]
 [connection signal="body_exited" from="." to="." method="OnBodyExit"]

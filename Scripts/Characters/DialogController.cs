@@ -3,7 +3,7 @@ using System;
 
 public class DialogController : Node2D
 {
-    private Friendly Owner;
+    private Friendly _Owner;
     private bool _DialogOpen = false;
     private event Action _DialogEvent = null;
 
@@ -21,7 +21,7 @@ public class DialogController : Node2D
         var player = GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController() as PlayerController;
         if (player != null)
         {
-            player.GetUI().SetMessage(Owner.DialogMessage);
+            player.GetUI().SetMessage(_Owner.DialogMessage);
         }
     }
 
@@ -40,6 +40,6 @@ public class DialogController : Node2D
         }
     }
     
-    public void SetOwner(Friendly friend) => Owner = friend;
+    public void SetOwner(Friendly friend) => _Owner = friend;
     public void SetDialogEvent(Action actionEvent) => _DialogEvent = actionEvent;
 }

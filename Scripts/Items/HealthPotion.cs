@@ -5,7 +5,7 @@ using System;
 public class HealthPotion : Item
 {
     private float _HP_Amount;
-    public HealthPotion(float hp) : base("HP Potion", $"Increase HP by {hp}", 15, ItemType.Consumable)
+    public HealthPotion(float hp, ItemRarity rare) : base("HP Potion", $"Increase HP by {hp}", 15, ItemType.Consumable, rare)
     {
         _HP_Amount = hp;
     }

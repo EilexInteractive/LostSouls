@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Prefabs/Fire.tscn" type="PackedScene" id=1]
 [ext_resource path="res://TileSets/World.tres" type="TileSet" id=2]
 [ext_resource path="res://Fonts/alagard.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scripts/MainMenu.cs" type="Script" id=4]
 [ext_resource path="res://Prefabs/LoadGameButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/Lighting/light.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 114
@@ -57,23 +58,79 @@ tile_data = PoolIntArray( 65530, 3, 0, 65531, 3, 0, 65532, 3, 0, 65533, 3, 0, 65
 [node name="Area2D" parent="." instance=ExtResource( 1 )]
 position = Vector2( -88, -145 )
 
+[node name="Light2D" type="Light2D" parent="Area2D"]
+texture = ExtResource( 6 )
+texture_scale = 2.37
+color = Color( 0.662745, 0.568627, 0.203922, 1 )
+energy = 4.32
+
 [node name="Area2D2" parent="." instance=ExtResource( 1 )]
 position = Vector2( -56, -145 )
+
+[node name="Light2D2" type="Light2D" parent="Area2D2"]
+position = Vector2( 0, 7 )
+texture = ExtResource( 6 )
+texture_scale = 2.37
+color = Color( 0.662745, 0.568627, 0.203922, 1 )
+energy = 4.32
 
 [node name="Area2D3" parent="." instance=ExtResource( 1 )]
 position = Vector2( -24, -145 )
 
+[node name="Light2D3" type="Light2D" parent="Area2D3"]
+position = Vector2( -1, 6 )
+texture = ExtResource( 6 )
+texture_scale = 2.37
+color = Color( 0.662745, 0.568627, 0.203922, 1 )
+energy = 4.32
+
 [node name="Area2D4" parent="." instance=ExtResource( 1 )]
 position = Vector2( 8, -145 )
+
+[node name="Light2D4" type="Light2D" parent="Area2D4"]
+position = Vector2( -2, 4 )
+texture = ExtResource( 6 )
+texture_scale = 2.37
+color = Color( 0.662745, 0.568627, 0.203922, 1 )
+energy = 4.32
 
 [node name="Area2D5" parent="." instance=ExtResource( 1 )]
 position = Vector2( 40, -145 )
 
+[node name="Light2D5" type="Light2D" parent="Area2D5"]
+position = Vector2( -2, 4 )
+texture = ExtResource( 6 )
+texture_scale = 2.37
+color = Color( 0.662745, 0.568627, 0.203922, 1 )
+energy = 4.32
+
 [node name="Area2D6" parent="." instance=ExtResource( 1 )]
 position = Vector2( 72, -145 )
 
+[node name="Light2D6" type="Light2D" parent="Area2D6"]
+position = Vector2( 0, 6 )
+texture = ExtResource( 6 )
+texture_scale = 2.37
+color = Color( 0.662745, 0.568627, 0.203922, 1 )
+energy = 4.32
+
 [node name="Area2D7" parent="." instance=ExtResource( 1 )]
 position = Vector2( 104, -145 )
+
+[node name="Light2D7" type="Light2D" parent="Area2D7"]
+position = Vector2( 0, 7 )
+texture = ExtResource( 6 )
+texture_scale = 2.37
+color = Color( 0.662745, 0.568627, 0.203922, 1 )
+energy = 4.32
+
+[node name="Light2D8" type="Light2D" parent="Area2D7"]
+position = Vector2( -99, 84 )
+scale = Vector2( 3.90295, 3.16456 )
+texture = ExtResource( 6 )
+texture_scale = 2.37
+color = Color( 1, 1, 1, 0.219608 )
+energy = 4.32
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 18, -55 )
@@ -82,6 +139,7 @@ zoom = Vector2( 0.25, 0.25 )
 
 [node name="Canvas" type="CanvasModulate" parent="."]
 scale = Vector2( 0.25, 0.25 )
+color = Color( 0.454902, 0.392157, 0.392157, 1 )
 
 [node name="Label" type="Label" parent="Canvas"]
 margin_left = -232.0
