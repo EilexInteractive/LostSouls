@@ -64,15 +64,16 @@ public class InventoryUI : ColorRect
         GetNode<TextureRect>("ViewingItem/ItemIcon").Texture = GD.Load<Texture>(GetPathToIcon(item));
         GetNode<Label>("ViewingItem/ItemName").Text = item.GetItemName();
         GetNode<RichTextLabel>("ViewingItem/ItemDescription").BbcodeText = "[center]" + item.GetItemDesc() + "[/center]";
+        
 
         var gc = GetNode<GameController>("/root/GameController");
-        var actionBtn = GetNode<Button>("ViewingItem/ActionBtn");
+        var actionBtn = GetNode<Button>("ViewingItem/HBoxContainer/ActionBtn");
 
         if(gc != null)
         {
-            if(item.GetItemType() == ItemType.Weapon || item.GetItemType() == ItemType.Armour)
+            if(item.GetItemType() == ItemType.Weapon)
             {
-                if(item == gc.GetPlayerCharacter().GetInventory().GetEquippedWeapon() || item == gc.GetPlayerCharacter().GetInventory().GetEquippedArmour())
+                if(item == gc.GetPlayerCharacter().GetInventory().GetEquippedWeapon())
                 {
                     actionBtn.Hide();
                 } else 
@@ -80,10 +81,34 @@ public class InventoryUI : ColorRect
                     actionBtn.Show();
                     actionBtn.Text = "Equip Item";
                 }
+
+                var weapon = item as Weapon;
+                var maxAttack = weapon.GetMaxAttack() * 10;
+                var attackString = maxAttack.ToString();
+                var finalValue = attackString.Split('.');
+                GetNode<Label>("ViewingItem/ItemProperty").Text = $"Attack Boost: {finalValue[0]} %";
+            } else if(item.GetItemType() == ItemType.Armour)
+            {
+                if(item == gc.GetPlayerCharacter().GetInventory().GetEquippedArmour())
+                {
+                    actionBtn.Hide();
+                } else 
+                {
+                    actionBtn.Show();
+                    actionBtn.Text = "Equip Item";
+                }
+                var armour = item as Armour;
+                var maxDefence = (armour.GetMaxDefence() * 10).ToString();
+                var finalValue = maxDefence.Split('.');
+                GetNode<Label>("ViewingItem/ItemProperty").Text = $"Defence Boost: {finalValue[0]} %";
             } else if(item.GetItemType() == ItemType.Consumable)
             {
                 actionBtn.Show();
                 actionBtn.Text = "Consume";
+                var hp = item as HealthPotion;
+                var hp_value = hp.GetHP().ToString();
+                var finalValue = hp_value.Split('.');
+                GetNode<Label>("ViewingItem/ItemProperty").Text = $"Health Boost: {finalValue[0]} %";
             }
         }
         
@@ -91,7 +116,7 @@ public class InventoryUI : ColorRect
 
     private string GetPathToIcon(Item item)
     {
-        var iconPath = "res://Sprites/Icon/";
+        var iconPath = $"res://Sprites/Icons/{item.GetItemType()}s/";
         switch(item.GetItemRarity())
         {
             case ItemRarity.Common:
@@ -108,8 +133,8 @@ public class InventoryUI : ColorRect
                 break;
         }
 
-        iconPath += item.GetItemType();
-        return iconPath;
+        
+        return iconPath + item.GetItemName() + ".png";
     }
 
     public void SetEquippedWeapon()
