@@ -36,7 +36,7 @@ public class SceneController : Node2D
         playerController.SetEquippedItem(GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetInventory().GetEquippedWeapon());
         
         // If we are loading a room than don't spawn enemies
-        if(GetNode<GameController>("/root/GameController").IsLoadedGame)
+        if(GetNode<GameController>("/root/GameController").LoadRoomData(_RoomName) != null)
             return;
 
 
@@ -104,9 +104,12 @@ public class SceneController : Node2D
         // Already have implemented custom save scripts for these levels
         if(_RoomName == "Main" || _RoomName == "Room_1")
             return;
-
-        LoadEnemyCharacters();
-        LoadLootChest();
+        if(_SaveData != null)
+        {
+            LoadEnemyCharacters();
+            LoadLootChest();
+        }
+        
 
         
     }
@@ -140,7 +143,7 @@ public class SceneController : Node2D
             {
                 // Get the chest node
                 var chestNode = chest as LootChest;
-                if(chest != null)
+                if(chestNode != null)
                 {
                     // Set the status & if required show chest as opem
                     chestNode.IsOpen = _SaveData.RoomChest[count].IsOpen;
@@ -172,20 +175,29 @@ public class SceneController : Node2D
 
     protected void LoadEnemyCharacters()
     {
-        var enemies = GetTree().GetNodesInGroup("Enemy");
-        for(int i = 0; i < enemies.Count; ++i)
+        if(_SaveData != null)
         {
-            CharacterSaveData loadData = _SaveData.CharactersInRoom[i];
-            if(loadData != null)
+            var charactersInRoom =_SaveData.CharactersInRoom.Count;
+
+            for(int i = 0; i < charactersInRoom; ++i)
             {
-                var enemyNode = enemies[i] as EnemyController;                  // Gets the request enemy node
-                loadData.CharacterRef.SetOwningController(enemyNode);           // Set the controller to the new enemy
-                enemyNode.SetOwningCharacter(loadData.CharacterRef);                // Sets the owner
-                enemyNode.Position = loadData.Position;                 // Sets the position of the enemy
-                enemyNode.AlreadyDead();                                        // Checks if the enemy has already died
+
+                CharacterSaveData loadData = _SaveData.CharactersInRoom[i];
+                if(loadData != null)
+                {
+                    var enemyInstance = EnemyPrefab.Instance();
+                    GetNode<Node2D>("/root/Main").AddChild(enemyInstance);
+                    var enemyNode = enemyInstance as EnemyController;                  // Gets the request enemy node
+                    loadData.CharacterRef.SetOwningController(enemyNode);           // Set the controller to the new enemy
+                    enemyNode.SetOwningCharacter(loadData.CharacterRef);                // Sets the owner
+                    enemyNode.Position = loadData.Position;                 // Sets the position of the enemy
+                    enemyNode.AlreadyDead();                                        // Checks if the enemy has already died
+                }
             }
         }
+            
     }
+        
 
     public int GetRoomLevel() => _RoomLevel;
 }

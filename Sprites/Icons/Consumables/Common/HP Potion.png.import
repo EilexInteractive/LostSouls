@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Sword of Knights.png-201ebe8c94adae0defae384ab9f23201.stex"
+path="res://.import/HP Potion.png-839654f0e095beedc63187d112e0bd0b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Icons/Weapons/Common/Sword of Knights.png"
-dest_files=[ "res://.import/Sword of Knights.png-201ebe8c94adae0defae384ab9f23201.stex" ]
+source_file="res://Sprites/Icons/Consumables/Common/HP Potion.png"
+dest_files=[ "res://.import/HP Potion.png-839654f0e095beedc63187d112e0bd0b.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

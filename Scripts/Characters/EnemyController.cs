@@ -243,9 +243,12 @@ public class EnemyController : CharacterController
         
         base.Attack();
 
-        _IsAttacking = true;
+        _IsAttacking = true;                // Allow the character to attack again
 
+        // Get reference to the player controller
         var player = GetNode<PlayerController>("/root/Main/Player");
+
+        // Ensure the player controller is valid
         if (player != null)
         {
             PlayAttackAnimation();
@@ -296,10 +299,14 @@ public class EnemyController : CharacterController
     private void GenerateCharacter()
     {
         var roomLevel = GetNode<SceneController>("/root/Main").GetRoomLevel();              // Get the level of the room
+
+        // Ensure the owning character is valid
         if(_OwningCharacter != null)
         {
+            // Check the room level to determine which type of character we wish to spawn
             if(roomLevel == 1)
             {
+                // Spawn Level 1 Demon
                 _OwningCharacter.SetupAI_Stats((float)GD.RandRange(25, 40), (float)GD.RandRange(25, 40));
                 _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
                 LoadEnemySprite(EnemyType.WOLF_DEMON);
@@ -308,7 +315,7 @@ public class EnemyController : CharacterController
             } else if(roomLevel == 2)
             {
                 float randValue = GD.Randf();
-                if(randValue > 65)
+                if(randValue > 0.65f)
                 {
                     // Setup the character
                     _OwningCharacter.SetEnemyType(EnemyType.WINGED_DEMON);
