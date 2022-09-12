@@ -34,7 +34,7 @@ public class ItemDatabase : Node
         // Health Potions
         _Items.Add(new HealthPotion(25, ItemRarity.Common));
         _Items.Add(new HealthPotion(50, ItemRarity.Uncommon));
-        _Items.Add(new HealthPotion(75, ItemRarity.Rare)));
+        _Items.Add(new HealthPotion(75, ItemRarity.Rare));
         _Items.Add(new HealthPotion(100, ItemRarity.Legendary));
         
         // Common Weapons

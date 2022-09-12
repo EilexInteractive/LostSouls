@@ -55,17 +55,61 @@ public class InventoryUI : ColorRect
 
     public void SetViewingItem(Item item, Button itemBtn)
     {
+        // Enable the item view
         GetNode<ColorRect>("ViewingItem").Show();
         _ViewingItem = item;
         _ViewingBtn = itemBtn;
+        
+        // Setup the item details
+        GetNode<TextureRect>("ViewingItem/ItemIcon").Texture = GD.Load<Texture>(GetPathToIcon(item));
+        GetNode<Label>("ViewingItem/ItemName").Text = item.GetItemName();
+        GetNode<RichTextLabel>("ViewingItem/ItemDescription").BbcodeText = "[center]" + item.GetItemDesc() + "[/center]";
 
+        var gc = GetNode<GameController>("/root/GameController");
+        var actionBtn = GetNode<Button>("ViewingItem/ActionBtn");
+
+        if(gc != null)
+        {
+            if(item.GetItemType() == ItemType.Weapon || item.GetItemType() == ItemType.Armour)
+            {
+                if(item == gc.GetPlayerCharacter().GetInventory().GetEquippedWeapon() || item == gc.GetPlayerCharacter().GetInventory().GetEquippedArmour())
+                {
+                    actionBtn.Hide();
+                } else 
+                {
+                    actionBtn.Show();
+                    actionBtn.Text = "Equip Item";
+                }
+            } else if(item.GetItemType() == ItemType.Consumable)
+            {
+                actionBtn.Show();
+                actionBtn.Text = "Consume";
+            }
+        }
         
     }
 
     private string GetPathToIcon(Item item)
     {
         var iconPath = "res://Sprites/Icon/";
-        
+        switch(item.GetItemRarity())
+        {
+            case ItemRarity.Common:
+                iconPath += "Common/";
+                break;
+            case ItemRarity.Uncommon:
+                iconPath += "Uncommon/";
+                break;
+            case ItemRarity.Rare:
+                iconPath += "Rare/";
+                break;
+            case ItemRarity.Legendary:
+                iconPath += "Legendary/";
+                break;
+        }
+
+        iconPath += item.GetItemType();
+        return iconPath;
     }
 
     public void SetEquippedWeapon()
@@ -89,7 +133,7 @@ public class InventoryUI : ColorRect
         if (_ViewingItem.GetItemType() == ItemType.Consumable)
         {
             // If it's a consumable make sure to remove it from the inventory
-            GetNode<InventoryUI>("/root/Main/Player/Canvas/CanvasLayer/InventoryRect").RemoveItemButton(_ViewingBtn));
+            GetNode<InventoryUI>("/root/Main/Player/Canvas/CanvasLayer/InventoryRect").RemoveItemButton(_ViewingBtn);
         } else if (_ViewingItem.GetItemType() == ItemType.Weapon)
         {
             // If it's a weapon than equip the weapon & update the inventory
