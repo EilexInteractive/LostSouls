@@ -136,6 +136,11 @@ Pause={
  ]
 }
 
+[navigation]
+
+2d/default_cell_size=16.0
+2d/default_cell_height=16.0
+
 [physics]
 
 common/enable_pause_aware_picking=true
@@ -144,3 +149,7 @@ common/enable_pause_aware_picking=true
 
 environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"
+
+[world]
+
+2d/cell_size=16
