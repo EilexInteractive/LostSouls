@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Animations/Friendly_1.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Scripts/Characters/Friendly.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/Characters/DialogController.cs" type="Script" id=3]
 [ext_resource path="res://Sprites/InteractionPrompt.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/Navigation/NavAgent.cs" type="Script" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.0
@@ -28,3 +29,6 @@ script = ExtResource( 3 )
 [node name="InteractionPrompt" type="Sprite" parent="."]
 position = Vector2( 0, -14 )
 texture = ExtResource( 4 )
+
+[node name="NavAgent" type="Node2D" parent="."]
+script = ExtResource( 5 )
