@@ -31,8 +31,11 @@ public class NavAgent : Node2D
         {
             if(_Path.Count > 0)
             {
-                float distanceToPathPoint = this.GlobalPosition.DistanceTo(_NextTilePos);
+                float distanceToPathPoint = this.GlobalPosition.DistanceTo(_NextTilePos);               // Get the distance to the next path point
+                // Move the object
                 _Owner.MoveAndCollide(GetMovementDirection());
+
+                // Check if we have reached the next path point, if so update the path point
                 if(distanceToPathPoint < 9)
                     ReachedPathPoint();
 
