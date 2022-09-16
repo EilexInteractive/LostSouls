@@ -208,10 +208,12 @@ scale = Vector2( 4, 4 )
 transform = Transform2D( 4, 0, 0, 4, 0, 0 )
 
 [node name="HealthBar" type="TextureProgress" parent="Canvas/CanvasLayer"]
-margin_left = 9.0
-margin_top = 171.75
-margin_right = 17.0
-margin_bottom = 203.75
+anchor_right = 0.25
+anchor_bottom = 0.251
+margin_left = 7.5
+margin_top = 228.25
+margin_right = -464.5
+margin_bottom = -10.83
 value = 100.0
 texture_under = ExtResource( 4 )
 texture_progress = ExtResource( 4 )
@@ -233,10 +235,12 @@ align = 1
 autowrap = true
 
 [node name="XPBar" type="TextureProgress" parent="Canvas/CanvasLayer"]
-margin_left = 22.0
-margin_top = 171.75
-margin_right = 30.0
-margin_bottom = 203.75
+anchor_right = 0.251
+anchor_bottom = 0.249
+margin_left = 20.5
+margin_top = 227.75
+margin_right = -453.42
+margin_bottom = -9.17001
 texture_under = ExtResource( 4 )
 texture_progress = ExtResource( 4 )
 fill_mode = 3
@@ -258,10 +262,12 @@ autowrap = true
 
 [node name="TextureRect" type="TextureRect" parent="Canvas/CanvasLayer"]
 visible = false
-margin_left = 58.25
-margin_top = 159.0
-margin_right = 309.25
-margin_bottom = 217.0
+anchor_right = 0.249
+anchor_bottom = 0.248
+margin_left = 125.0
+margin_top = 185.25
+margin_right = -137.08
+margin_bottom = -9.59003
 texture = ExtResource( 7 )
 expand = true
 __meta__ = {
@@ -270,84 +276,101 @@ __meta__ = {
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Canvas/CanvasLayer/TextureRect"]
 modulate = Color( 0.372549, 0.243137, 0, 1 )
+anchor_right = 0.979
+anchor_bottom = 1.0
 margin_left = 12.0
 margin_top = 10.0
-margin_right = 924.0
-margin_bottom = 162.0
+margin_right = 563.536
+margin_bottom = 144.0
 rect_scale = Vector2( 0.25, 0.25 )
 theme = SubResource( 9 )
 text = "Hello World"
 
 [node name="InventoryRect" type="ColorRect" parent="Canvas/CanvasLayer"]
 visible = false
+anchor_right = 0.249
+anchor_bottom = 0.251
 margin_left = 14.0
 margin_top = 26.0
-margin_right = 453.0
-margin_bottom = 722.0
+margin_right = -15.08
+margin_bottom = 495.92
 rect_scale = Vector2( 0.25, 0.25 )
 color = Color( 1, 1, 1, 0.301961 )
 script = ExtResource( 5 )
 _ItemButton = ExtResource( 10 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Canvas/CanvasLayer/InventoryRect"]
+anchor_right = 0.995
+anchor_bottom = 0.99
 margin_left = -2.0
 margin_top = 4.0
-margin_right = 437.0
-margin_bottom = 689.0
+margin_right = 0.194977
+margin_bottom = -0.0400391
 
 [node name="ViewingItem" type="ColorRect" parent="Canvas/CanvasLayer/InventoryRect"]
-visible = false
 anchor_left = -0.087
 anchor_top = -0.143
-anchor_right = 2.799
-anchor_bottom = 1.132
+anchor_right = 4.149
+anchor_bottom = 1.315
 margin_left = 509.193
 margin_top = 98.528
-margin_right = -271.761
-margin_bottom = -94.8721
+margin_right = -877.911
+margin_bottom = -230.475
 color = Color( 1, 1, 1, 0.301961 )
 
 [node name="ItemIcon" type="TextureRect" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
-margin_left = 149.0
-margin_top = 41.0
-margin_right = 318.0
-margin_bottom = 210.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 154.87
+margin_top = 31.435
+margin_right = -162.13
+margin_bottom = -493.565
 texture = ExtResource( 13 )
 expand = true
 
 [node name="ItemName" type="Label" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
-margin_left = 119.0
-margin_top = 232.0
-margin_right = 361.0
-margin_bottom = 280.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 124.87
+margin_top = 290.435
+margin_right = -119.13
+margin_bottom = -355.565
 theme = SubResource( 21 )
 text = "Item Name"
 
 [node name="Divider" type="ColorRect" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
-margin_left = 31.0
-margin_top = 284.0
-margin_right = 456.0
-margin_bottom = 290.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 34.87
+margin_top = 334.435
+margin_right = -25.99
+margin_bottom = -410.94
 
 [node name="ItemProperty" type="Label" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
-margin_left = 81.0
-margin_top = 299.0
-margin_right = 428.0
-margin_bottom = 341.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 86.87
+margin_top = 345.435
+margin_right = -52.13
+margin_bottom = -306.565
 theme = SubResource( 23 )
 text = "Attack Boost: 13%"
 
 [node name="Divider2" type="ColorRect" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
-margin_left = 31.0
-margin_top = 353.0
-margin_right = 456.0
-margin_bottom = 359.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 34.87
+margin_top = 390.435
+margin_right = -25.99
+margin_bottom = -352.94
 
 [node name="ItemDescription" type="RichTextLabel" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
-margin_left = 29.0
-margin_top = 380.0
-margin_right = 457.0
-margin_bottom = 611.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 31.87
+margin_top = 405.435
+margin_right = -26.13
+margin_bottom = -57.5649
 theme = SubResource( 25 )
 bbcode_enabled = true
 bbcode_text = "[center]Item Description[/center]"
@@ -355,30 +378,36 @@ text = "Item Description"
 override_selected_font_color = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 33.0
-margin_top = 629.0
-margin_right = 469.0
-margin_bottom = 678.0
+margin_top = 686.0
+margin_right = -16.86
+margin_bottom = -16.3748
+alignment = 1
 
 [node name="DropBtn" type="Button" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem/HBoxContainer"]
-margin_right = 206.0
+margin_left = 14.0
+margin_right = 220.0
 margin_bottom = 49.0
 theme = SubResource( 27 )
 text = "Drop Item"
 
 [node name="ActionBtn" type="Button" parent="Canvas/CanvasLayer/InventoryRect/ViewingItem/HBoxContainer"]
-margin_left = 210.0
-margin_right = 436.0
+margin_left = 224.0
+margin_right = 450.0
 margin_bottom = 49.0
 theme = SubResource( 27 )
 text = "Equip Item"
 
 [node name="InteractableInfo" type="ColorRect" parent="Canvas/CanvasLayer"]
 visible = false
-margin_left = 273.0
-margin_top = 165.75
-margin_right = 437.0
-margin_bottom = 333.75
+anchor_right = 0.25
+anchor_bottom = 0.251
+margin_left = 433.0
+margin_top = 220.75
+margin_right = 117.0
+margin_bottom = 117.67
 rect_scale = Vector2( 0.25, 0.25 )
 color = Color( 1, 1, 1, 0.301961 )
 __meta__ = {
@@ -409,18 +438,23 @@ autowrap = true
 
 [node name="PickupLabel" type="Label" parent="Canvas/CanvasLayer"]
 visible = false
+anchor_right = 0.251
+anchor_bottom = 0.251
 margin_left = 258.75
 margin_top = 194.75
-margin_right = 315.75
-margin_bottom = 209.75
+margin_right = -5.53003
+margin_bottom = -16.15
 theme = SubResource( 17 )
 text = "Pick Up"
 
 [node name="DeathScreen" type="ColorRect" parent="Canvas/CanvasLayer"]
-margin_left = -782.0
-margin_top = 73.5
-margin_right = -196.0
-margin_bottom = 299.5
+visible = false
+anchor_right = 0.25
+anchor_bottom = 0.251
+margin_left = 1.0
+margin_top = 5.0
+margin_right = -1.0
+margin_bottom = 5.09999
 color = Color( 0, 0, 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Canvas/CanvasLayer/DeathScreen"]
@@ -455,49 +489,53 @@ scale = Vector2( 4, 4 )
 transform = Transform2D( 4, 0, 0, 4, 0, 0 )
 
 [node name="Container" type="ColorRect" parent="PauseMenu/CanvasLayer"]
-margin_left = 221.0
-margin_top = 146.0
-margin_right = 593.0
-margin_bottom = 426.0
+anchor_right = 0.25
+anchor_bottom = 0.249
+margin_left = 390.0
+margin_top = 183.0
+margin_right = 248.0
+margin_bottom = 239.08
 rect_scale = Vector2( 0.25, 0.25 )
 color = Color( 1, 1, 1, 0.407843 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/CanvasLayer/Container"]
+anchor_right = 1.0
+anchor_bottom = 1.043
 margin_left = 20.0
 margin_top = -8.0
-margin_right = 352.0
-margin_bottom = 292.0
+margin_right = -20.0
+margin_bottom = -0.0400391
 alignment = 1
 
 [node name="ResumeGame" type="Button" parent="PauseMenu/CanvasLayer/Container/VBoxContainer"]
 pause_mode = 2
-margin_top = 34.0
-margin_right = 332.0
-margin_bottom = 89.0
+margin_top = 57.0
+margin_right = 298.0
+margin_bottom = 112.0
 theme = SubResource( 19 )
 text = "Resume"
 
 [node name="SaveGame" type="Button" parent="PauseMenu/CanvasLayer/Container/VBoxContainer"]
 pause_mode = 2
-margin_top = 93.0
-margin_right = 332.0
-margin_bottom = 148.0
+margin_top = 116.0
+margin_right = 298.0
+margin_bottom = 171.0
 theme = SubResource( 19 )
 text = "Save Game"
 
 [node name="LoadGame" type="Button" parent="PauseMenu/CanvasLayer/Container/VBoxContainer"]
 pause_mode = 2
-margin_top = 152.0
-margin_right = 332.0
-margin_bottom = 207.0
+margin_top = 175.0
+margin_right = 298.0
+margin_bottom = 230.0
 theme = SubResource( 19 )
 text = "Load Game"
 
 [node name="QuitGame" type="Button" parent="PauseMenu/CanvasLayer/Container/VBoxContainer"]
 pause_mode = 2
-margin_top = 211.0
-margin_right = 332.0
-margin_bottom = 266.0
+margin_top = 234.0
+margin_right = 298.0
+margin_bottom = 289.0
 theme = SubResource( 19 )
 text = "Quit"
 

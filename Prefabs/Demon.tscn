@@ -42,4 +42,7 @@ script = ExtResource( 5 )
 [node name="SwordAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
 
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="OnAnimFinished"]

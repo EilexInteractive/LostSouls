@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dungeon 01.mp3-7bd44de64f54cbba3592755570f7c56d.mp3str"
+
+[deps]
+
+source_file="res://SFX/Music/Dungeon 01.mp3"
+dest_files=[ "res://.import/Dungeon 01.mp3-7bd44de64f54cbba3592755570f7c56d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

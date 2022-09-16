@@ -159,11 +159,15 @@ public class InventoryUI : ColorRect
         {
             // If it's a consumable make sure to remove it from the inventory
             GetNode<InventoryUI>("/root/Main/Player/Canvas/CanvasLayer/InventoryRect").RemoveItemButton(_ViewingBtn);
+            // Hide the viewing panel as the item no longer exist
+            GetNode<ColorRect>("CanvasLayer/InventoryRect/ViewingItem").Hide();
         } else if (_ViewingItem.GetItemType() == ItemType.Weapon)
         {
             // If it's a weapon than equip the weapon & update the inventory
             GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetInventory().EquipWeapon(_ViewingItem as Weapon);
             GetNode<InventoryUI>("/root/Main/Player/Canvas/CanvasLayer/InventoryRect").SetEquippedWeapon();
+            // Hide the button as we have now equipped the item
+            GetNode<Button>("CanvasLayer/InventoryRect/HBoxContainer/ActionBtn").Hide();
         }
     }
 

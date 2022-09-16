@@ -18,6 +18,8 @@ public class GameController : Node
     public string GameName;
     public LoadGameData LoadGameData;
     public bool MovingForward;
+
+    private AudioStreamPlayer2D _Music;
     
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

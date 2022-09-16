@@ -72,7 +72,7 @@ public class EnemyController : CharacterController
         base._PhysicsProcess(delta);
         
         DetectPlayerAttack();
-        FollowPlayer(delta);
+        FollowPlayerTest(delta);
         
     }
 
@@ -112,6 +112,24 @@ public class EnemyController : CharacterController
         MoveAndCollide(velocity);                 // move the character
         SetFacingDirection(velocity); 
         AnimationUpdate(velocity);
+    }
+
+    private void FollowPlayerTest(float delta)
+    {
+        var nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
+        nav.SetTargetLocation(_Blackboard.GetValueAsVector2("TargetLocation"));
+
+        var moveDirection = Position.DirectionTo(nav.GetNextLocation());
+        
+        var velocity = moveDirection * (_MovementSpeed * delta);
+        GD.Print(velocity);
+
+        AnimationUpdate(velocity);
+        SetFacingDirection(velocity);
+        nav.SetVelocity(velocity);
+        MoveAndCollide(velocity);
+
+
     }
 
     /// <summary>
