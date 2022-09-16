@@ -5,13 +5,12 @@ using System.Collections.Generic;
 public class Friendly : CharacterController, IInteractable
 {
     private Godot.Collections.Array _PathPoints;
-    private Vector2[] _Path;
     private int _CurrentPointIndex;
-    private Vector2 _MoveToPos;
-    private Navigation2D _Nav;
     private Sprite _InteractionPrompt;
 
     private Timer WaitToMoveTimer;
+
+    private NavAgent _NavAgent;                         // Reference to the nav agent
     
     
     // === DIALOG MESSAGE === //
@@ -27,10 +26,13 @@ public class Friendly : CharacterController, IInteractable
         dialogController?.SetOwner(this);
 
         _InteractionPrompt = GetNode<Sprite>("InteractionPrompt");
+
+        _NavAgent = GetNode<NavAgent>("NavAgent");
+        _NavAgent.SetOwner(this);
         
 
         // Disable movement for now
-        CanMove = false;
+        CanMove = true;
 
     }
 
