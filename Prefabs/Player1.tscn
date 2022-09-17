@@ -435,6 +435,7 @@ align = 1
 autowrap = true
 
 [node name="PickupLabel" type="Label" parent="Canvas/CanvasLayer"]
+visible = false
 anchor_right = 0.251
 anchor_bottom = 0.251
 margin_left = 411.0

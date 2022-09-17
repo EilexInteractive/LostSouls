@@ -174,6 +174,7 @@ public class PlayerController : CharacterController
             if (_RaycastX.GetCollider() is Friendly)
             {
                 _InteractableItem = _RaycastX.GetCollider() as Friendly;
+                _IsShowingFriendlyInteract = true;
                 GetUI().TogglePickupLabel(true, "Interact");
             }
         } else if (_RaycastY.IsColliding())
@@ -181,6 +182,7 @@ public class PlayerController : CharacterController
             if (_RaycastY.GetCollider() is Friendly)
             {
                 _InteractableItem = _RaycastY.GetCollider() as Friendly;
+                _IsShowingFriendlyInteract = true;
                 GetUI().TogglePickupLabel(true, "Interact");
             }
         }

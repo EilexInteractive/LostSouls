@@ -12,6 +12,7 @@ public class Friendly : CharacterController, IInteractable
     private Timer WaitToMoveTimer;
 
     private NavAgent _NavAgent;                         // Reference to the nav agent
+    [Export] private PackedScene _Fireball;
     
     
     // === DIALOG MESSAGE === //
@@ -33,8 +34,7 @@ public class Friendly : CharacterController, IInteractable
 
         
         //_NavAgent.SetPath(GetNode<Node2D>("/root/Main/PathPoint").Position);
-        
-        
+
 
         // Disable movement for now
         CanMove = true;
@@ -49,6 +49,10 @@ public class Friendly : CharacterController, IInteractable
         {
             AnimationUpdate(_NavAgent.GetMovementDirection());
         }
+
+        
+
+        Update();
     }
 
     private void Move(float delta)
