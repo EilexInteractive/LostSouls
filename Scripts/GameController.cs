@@ -21,7 +21,7 @@ public class GameController : Node
 
     public bool _Respawning = false;
 
-    private AudioStreamPlayer2D _Music;
+    private Settings CurrentGameSettings;
     
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -117,5 +117,39 @@ public class GameController : Node
         }
             
 
+    }
+
+    public void LoadSettings()
+    {
+        if(System.IO.File.Exists("Settings.ei") == false)
+        {
+            // Create new settings if we don't already have any
+            Settings initSettings = new Settings();
+            initSettings._MusicLevel = 1.0f;
+            initSettings._SFXLevel = 1.0f;
+            SaveSettings(initSettings);
+        } else 
+        {
+            // Load Saved settings
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fs = System.IO.File.Open("Settings.ei", FileMode.Open);
+            CurrentGameSettings = (Settings)bf.Deserialize(fs);
+            fs.Close();
+
+            // Set the music level
+            GetNode<AudioStreamPlayer2D>("/root/BackgroundMusic/AudioStreamPlayer2D").PitchScale = CurrentGameSettings._MusicLevel;
+
+        }
+
+        
+    }
+
+    public void SaveSettings(Settings newSettings)
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = System.IO.File.Create("Settings.ei");
+        bf.Serialize(fs, newSettings);
+        fs.Close();
+        GD.Print("Settings Saved");
     }
 }
