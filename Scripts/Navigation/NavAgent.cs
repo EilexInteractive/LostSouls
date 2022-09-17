@@ -13,6 +13,7 @@ public class NavAgent : Node2D
     private Vector2 _NextTilePos;               // Reference to the next tile position
 
     private CharacterController _Owner;                       // Owner of the navigation agent
+    private float _AgentMovementSpeed;
 
     public override void _Ready()
     {
@@ -20,23 +21,23 @@ public class NavAgent : Node2D
 
         _NavMap = GetNode<Navigation>("/root/Main/Navigation2D/Ground");            // Get reference to the navgiation system
 
-
+        
     }
 
     public override void _Process(float delta)
     {
         base._PhysicsProcess(delta);
 
-        if(_HasPath && _Owner != null)
+        if(_HasPath && _Owner != null && _Owner.CanMove)
         {
             if(_Path.Count > 0)
             {
                 float distanceToPathPoint = this.GlobalPosition.DistanceTo(_NextTilePos);               // Get the distance to the next path point
                 // Move the object
-                _Owner.MoveAndCollide(GetMovementDirection());
+                _Owner.MoveAndCollide(GetMovementDirection() * (_AgentMovementSpeed * delta));
 
                 // Check if we have reached the next path point, if so update the path point
-                if(distanceToPathPoint < 11)
+                if(distanceToPathPoint < 12)
                     ReachedPathPoint();
 
             }
@@ -54,11 +55,18 @@ public class NavAgent : Node2D
         if(_NavMap == null && _Owner != null && _Owner.CanMove)
             return;
 
-        _HasPath = true;
+        
         _Path = _NavMap.GetPath(this.GlobalPosition, PathTo);                 // Get the path from the navigation system.
-
-        _CurrentTilePos = _Path[0];
-        _NextTilePos = _Path[1];
+        if(_Path != null)
+        {
+            _HasPath = true;
+            if(_Path.Count > 2)
+            {
+                _CurrentTilePos = _Path[0];
+                _NextTilePos = _Path[1];
+            }
+        }
+        
     }
 
 
@@ -100,4 +108,5 @@ public class NavAgent : Node2D
     }
 
     public void SetOwner(CharacterController owner) => _Owner = owner;
+    public void SetMovementSpeed(float speed) => _AgentMovementSpeed = speed;
 }

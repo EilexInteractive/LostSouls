@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Friendly : CharacterController, IInteractable
 {
-    public bool FollowPath;                             // If the friendly is following a path
+    [Export] public bool FollowPath;                             // If the friendly is following a path
     private Godot.Collections.Array _PathPoints;
     private int _CurrentPointIndex;
     private Sprite _InteractionPrompt;
@@ -31,7 +31,8 @@ public class Friendly : CharacterController, IInteractable
         _NavAgent = GetNode<NavAgent>("NavAgent");
         _NavAgent.SetOwner(this);
 
-        _NavAgent.SetPath(GetNode<Node2D>("/root/Main/PathPoint").Position);
+        
+        //_NavAgent.SetPath(GetNode<Node2D>("/root/Main/PathPoint").Position);
         
         
 

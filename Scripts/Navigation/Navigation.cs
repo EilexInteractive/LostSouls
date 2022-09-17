@@ -12,6 +12,11 @@ public class Navigation : TileMap
     {
         base._Ready();
 
+        _WalkableTileIDs = new List<int>()
+        {
+            7, 14, 15, 16, 19, 20, 21, 22, 27, 44, 58, 59, 60, 61, 62
+        };
+
         // Get reference to all the walkable tiles in the scene
         foreach(var tile in _WalkableTileIDs)
         {
@@ -140,7 +145,7 @@ public class Navigation : TileMap
                 t.Walkable = false;
         }
 
-        return proposedTiles;
+        return proposedTiles.Where(t => t.Walkable == true).ToList();
     }
 
     private int CalculateHScore(Vector2 tilePos, Vector2 targetPos)

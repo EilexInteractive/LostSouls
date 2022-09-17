@@ -19,6 +19,7 @@ public class EnemyController : CharacterController
     private PlayerController _Player;                   // Reference to the player controller
     private Navigation2D _Nav;                          // Reference to the level navigation
     private Vector2[] _Paths = new Vector2[] { };           // Stores the path for pathfinding
+    private NavAgent _NavAgent;                             // Reference to the navigation agent
     
 
     // === MOVEMENT DETAILS === //
@@ -41,11 +42,13 @@ public class EnemyController : CharacterController
         GenerateCharacter();
         // Get reference to the player controller
         _Player = GetNode<PlayerController>("/root/Main/Player");
-        // Get reference to the navigation system
-        _Nav = GetNode<Navigation2D>("/root/Main/Navigation2D");
 
         SetupBlackboard();
         
+        _NavAgent = GetNode<NavAgent>("NavAgent");
+        _NavAgent.SetOwner(this);
+        _NavAgent.SetMovementSpeed(_MovementSpeed);
+        _Blackboard.SetValueAsEnemyState("EnemyState", EnemyState.ATTACKING);
         
     }
     
@@ -116,20 +119,9 @@ public class EnemyController : CharacterController
 
     private void FollowPlayerTest(float delta)
     {
-        var nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
-        nav.SetTargetLocation(_Blackboard.GetValueAsVector2("TargetLocation"));
-
-        var moveDirection = Position.DirectionTo(nav.GetNextLocation());
-        
-        var velocity = moveDirection * (_MovementSpeed * delta);
-        GD.Print(velocity);
-
-        AnimationUpdate(velocity);
-        SetFacingDirection(velocity);
-        nav.SetVelocity(velocity);
-        MoveAndCollide(velocity);
-
-
+        _NavAgent.SetPath(_Blackboard.GetValueAsVector2("TargetLocation"));
+        SetFacingDirection(_NavAgent.GetMovementDirection());
+        AnimationUpdate(_NavAgent.GetMovementDirection());
     }
 
     /// <summary>
