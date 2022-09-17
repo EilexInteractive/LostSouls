@@ -456,9 +456,9 @@ public class PlayerController : CharacterController
     public void OnRespawnPressed()
     {
         _OwningCharacter.Respawn();
-        GetNode<ColorRect>("Canvas/DeathScreen").Hide();
-        GetNode<GameController>("/root/GameController").LoadGame();
-        GetOwningCharacter().IncreaseHealth(100);           // Set the health back to full bar
+        GetNode<ColorRect>("Canvas/CanvasLayer/DeathScreen").Hide();
+        GetNode<GameController>("/root/GameController")._Respawning = true;
+        GetNode<GameController>("/root/GameController").LoadGame(); 
     }
 
     private float GenerateXP(int enemyLevel)

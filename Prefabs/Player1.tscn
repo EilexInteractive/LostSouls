@@ -171,6 +171,9 @@ default_font = SubResource( 18 )
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 collision_mask = 0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_vertical_guides_": [ 937.0 ]
+}
 _AttackCooldown = 0.3
 _MovementSpeed = 0.75
 _AttackAnimSpeed = 5.0
@@ -449,10 +452,10 @@ text = "Pick Up"
 visible = false
 anchor_right = 0.25
 anchor_bottom = 0.251
-margin_left = 1.0
-margin_top = 5.0
-margin_right = -1.0
-margin_bottom = 5.09999
+margin_left = -3.0
+margin_top = -8.0
+margin_right = 9.0
+margin_bottom = 6.92001
 color = Color( 0, 0, 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Canvas/CanvasLayer/DeathScreen"]
@@ -461,20 +464,20 @@ anims/RESET = SubResource( 11 )
 
 [node name="Label" type="Label" parent="Canvas/CanvasLayer/DeathScreen"]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = 132.25
-margin_top = 111.75
-margin_right = 286.25
-margin_bottom = 152.75
+margin_left = 160.0
+margin_top = 99.75
+margin_right = 314.0
+margin_bottom = 140.75
 theme = SubResource( 13 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "YOU DIED !"
 
 [node name="Button" type="Button" parent="Canvas/CanvasLayer/DeathScreen"]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = 269.0
-margin_top = 121.0
-margin_right = 337.0
-margin_bottom = 141.0
+margin_left = 203.75
+margin_top = 157.0
+margin_right = 271.75
+margin_bottom = 177.0
 disabled = true
 text = "Respawn"
 

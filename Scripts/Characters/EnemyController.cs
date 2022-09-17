@@ -20,6 +20,12 @@ public class EnemyController : CharacterController
     private Navigation2D _Nav;                          // Reference to the level navigation
     private Vector2[] _Paths = new Vector2[] { };           // Stores the path for pathfinding
     private NavAgent _NavAgent;                             // Reference to the navigation agent
+
+
+    // === ATTACK SETTINGS === //
+    private float _AttackDistance = 20.0f;
+    private bool _HasAttackCooldown = false;
+    private Timer _AttackCooldownTimer;
     
 
     // === MOVEMENT DETAILS === //
@@ -68,6 +74,11 @@ public class EnemyController : CharacterController
                 GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController().Position);
         }
 
+        if(_HasAttackCooldown && _AttackCooldownTimer != null)
+        {
+            _AttackCooldownTimer.UpdateTimer(delta);
+        }
+
     }
 
     public override void _PhysicsProcess(float delta)
@@ -75,49 +86,12 @@ public class EnemyController : CharacterController
         base._PhysicsProcess(delta);
         
         DetectPlayerAttack();
-        FollowPlayerTest(delta);
+        FollowPlayer(delta);
         
     }
 
-    /// <summary>
-    /// Gets the player position and follows the player
-    /// </summary>
-    /// <param name="delta"></param>
+
     private void FollowPlayer(float delta)
-    {
-        if (_OwningCharacter.IsAlive() == false || !CanMove)
-            return;
-
-        var velocity = new Vector2();                   // New reference to the velocity
-
-        // Create the path to the player
-        _Paths = _Nav.GetSimplePath(GlobalPosition, _Blackboard.GetValueAsVector2("TargetLocation"), false);
-        if (_Paths.Length > 1)
-        {
-            var distance = _Paths[1] - GlobalPosition;          // Get the distance
-            var direction = distance.Normalized();              // Get the direction
-
-            // Check the if the distance not close to the player 
-            if (distance.Length() > 1.5 || _Paths.Length > 2)
-            {
-                // Get the direction to move in and apply the movement speed
-                velocity = new Vector2(direction * (_MovementSpeed * delta));
-            }
-            else
-            {
-                // If within distance go to idle
-                velocity = new Vector2();
-            }
-
-            Update();           // Refresh the update
-        }
-
-        MoveAndCollide(velocity);                 // move the character
-        SetFacingDirection(velocity); 
-        AnimationUpdate(velocity);
-    }
-
-    private void FollowPlayerTest(float delta)
     {
         _NavAgent.SetPath(_Blackboard.GetValueAsVector2("TargetLocation"));
         SetFacingDirection(_NavAgent.GetMovementDirection());
@@ -169,7 +143,7 @@ public class EnemyController : CharacterController
         var distanceToPlayer = this.Position.DistanceTo(_PlayerPosition);
 
         // If close to the player start attacking
-        if (distanceToPlayer < 20.0f && _CanAttack)
+        if (distanceToPlayer < _AttackDistance && _CanAttack)
             Attack();
     }
 
@@ -253,6 +227,9 @@ public class EnemyController : CharacterController
         
         base.Attack();
 
+        if(!_CanAttack)
+            return;
+
         _IsAttacking = true;                // Allow the character to attack again
 
         // Get reference to the player controller
@@ -262,12 +239,38 @@ public class EnemyController : CharacterController
         if (player != null)
         {
             PlayAttackAnimation();
-            player.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
+            if(_OwningCharacter.GetEnemyType() != EnemyType.FIRE_DEMON)
+                player.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
+
             // TODO: Add Dodge feature for character
         }
 
+        if(GetOwningCharacter().GetEnemyType() == EnemyType.FIRE_DEMON)
+        {
+            var fireBall = GD.Load<PackedScene>("res://Prefabs/FireBall.tscn");
+            var fireBallInstance = fireBall.Instance();
+            GetTree().Root.AddChild(fireBallInstance);
+            var fireBallNode = fireBallInstance as Node2D;
+            fireBallNode.Position = this.Position;
+            fireBallNode.LookAt(GetNode<PlayerController>("/root/Main/Player").Position); 
+            
+        }
+
         _CanAttack = false;
+
+        if(_HasAttackCooldown)
+        {
+            _AttackCooldownTimer = new Timer(5.0f, false, CompleteCooldownTimer);
+        }
+
         
+        
+    }
+
+    private void CompleteCooldownTimer()
+    {
+        _CanAttack = true;
+        _AttackCooldownTimer = null;
     }
 
     private void PlayAttackAnimation()
@@ -294,7 +297,7 @@ public class EnemyController : CharacterController
     /// </summary>
     public void OnAnimFinished()
     {
-        if(_IsAttacking)
+        if(_IsAttacking && !_HasAttackCooldown)
         {
             _IsAttacking = false;
         }
@@ -316,34 +319,65 @@ public class EnemyController : CharacterController
             // Check the room level to determine which type of character we wish to spawn
             if(roomLevel == 1)
             {
-                // Spawn Level 1 Demon
-                _OwningCharacter.SetupAI_Stats((float)GD.RandRange(25, 40), (float)GD.RandRange(25, 40));
-                _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
-                LoadEnemySprite(EnemyType.WOLF_DEMON);
-                EquipWeapon("Old Sword");
+                SpawnWolfDemon();
                 
             } else if(roomLevel == 2)
             {
                 float randValue = GD.Randf();
                 if(randValue > 0.65f)
                 {
-                    // Setup the character
-                    _OwningCharacter.SetEnemyType(EnemyType.WINGED_DEMON);
-                    _OwningCharacter.SetupAI_Stats((float)GD.RandRange(30, 65), (float)GD.RandRange(30, 65));
-                    LoadEnemySprite(EnemyType.WINGED_DEMON);
-                    EquipWeapon("Old Sword");
+                    SpawnWingedDemon();
                 } else 
                 {
-                    // Setup the character
-                    _OwningCharacter.SetupAI_Stats((float)GD.RandRange(25, 40), (float)GD.RandRange(25, 40));
-                    _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
-                    LoadEnemySprite(EnemyType.WOLF_DEMON);
-
-                    // Equip the weapon
-                    EquipWeapon("The HellBard");
+                    SpawnWolfDemon();
+                }
+            } else if(roomLevel == 3)
+            {
+                float randValue = GD.Randf();
+                if(randValue > 0.80)
+                {
+                    SpawnWolfDemon();
+                } else if(randValue > 0.60)
+                {
+                    SpawnFireDemon();
+                } else 
+                {
+                    SpawnFireDemon();
                 }
             }
         }
+    }
+
+    private void SpawnWolfDemon()
+    {
+        // Setup the character
+        _OwningCharacter.SetupAI_Stats((float)GD.RandRange(25, 40), (float)GD.RandRange(25, 40));
+        _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
+        LoadEnemySprite(EnemyType.WOLF_DEMON);
+
+        // Equip the weapon
+        EquipWeapon("The HellBard");
+    }
+
+    private void SpawnWingedDemon()
+    {
+        // Setup the character
+        _OwningCharacter.SetEnemyType(EnemyType.WINGED_DEMON);
+        _OwningCharacter.SetupAI_Stats((float)GD.RandRange(30, 65), (float)GD.RandRange(30, 65));
+        LoadEnemySprite(EnemyType.WINGED_DEMON);
+        EquipWeapon("Old Sword");
+    }
+
+    private void SpawnFireDemon()
+    {
+        _OwningCharacter.SetEnemyType(EnemyType.FIRE_DEMON);
+        LoadEnemySprite(EnemyType.FIRE_DEMON);
+        _OwningCharacter.SetupAI_Stats((float)GD.RandRange(100, 150), (float)GD.RandRange(50, 70));
+        _AttackDistance = 150.0f;
+        _HasAttackCooldown = true;
+        _AttackCooldown = 5.0f;
+        
+        EquipWeapon("Staff of Fire");
     }
 
     private void LoadEnemySprite(EnemyType type)
@@ -365,6 +399,9 @@ public class EnemyController : CharacterController
                 break;
             case EnemyType.WINGED_DEMON:
                 animationPath += "Winged_Demon.tres";
+                break;
+            case EnemyType.FIRE_DEMON:
+                animationPath += "Fire_Demon.tres";
                 break;
 
         }

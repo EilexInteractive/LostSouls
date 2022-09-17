@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="DungeonTest"
-run/main_scene="res://Scenes/TestScene.tscn"
+run/main_scene="res://Scenes/Room_3.tscn"
 boot_splash/show_image=false
 config/icon="res://icon.png"
 
@@ -19,6 +19,7 @@ config/icon="res://icon.png"
 
 ItemDatabase="*res://Scripts/ItemDatabase.cs"
 GameController="*res://Scripts/GameController.cs"
+BackgroundMusic="*res://Prefabs/BackgroundMusic.tscn"
 
 [display]
 

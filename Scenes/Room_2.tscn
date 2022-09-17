@@ -90,12 +90,14 @@ position = Vector2( 67, 17 )
 
 [node name="Fire" parent="." instance=ExtResource( 7 )]
 position = Vector2( -24, 190 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -103,12 +105,14 @@ energy = 2.57
 
 [node name="Fire2" parent="." instance=ExtResource( 7 )]
 position = Vector2( 7, 189 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire2"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -116,12 +120,14 @@ energy = 2.57
 
 [node name="Fire13" parent="." instance=ExtResource( 7 )]
 position = Vector2( -88, 62 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire13"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -129,12 +135,14 @@ energy = 2.57
 
 [node name="Fire14" parent="." instance=ExtResource( 7 )]
 position = Vector2( -104, 62 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire14"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -142,12 +150,14 @@ energy = 2.57
 
 [node name="Fire15" parent="." instance=ExtResource( 7 )]
 position = Vector2( -119, 62 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire15"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -155,12 +165,14 @@ energy = 2.57
 
 [node name="Fire3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 38, 190 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire3"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -168,12 +180,14 @@ energy = 2.57
 
 [node name="Fire4" parent="." instance=ExtResource( 7 )]
 position = Vector2( 71, 188 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire4"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -181,12 +195,14 @@ energy = 2.57
 
 [node name="Fire5" parent="." instance=ExtResource( 7 )]
 position = Vector2( 72, 268 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire5"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -196,12 +212,14 @@ shadow_color = Color( 0, 0, 0, 0.356863 )
 
 [node name="Fire6" parent="." instance=ExtResource( 7 )]
 position = Vector2( 103, 94 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire6"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -209,12 +227,14 @@ energy = 2.57
 
 [node name="Fire12" parent="." instance=ExtResource( 7 )]
 position = Vector2( 103, 94 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire12"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -222,12 +242,14 @@ energy = 2.57
 
 [node name="Fire22" parent="." instance=ExtResource( 7 )]
 position = Vector2( 200, 158 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire22"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -235,12 +257,14 @@ energy = 2.57
 
 [node name="Fire23" parent="." instance=ExtResource( 7 )]
 position = Vector2( 247, 158 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire23"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -248,12 +272,14 @@ energy = 2.57
 
 [node name="Fire10" parent="." instance=ExtResource( 7 )]
 position = Vector2( 56, 96 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire10"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -261,12 +287,14 @@ energy = 2.57
 
 [node name="Fire7" parent="." instance=ExtResource( 7 )]
 position = Vector2( 8, 269 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire7"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -274,12 +302,14 @@ energy = 2.57
 
 [node name="Fire8" parent="." instance=ExtResource( 7 )]
 position = Vector2( -24, 272 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire8"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -287,12 +317,14 @@ energy = 2.57
 
 [node name="Fire9" parent="." instance=ExtResource( 7 )]
 position = Vector2( -24, 272 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire9"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -300,12 +332,14 @@ energy = 2.57
 
 [node name="Fire11" parent="." instance=ExtResource( 7 )]
 position = Vector2( 39, 269 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire11"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -313,12 +347,14 @@ energy = 2.57
 
 [node name="Fire16" parent="." instance=ExtResource( 7 )]
 position = Vector2( -56, 381 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire16"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -326,12 +362,14 @@ energy = 2.57
 
 [node name="Fire17" parent="." instance=ExtResource( 7 )]
 position = Vector2( -72, 381 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire17"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -339,12 +377,14 @@ energy = 2.57
 
 [node name="Fire18" parent="." instance=ExtResource( 7 )]
 position = Vector2( -120, 382 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire18"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -352,12 +392,14 @@ energy = 2.57
 
 [node name="Fire19" parent="." instance=ExtResource( 7 )]
 position = Vector2( -137, 382 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire19"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -365,12 +407,14 @@ energy = 2.57
 
 [node name="Fire20" parent="." instance=ExtResource( 7 )]
 position = Vector2( -168, 205 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire20"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )
@@ -378,12 +422,14 @@ energy = 2.57
 
 [node name="Fire21" parent="." instance=ExtResource( 7 )]
 position = Vector2( -120, 205 )
+z_index = 100
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Light2D" type="Light2D" parent="Fire21"]
 position = Vector2( 0, 12 )
+z_index = 100
 texture = ExtResource( 10 )
 texture_scale = 9.0
 color = Color( 0.776471, 0.576471, 0.192157, 1 )

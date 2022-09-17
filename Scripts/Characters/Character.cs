@@ -4,7 +4,8 @@ using System;
 public enum EnemyType
 {
     WOLF_DEMON,
-    WINGED_DEMON
+    WINGED_DEMON,
+    FIRE_DEMON
 }
 
 [Serializable]

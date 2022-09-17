@@ -116,6 +116,7 @@ color = Color( 0.372549, 0.329412, 0.329412, 1 )
 
 [node name="Light2D" type="Light2D" parent="."]
 position = Vector2( 71, 303 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 3.73
 color = Color( 0.835294, 0.384314, 0.184314, 1 )
@@ -123,6 +124,7 @@ energy = 1.61
 
 [node name="Light2D2" type="Light2D" parent="."]
 position = Vector2( 28, 303 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 3.73
 color = Color( 0.835294, 0.384314, 0.184314, 1 )
@@ -137,6 +139,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 4.56
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -151,6 +154,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire5"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 4.56
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -165,6 +169,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire11"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 9.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -179,6 +184,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire14"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 9.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -193,6 +199,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire2"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 9.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -207,6 +214,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire6"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 5.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -221,6 +229,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire7"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 5.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -235,6 +244,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire15"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 5.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -249,6 +259,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire16"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 5.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -263,6 +274,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire8"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 5.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -277,6 +289,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire9"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 5.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -291,6 +304,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire10"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 5.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -305,6 +319,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire3"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 4.56
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -319,6 +334,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire4"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 9.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -333,6 +349,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire12"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 9.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -347,6 +364,7 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="Fire13"]
 position = Vector2( 0, 6 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 9.0
 color = Color( 0.717647, 0.45098, 0.211765, 1 )
@@ -366,6 +384,7 @@ _ChestRarity = 1
 
 [node name="Light2D3" type="Light2D" parent="."]
 position = Vector2( 111, 231 )
+z_index = 100
 texture = ExtResource( 11 )
 texture_scale = 7.83
 color = Color( 0.972549, 1, 0.0627451, 1 )

@@ -19,6 +19,8 @@ public class GameController : Node
     public LoadGameData LoadGameData;
     public bool MovingForward;
 
+    public bool _Respawning = false;
+
     private AudioStreamPlayer2D _Music;
     
     // Called when the node enters the scene tree for the first time.
@@ -108,6 +110,12 @@ public class GameController : Node
         GetTree().ChangeScene("res://Scenes/" + Save._CurrentRoomName + ".tscn");
         _Player = Save._Player;
 
+        if(_Respawning)
+        {
+            _Player.IncreaseHealth(100);
+            _Respawning = false;
+        }
+            
 
     }
 }

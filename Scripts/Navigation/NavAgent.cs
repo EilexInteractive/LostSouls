@@ -30,7 +30,7 @@ public class NavAgent : Node2D
 
         if(_HasPath && _Owner != null && _Owner.CanMove)
         {
-            if(_Path.Count > 0)
+            if(_Path.Count > 2)
             {
                 float distanceToPathPoint = this.GlobalPosition.DistanceTo(_NextTilePos);               // Get the distance to the next path point
                 // Move the object

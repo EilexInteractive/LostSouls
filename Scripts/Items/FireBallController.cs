@@ -14,12 +14,11 @@ public class FireBallController : Area2D
     {
         base._Ready();
         _destroyTimer = new Timer(DestroyTime, false, Destroy);
-        LookAt(GetNode<PlayerController>("/root/Main/Player").Position); 
+        
     }
     // Called when the node enters the scene tree for the first time.
     public override void _Process(float delta)
     {
-        
         Position += new Vector2(_MovementSpeed, 0).Rotated(Rotation);
 
         if(_destroyTimer != null)
@@ -42,4 +41,5 @@ public class FireBallController : Area2D
     }
 
     public void Destroy() => QueueFree();
+    public void SetFireDamage(float damage) => FireballDamage = damage;
 }

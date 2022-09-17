@@ -30,7 +30,29 @@ public class ItemPickup : Area2D, IInteractable
     public void SetItem(Item item)
     {
         OwningItem = item;
-        _ItemSprite.Texture = GD.Load<Texture>("res://Sprites/Items/" + item.GetItemName() + ".png");
+        if(item.GetItemType() != ItemType.Armour)
+        {
+            _ItemSprite.Texture = GD.Load<Texture>("res://Sprites/Items/" + item.GetItemName() + ".png");
+        } else 
+        {
+            switch(item.GetItemRarity())
+            {
+                case ItemRarity.Common:
+                    _ItemSprite.Texture = GD.Load<Texture>("res://Sprites/Items/CommonArmour.png");
+                    break;
+                case ItemRarity.Uncommon:
+                    _ItemSprite.Texture = GD.Load<Texture>("res://Sprites/Items/UncommmonArmour.png");
+                    break;
+                case ItemRarity.Rare:
+                    _ItemSprite.Texture = GD.Load<Texture>("res://Sprites/Items/RareArmour.png");
+                    break;
+                case ItemRarity.Legendary:
+                    _ItemSprite.Texture = GD.Load<Texture>("res://Sprites/Items/LengendArmour");
+                    break;
+
+
+            }
+        }
     }
 
     

@@ -47,7 +47,6 @@ tile_data = PoolIntArray( -327683, -1610612707, 0, -327682, -1073741792, 0, -393
 [node name="Lever" parent="." instance=ExtResource( 6 )]
 position = Vector2( 62, -63 )
 _DoorPosition = Vector2( 0, -6 )
-_TileMapName = "Floor"
 _NewDoorIndex = 54
 
 [node name="ChangeScene" parent="." instance=ExtResource( 4 )]

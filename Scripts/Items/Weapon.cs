@@ -7,7 +7,8 @@ public enum WeaponType
     AXE,
     WARHAMMER,
     WAR_AXE,
-    HALBERD
+    HALBERD,
+    STAFF
 }
 
 [Serializable]
