@@ -43,13 +43,11 @@ public class Friendly : CharacterController, IInteractable
     public override void _Process(float delta)
     {
         base._Process(delta);
-        
-        // Wait until we increment to the next index
-        if(WaitToMoveTimer != null)
-            WaitToMoveTimer.UpdateTimer(delta);
-        
-        
-        Move(delta);
+
+        if(_NavAgent != null && CanMove)
+        {
+            AnimationUpdate(_NavAgent.GetMovementDirection());
+        }
     }
 
     private void Move(float delta)
@@ -57,6 +55,26 @@ public class Friendly : CharacterController, IInteractable
         if (!CanMove)
             return;
         
+    }
+
+    protected override void AnimationUpdate(Vector2 velocity)
+    {
+        if(velocity.x > 0)
+        {
+            _Anim.Play("WalkRight");
+        } else if(velocity.x < 0)
+        {
+            _Anim.Play("WalkLeft");
+        } else if(velocity.y > 0)
+        {
+            _Anim.Play("WalkDown");
+        } else if(velocity.y < 0)
+        {
+            _Anim.Play("WalkUp");
+        } else 
+        {
+            _Anim.Play("IdleDown");
+        }
     }
 
     public void Interact()

@@ -12,7 +12,7 @@ public class NavAgent : Node2D
     private Vector2 _CurrentTilePos;            // Reference to the tile we are currently at
     private Vector2 _NextTilePos;               // Reference to the next tile position
 
-    private KinematicBody2D _Owner;                       // Owner of the navigation agent
+    private CharacterController _Owner;                       // Owner of the navigation agent
 
     public override void _Ready()
     {
@@ -23,7 +23,7 @@ public class NavAgent : Node2D
 
     }
 
-    public override void _PhysicsProcess(float delta)
+    public override void _Process(float delta)
     {
         base._PhysicsProcess(delta);
 
@@ -36,7 +36,7 @@ public class NavAgent : Node2D
                 _Owner.MoveAndCollide(GetMovementDirection());
 
                 // Check if we have reached the next path point, if so update the path point
-                if(distanceToPathPoint < 9)
+                if(distanceToPathPoint < 11)
                     ReachedPathPoint();
 
             }
@@ -51,11 +51,14 @@ public class NavAgent : Node2D
     public void SetPath(Vector2 PathTo)
     {
         // Check that we have reference to the navigation system
-        if(_NavMap == null && _Owner != null)
+        if(_NavMap == null && _Owner != null && _Owner.CanMove)
             return;
 
         _HasPath = true;
-        _Path = _NavMap.GetPath(this.Position, PathTo);                 // Get the path from the navigation system.
+        _Path = _NavMap.GetPath(this.GlobalPosition, PathTo);                 // Get the path from the navigation system.
+
+        _CurrentTilePos = _Path[0];
+        _NextTilePos = _Path[1];
     }
 
 
@@ -96,5 +99,5 @@ public class NavAgent : Node2D
         }
     }
 
-    public void SetOwner(KinematicBody2D owner) => _Owner = owner;
+    public void SetOwner(CharacterController owner) => _Owner = owner;
 }

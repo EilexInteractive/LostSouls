@@ -64,6 +64,7 @@ public class Navigation : TileMap
             if(closedList.FirstOrDefault(t => t.TilePos.x == endTile.x && t.TilePos.y == endTile.y) != null)
             {
                 var path = new List<Vector2>();
+                path.Insert(0, MapToWorld(current.TilePos));
                 while(current != null)
                 {
                     current = current.Parent;
