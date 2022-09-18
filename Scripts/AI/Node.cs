@@ -2,85 +2,88 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public enum NodeState
+namespace EilexFramework.AI
 {
-    RUNNING,
-    SUCCESS,
-    FAILURE
-}
-
-public class Node
-{
-    protected NodeState _State;                  // Reference to the state of the node
-
-    public Node Parent;                        // Reference to a parent node
-    protected List<Node> _Children = new List<Node>();
-
-    private Dictionary<string, object> DataContext = new Dictionary<string, object>();
-
-    public Node()
+    public enum NodeState
     {
-        Parent = null;
+        RUNNING,
+        SUCCESS,
+        FAILURE
     }
 
-    public Node(List<Node> children)
+    public class Node
     {
-        foreach(var child in children)
+        protected NodeState _State;                  // Reference to the state of the node
+
+        public Node Parent;                        // Reference to a parent node
+        protected List<Node> _Children = new List<Node>();
+
+        private Dictionary<string, object> DataContext = new Dictionary<string, object>();
+
+        public Node()
         {
-            Attach(child);
+            Parent = null;
         }
-    }
 
-    private void Attach(Node node)
-    {
-        node.Parent = this;
-        _Children.Add(node);
-    }
-
-    public virtual NodeState Evaluate() => NodeState.FAILURE;
-
-    public void SetData(string key, object value)
-    {
-        DataContext[key] = value;
-    }
-
-    public object GetData(string key)
-    {
-        object value = null;
-
-        if(DataContext.TryGetValue(key, out value))
-            return value;
-
-        Node node = Parent;
-        while(node != null)
+        public Node(List<Node> children)
         {
-            value = node.GetData(key);
-            if(value != null)
+            foreach(var child in children)
+            {
+                Attach(child);
+            }
+        }
+
+        private void Attach(Node node)
+        {
+            node.Parent = this;
+            _Children.Add(node);
+        }
+
+        public virtual NodeState Evaluate() => NodeState.FAILURE;
+
+        public void SetData(string key, object value)
+        {
+            DataContext[key] = value;
+        }
+
+        public object GetData(string key)
+        {
+            object value = null;
+
+            if(DataContext.TryGetValue(key, out value))
                 return value;
 
-            node = node.Parent;
-        }
-        return null;
-    }
+            Node node = Parent;
+            while(node != null)
+            {
+                value = node.GetData(key);
+                if(value != null)
+                    return value;
 
-    public bool ClearData(string key)
-    {
-        if(DataContext.ContainsKey(key))
-        {
-            DataContext.Remove(key);
-            return true;
+                node = node.Parent;
+            }
+            return null;
         }
 
-        Node node = Parent;
-        while(node != null)
+        public bool ClearData(string key)
         {
-            bool cleared = node.ClearData(key);
-            if(cleared)
+            if(DataContext.ContainsKey(key))
+            {
+                DataContext.Remove(key);
                 return true;
+            }
 
-            node = node.Parent;
+            Node node = Parent;
+            while(node != null)
+            {
+                bool cleared = node.ClearData(key);
+                if(cleared)
+                    return true;
+
+                node = node.Parent;
+            }
+
+            return false;
         }
-
-        return false;
     }
 }
