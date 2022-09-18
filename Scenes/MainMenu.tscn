@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Prefabs/Fire.tscn" type="PackedScene" id=1]
 [ext_resource path="res://TileSets/World.tres" type="TileSet" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Sprites/Lighting/light.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/SettingsController.cs" type="Script" id=7]
 [ext_resource path="res://SFX/MenuClick.mp3" type="AudioStream" id=8]
+[ext_resource path="res://Sprites/UI/MenuUI.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/UI/MenuBtn.png" type="Texture" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 114
@@ -23,6 +25,20 @@ font_data = ExtResource( 3 )
 [sub_resource type="Theme" id=4]
 default_font = SubResource( 3 )
 
+[sub_resource type="DynamicFont" id=13]
+size = 36
+font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=14]
+default_font = SubResource( 13 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 33
+font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=18]
+default_font = SubResource( 17 )
+
 [sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 3 )
 
@@ -34,6 +50,13 @@ font_data = ExtResource( 3 )
 
 [sub_resource type="Theme" id=8]
 default_font = SubResource( 7 )
+
+[sub_resource type="DynamicFont" id=15]
+size = 25
+font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=16]
+default_font = SubResource( 15 )
 
 [sub_resource type="DynamicFont" id=9]
 size = 29
@@ -51,9 +74,6 @@ default_font = SubResource( 11 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_vertical_guides_": [ 3.0 ]
-}
 _LoadGameBtn = ExtResource( 5 )
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -168,12 +188,13 @@ margin_bottom = -304.0
 theme = SubResource( 2 )
 text = "Lost Souls"
 
-[node name="ColorRect" type="ColorRect" parent="Canvas"]
+[node name="ColorRect" type="TextureRect" parent="Canvas"]
 margin_left = -160.0
 margin_top = -300.0
-margin_right = 208.0
-margin_bottom = -44.0
-color = Color( 1, 1, 1, 0.439216 )
+margin_right = 236.0
+margin_bottom = 8.0
+texture = ExtResource( 9 )
+expand = true
 
 [node name="OptionsMenu" type="VBoxContainer" parent="Canvas/ColorRect"]
 margin_left = 16.0
@@ -182,76 +203,143 @@ margin_right = 352.0
 margin_bottom = 212.0
 alignment = 1
 
-[node name="Button" type="Button" parent="Canvas/ColorRect/OptionsMenu"]
-margin_right = 336.0
-margin_bottom = 51.0
+[node name="NewGameBtn" type="TextureButton" parent="Canvas/ColorRect/OptionsMenu"]
+margin_right = 360.0
+margin_bottom = 65.0
 theme = SubResource( 4 )
+texture_normal = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="Canvas/ColorRect/OptionsMenu/NewGameBtn"]
+margin_left = 12.0
+margin_top = 16.0
+margin_right = 348.0
+margin_bottom = 61.0
+theme = SubResource( 14 )
 text = "New Game"
+align = 1
 
-[node name="Button2" type="Button" parent="Canvas/ColorRect/OptionsMenu"]
-margin_top = 55.0
-margin_right = 336.0
-margin_bottom = 106.0
+[node name="LoadGameBtn" type="TextureButton" parent="Canvas/ColorRect/OptionsMenu"]
+margin_top = 69.0
+margin_right = 360.0
+margin_bottom = 134.0
 theme = SubResource( 4 )
+texture_normal = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="Canvas/ColorRect/OptionsMenu/LoadGameBtn"]
+margin_left = 12.0
+margin_top = 16.0
+margin_right = 348.0
+margin_bottom = 61.0
+theme = SubResource( 14 )
 text = "Load Game"
+align = 1
 
-[node name="Button3" type="Button" parent="Canvas/ColorRect/OptionsMenu"]
-margin_top = 110.0
-margin_right = 336.0
-margin_bottom = 161.0
+[node name="SettingsBtn" type="TextureButton" parent="Canvas/ColorRect/OptionsMenu"]
+margin_top = 138.0
+margin_right = 360.0
+margin_bottom = 203.0
 theme = SubResource( 4 )
+texture_normal = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="Canvas/ColorRect/OptionsMenu/SettingsBtn"]
+margin_left = 12.0
+margin_top = 16.0
+margin_right = 348.0
+margin_bottom = 61.0
+theme = SubResource( 14 )
 text = "Settings"
+align = 1
 
-[node name="Button4" type="Button" parent="Canvas/ColorRect/OptionsMenu"]
-margin_top = 165.0
-margin_right = 336.0
-margin_bottom = 216.0
+[node name="ExitBtn" type="TextureButton" parent="Canvas/ColorRect/OptionsMenu"]
+margin_top = 207.0
+margin_right = 360.0
+margin_bottom = 272.0
 theme = SubResource( 4 )
-text = "Quit"
+texture_normal = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="Canvas/ColorRect/OptionsMenu/ExitBtn"]
+margin_left = 12.0
+margin_top = 16.0
+margin_right = 348.0
+margin_bottom = 61.0
+theme = SubResource( 14 )
+text = "Exit"
+align = 1
 
 [node name="LoadGame" type="VBoxContainer" parent="Canvas/ColorRect"]
 visible = false
+anchor_right = 0.96
+anchor_bottom = 0.961
 margin_left = 16.0
 margin_top = 20.0
-margin_right = 352.0
-margin_bottom = 212.0
+margin_right = -0.160004
+margin_bottom = -51.988
 alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="Canvas/ColorRect/LoadGame"]
+margin_top = 79.0
+margin_right = 364.0
+margin_bottom = 144.0
+texture_normal = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="Canvas/ColorRect/LoadGame/TextureButton"]
+margin_left = 16.0
+margin_top = 17.0
+margin_right = 348.0
+margin_bottom = 45.0
+theme = SubResource( 18 )
+text = "Back"
+align = 1
 
 [node name="NewGame" type="Control" parent="Canvas/ColorRect"]
 visible = false
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 0.96
+anchor_bottom = 0.948
+margin_right = -0.160004
+margin_bottom = 0.0159912
 
 [node name="LineEdit" type="LineEdit" parent="Canvas/ColorRect/NewGame"]
-margin_left = 96.0
-margin_top = 44.0
-margin_right = 246.0
-margin_bottom = 69.0
+margin_left = 84.0
+margin_top = 100.0
+margin_right = 300.0
+margin_bottom = 132.0
 theme = SubResource( 6 )
 text = "Enter Name"
 align = 1
 
-[node name="Button" type="Button" parent="Canvas/ColorRect/NewGame"]
-margin_left = 124.0
-margin_top = 76.0
-margin_right = 216.0
-margin_bottom = 97.0
+[node name="Button" type="TextureButton" parent="Canvas/ColorRect/NewGame"]
+margin_left = 16.0
+margin_top = 136.0
+margin_right = 376.0
+margin_bottom = 201.0
 theme = SubResource( 8 )
+texture_normal = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label" type="Label" parent="Canvas/ColorRect/NewGame/Button"]
+margin_left = 16.0
+margin_top = 20.0
+margin_right = 344.0
+margin_bottom = 44.0
+theme = SubResource( 16 )
 text = "Start Game"
+align = 1
 
 [node name="Settings" type="Control" parent="Canvas/ColorRect"]
 visible = false
-margin_right = 364.0
-margin_bottom = 252.0
+margin_right = 388.0
+margin_bottom = 296.0
 script = ExtResource( 7 )
 
 [node name="MusicSlider" type="HSlider" parent="Canvas/ColorRect/Settings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 36.0
-margin_top = 32.0
-margin_right = -48.0
-margin_bottom = -172.0
+margin_left = 40.0
+margin_top = 56.0
+margin_right = -44.0
+margin_bottom = -208.0
 min_value = -80.0
 max_value = 0.0
 
@@ -259,10 +347,10 @@ max_value = 0.0
 modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 36.0
-margin_top = 24.0
-margin_right = -52.0
-margin_bottom = -200.0
+margin_left = 44.0
+margin_top = 28.0
+margin_right = -44.0
+margin_bottom = -232.0
 theme = SubResource( 10 )
 text = "Music Volume"
 align = 1
@@ -272,42 +360,58 @@ valign = 1
 modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 36.0
-margin_top = 76.0
-margin_right = -52.0
-margin_bottom = -148.0
+margin_left = 44.0
+margin_top = 80.0
+margin_right = -44.0
+margin_bottom = -188.0
 theme = SubResource( 10 )
 text = "SFX "
 align = 1
 valign = 1
 
-[node name="SaveBtn" type="Button" parent="Canvas/ColorRect/Settings"]
+[node name="SaveBtn" type="TextureButton" parent="Canvas/ColorRect/Settings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_top = 220.0
-margin_right = -197.0
-margin_bottom = -4.0
+margin_left = 16.0
+margin_top = 184.0
+margin_right = -12.0
+margin_bottom = -40.0
 theme = SubResource( 12 )
-text = "Save Settings"
+texture_normal = ExtResource( 10 )
 
-[node name="Back" type="Button" parent="Canvas/ColorRect/Settings"]
+[node name="Label" type="Label" parent="Canvas/ColorRect/Settings/SaveBtn"]
+margin_left = 16.0
+margin_top = 20.0
+margin_right = 348.0
+margin_bottom = 42.0
+text = "Save Settings"
+align = 1
+
+[node name="Back" type="TextureButton" parent="Canvas/ColorRect/Settings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 192.0
-margin_top = 220.0
-margin_right = -25.0
-margin_bottom = -4.0
+margin_left = 16.0
+margin_top = 236.0
+margin_right = -12.0
+margin_bottom = 5.0
 theme = SubResource( 12 )
+texture_normal = ExtResource( 10 )
+
+[node name="Label2" type="Label" parent="Canvas/ColorRect/Settings/Back"]
+margin_left = 16.0
+margin_top = 20.0
+margin_right = 348.0
+margin_bottom = 42.0
 text = "Back"
+align = 1
 
 [node name="SFXCheck" type="CheckBox" parent="Canvas/ColorRect/Settings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 156.0
+margin_left = 180.0
 margin_top = 108.0
 margin_right = -184.0
-margin_bottom = -120.0
+margin_bottom = -164.0
 pressed = true
 align = 1
 icon_align = 1
@@ -315,10 +419,11 @@ icon_align = 1
 [node name="MenuSFX" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 8 )
 
-[connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/Button" to="." method="OnNewGame"]
-[connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/Button2" to="." method="OnLoadGame"]
-[connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/Button3" to="." method="OnSettingsPressed"]
-[connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/Button4" to="." method="OnQuitGame"]
+[connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/NewGameBtn" to="." method="OnNewGame"]
+[connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/LoadGameBtn" to="." method="OnLoadGame"]
+[connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/SettingsBtn" to="." method="OnSettingsPressed"]
+[connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/ExitBtn" to="." method="OnQuitGame"]
+[connection signal="pressed" from="Canvas/ColorRect/LoadGame/TextureButton" to="." method="LoadGameBack"]
 [connection signal="pressed" from="Canvas/ColorRect/NewGame/Button" to="." method="OnStartGame"]
 [connection signal="pressed" from="Canvas/ColorRect/Settings/SaveBtn" to="Canvas/ColorRect/Settings" method="OnSavePressed"]
 [connection signal="pressed" from="Canvas/ColorRect/Settings/Back" to="Canvas/ColorRect/Settings" method="OnBackPressed"]
