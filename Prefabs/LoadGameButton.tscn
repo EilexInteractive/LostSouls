@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Fonts/alagard.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scripts/LoadGameButton.cs" type="Script" id=2]
+[ext_resource path="res://Sprites/UI/MenuBtn.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 31
@@ -10,11 +11,19 @@ font_data = ExtResource( 1 )
 [sub_resource type="Theme" id=2]
 default_font = SubResource( 1 )
 
-[node name="Button" type="Button"]
+[node name="Button" type="TextureButton"]
 margin_right = 12.0
 margin_bottom = 20.0
 theme = SubResource( 2 )
-text = "Game Name"
+texture_normal = ExtResource( 3 )
 script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 15.0
+margin_right = 346.0
+margin_bottom = 45.0
+text = "Load Game"
+align = 1
 
 [connection signal="pressed" from="." to="." method="OnLoadPressed"]
