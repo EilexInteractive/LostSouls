@@ -31,24 +31,30 @@ public class ItemDatabase : Node
     public override void _Ready()
     {
         base._Ready();
-        // Health Potions
+
+        // === HEALTH POTIONS === //
         _Items.Add(new HealthPotion(25, ItemRarity.Common));
         _Items.Add(new HealthPotion(50, ItemRarity.Uncommon));
         _Items.Add(new HealthPotion(75, ItemRarity.Rare));
         _Items.Add(new HealthPotion(100, ItemRarity.Legendary));
         
-        // Common Weapons
+        // === COMMON WEAPONS === //
         _Items.Add(new Weapon("Old Sword", "Rusty old sword that's been sitting around for a while", 2, WeaponType.LONG_SWORD, null, 1, 1.2f));
         _Items.Add(new Weapon("Norse Axe", "A steel axe commonly used by great viking warriors", 5, WeaponType.AXE, null, 1.2f, 1.4f));
         _Items.Add(new Weapon("Sword of Strength", "A heavy sword used by only the strongest of the dungeon", 7, WeaponType.LONG_SWORD, null, 1.5f, 1.8f));
         _Items.Add(new Weapon("Axe of Hell", "The demons weapon of choice", 12, WeaponType.WAR_AXE, null, 1.4f, 1.7f));
         _Items.Add(new Weapon("Staff of Fire", "Staff used to throw fire balls towards enemies", 16, WeaponType.STAFF, null, 1.3f, 1.6f));
-        // Common Armour
+        _Items.Add(new Weapon("Demon Reflector", "See the reflection of the demons as your strike them down", 18, WeaponType.HALBERD, null, 1.4f, 1.6f));
+        _Items.Add(new Weapon("Axe of Fear", "Put the look of fear into your enemies faces", 18, WeaponType.AXE, null, 1.5f, 1.9f));
+
+        // === COMMON ARMOUR === //
         _Items.Add(new Armour("Light Armour", "Common light weight armour used by training warriors", 3, ItemType.Armour, 1.3f, 1.5f, ItemRarity.Common));
         _Items.Add(new Armour("Hell Worn Armour", "Armour worn in battle by none other than the demons themselves", 7, ItemType.Armour, 1.4f, 1.7f, ItemRarity.Common));
         _Items.Add(new Armour("Dragon-Fire Helm", "Made from the skin of the dragon of hell", 9, ItemType.Armour, 1.5f, 1.7f, ItemRarity.Common));
 
-        // Uncommon Weapons
+
+
+        // === UNCOMMON WEAPONS === //
         _Items.Add(new Weapon("Sword of Knights", "This sword was used by only the greatest of knights", 15, WeaponType.LONG_SWORD, null, 1.7f, 2.0f, 0.3f, ItemRarity.Uncommon));
         
     }

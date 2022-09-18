@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Armour.png-d201674bebdaee558c455e72e005c877.stex"
+path="res://.import/Axe Of Fear.png-ff6347ed518368ae4a18a5c13405d13c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Icons/Armour/Common/Armour.png"
-dest_files=[ "res://.import/Armour.png-d201674bebdaee558c455e72e005c877.stex" ]
+source_file="res://Sprites/Items/Axe Of Fear.png"
+dest_files=[ "res://.import/Axe Of Fear.png-ff6347ed518368ae4a18a5c13405d13c.stex" ]
 
 [params]
 
