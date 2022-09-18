@@ -14,6 +14,11 @@ public class FireBallController : Area2D
     {
         base._Ready();
         _destroyTimer = new Timer(DestroyTime, false, Destroy);
+
+        if(GetNode<GameController>("/root/GameController").GetCurrentSettings().SFXOn)
+        {
+            GetNode<AudioStreamPlayer2D>("SoundEffect").Play();
+        }
         
     }
     // Called when the node enters the scene tree for the first time.
