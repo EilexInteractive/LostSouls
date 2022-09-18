@@ -38,6 +38,12 @@ public class Navigation : TileMap
         }
     }
 
+    /// <summary>
+    /// Gets a path to the vector
+    /// </summary>
+    /// <param name="startPos"></param>
+    /// <param name="endPos"></param>
+    /// <returns></returns>
     public List<Vector2> GetPath(Vector2 startPos, Vector2 endPos)
     {
         var finalPath = new List<Vector2>();
@@ -151,5 +157,23 @@ public class Navigation : TileMap
     private int CalculateHScore(Vector2 tilePos, Vector2 targetPos)
     {
         return (int)Math.Abs(targetPos.x - tilePos.x) + (int)Math.Abs(targetPos.y - tilePos.y);
+    }
+
+    /// <summary>
+    /// Gets a random tile from the walkable tiles list
+    /// </summary>
+    /// <returns>Location of a random tile</returns>
+    public Vector2 GetRandomTile()
+    {
+        return _WalkableTiles[(int)GD.RandRange(0, _WalkableTiles.Count -1)].TilePos;
+    }
+
+    /// <summary>
+    /// Gets a random world location of a walkable tile
+    /// </summary>
+    /// <returns>World position of a random tile</returns>
+    public Vector2 GetRandomTileToWorld()
+    {
+        return MapToWorld(GetRandomTile());
     }
 }
