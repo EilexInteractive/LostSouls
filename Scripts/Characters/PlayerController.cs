@@ -418,7 +418,7 @@ public class PlayerController : CharacterController
         {
             switch(_OwningCharacter.GetInventory().GetEquippedArmour().GetItemRarity())
             {
-                case ItemRarity.Common:
+                case ItemRarity.Common:  
                     animationPath += "CommonArmour/";
                     break;
             }
