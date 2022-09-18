@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/MenuClick.mp3-80f9f3b00883b81ab1eb5354292deb1b.mp3str"
+
+[deps]
+
+source_file="res://SFX/MenuClick.mp3"
+dest_files=[ "res://.import/MenuClick.mp3-80f9f3b00883b81ab1eb5354292deb1b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
