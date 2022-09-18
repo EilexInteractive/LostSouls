@@ -33,6 +33,8 @@ public class PlayerController : CharacterController
 
     private event Action _DialogEvent; 
 
+    public bool _GodMode = false;
+
     
 
 
