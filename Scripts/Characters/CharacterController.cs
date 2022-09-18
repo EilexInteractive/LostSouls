@@ -27,6 +27,7 @@ public class CharacterController : KinematicBody2D
     [Export] protected float _AttackAnimSpeed;
 
     protected AudioStreamPlayer2D _SwordAudio;
+    protected AnimationPlayer _CharacterHitAnim;
 
     protected bool EnableForce;
     public Vector2 ApplyingForce = new Vector2();
@@ -38,6 +39,7 @@ public class CharacterController : KinematicBody2D
         // Get the reference to the animated sprite
         _Anim = GetNode<AnimatedSprite>("AnimatedSprite");
         _SwordAudio = GetNode<AudioStreamPlayer2D>("SwordAudio");
+        _CharacterHitAnim = GetNode<AnimationPlayer>("HitAnim");
     }
 
     public virtual void TriggerDeathAnim()
@@ -46,6 +48,12 @@ public class CharacterController : KinematicBody2D
         {
             _Anim.Play("Death");
         }
+    }
+
+    public void TakeHit()
+    {
+        if(_CharacterHitAnim != null)
+            _CharacterHitAnim.Play("CharacterHit", -1, 3, false);
     }
 
     protected virtual void Attack()
@@ -118,7 +126,7 @@ public class CharacterController : KinematicBody2D
 
     public void SetEquippedArmour(Armour armour)
     {
-        _Anim.Frames = GD.Load<SpriteFrames>("res://Animations/Armour/" + armour.GetItemName() + ".tres");
+        
     }
     
     public Character GetOwningCharacter() => _OwningCharacter;
