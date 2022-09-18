@@ -99,6 +99,9 @@ public class Character
             _IsAlive = false;               // Player has died
             GetController().CanMove = false;
             _OwningController.TriggerDeathAnim();           // Trigger death animation
+        } else 
+        {
+            _OwningController.TakeHit();
         }
         
         UpdateHealthUI();

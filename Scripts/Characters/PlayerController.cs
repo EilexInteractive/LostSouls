@@ -414,7 +414,15 @@ public class PlayerController : CharacterController
 
         
         string animationPath = "res://Animations/PlayerCharacters/";
-        if(_OwningCharacter.GetInventory().GetEquippedArmour() == null)
+        if(_OwningCharacter.GetInventory().GetEquippedArmour() != null)
+        {
+            switch(_OwningCharacter.GetInventory().GetEquippedArmour().GetItemRarity())
+            {
+                case ItemRarity.Common:
+                    animationPath += "CommonArmour/";
+                    break;
+            }
+        } else
         {
             animationPath += "NoArmour/";
         }
