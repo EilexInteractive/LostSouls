@@ -10,8 +10,8 @@ public class WolfDemonBT : EilexFramework.AI.Tree
 
     protected override EilexFramework.AI.Node SetupTree()
     {
+        EilexFramework.AI.Node root = new FollowPlayerTask(this, _Owner as EnemyController);
 
-
-        return default;
+        return root;
     }
 }
