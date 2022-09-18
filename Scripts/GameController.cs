@@ -128,8 +128,9 @@ public class GameController : Node
             // Create new settings if we don't already have any
             Settings initSettings = new Settings();
             initSettings._MusicLevel = 1.0f;
-            initSettings._SFXLevel = 1.0f;
+            initSettings.SFXOn = true;
             SaveSettings(initSettings);
+            CurrentGameSettings = initSettings;
         } else 
         {
             // Load Saved settings
