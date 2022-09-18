@@ -81,6 +81,12 @@ public class Character
     /// <param name="dp">Damage points</param>
     public void TakeDamage(float dp)
     {
+        if(_OwningController is PlayerController)
+        {
+            var pc = _OwningController as PlayerController;
+            if(pc._GodMode)
+                return;
+        }
         float ArmourMod = 1.0f;
 
         if(_Inventory.GetEquippedArmour() != null)
