@@ -117,7 +117,7 @@ public class InventoryUI : ColorRect
     private string GetPathToIcon(Item item)
     {
         var iconPath = $"res://Sprites/Icons/{item.GetItemType()}s/";
-        
+
         switch(item.GetItemRarity())
         {
             case ItemRarity.Common:
@@ -174,6 +174,11 @@ public class InventoryUI : ColorRect
             GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetInventory().EquipWeapon(_ViewingItem as Weapon);
             GetNode<InventoryUI>("/root/Main/Player/Canvas/CanvasLayer/InventoryRect").SetEquippedWeapon();
             // Hide the button as we have now equipped the item
+            GetNode<Button>("ViewingItem/HBoxContainer/ActionBtn").Hide();
+        } else if(_ViewingItem.GetItemType() == ItemType.Armour)
+        {
+            GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetInventory().EquipArmour(_ViewingItem as Armour);
+            // TODO: Show equipped armour in UI
             GetNode<Button>("ViewingItem/HBoxContainer/ActionBtn").Hide();
         }
     }

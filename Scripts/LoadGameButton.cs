@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class LoadGameButton : Button
+public class LoadGameButton : TextureButton
 {
     public string SavePath;
     public string SaveGameName;
@@ -10,5 +10,11 @@ public class LoadGameButton : Button
     {
         GetNode<GameController>("/root/GameController").GameName = SaveGameName;
         GetNode<GameController>("/root/GameController").LoadGame();
+    }
+
+    public void SetSaveGameName(string name)
+    {
+        SaveGameName = name;
+        GetNode<Label>("Label").Text = name;
     }
 }
