@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Prefabs/Fire.tscn" type="PackedScene" id=1]
 [ext_resource path="res://TileSets/World.tres" type="TileSet" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Prefabs/LoadGameButton.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Sprites/Lighting/light.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/SettingsController.cs" type="Script" id=7]
+[ext_resource path="res://SFX/MenuClick.mp3" type="AudioStream" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 114
@@ -310,6 +311,9 @@ margin_bottom = -120.0
 pressed = true
 align = 1
 icon_align = 1
+
+[node name="MenuSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
 
 [connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/Button" to="." method="OnNewGame"]
 [connection signal="pressed" from="Canvas/ColorRect/OptionsMenu/Button2" to="." method="OnLoadGame"]
