@@ -70,7 +70,8 @@ public class InventoryComponent
         {
             _EquippedArmour = armour;
             var pc = _OwningCharacter.GetController() as PlayerController;
-            pc?.SetEquippedArmour(armour);
+            //pc?.SetEquippedArmour(armour);
+            pc?.SetEquippedItem(GetEquippedWeapon());
         }
     }
 
