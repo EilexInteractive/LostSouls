@@ -181,14 +181,15 @@ scale = Vector2( 0.25, 0.25 )
 color = Color( 0.454902, 0.392157, 0.392157, 1 )
 
 [node name="Label" type="Label" parent="Canvas"]
-margin_left = -232.0
-margin_top = -412.0
-margin_right = 289.0
-margin_bottom = -304.0
+margin_left = -228.0
+margin_top = -280.0
+margin_right = 293.0
+margin_bottom = -172.0
 theme = SubResource( 2 )
 text = "Lost Souls"
 
 [node name="ColorRect" type="TextureRect" parent="Canvas"]
+visible = false
 margin_left = -160.0
 margin_top = -300.0
 margin_right = 236.0
