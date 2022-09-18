@@ -28,6 +28,8 @@ public class GameController : Node
     {
         CreateNewPlayer();
         Save = new Save();
+
+        LoadSettings();
     }
 
     public void CreateNewPlayer()
@@ -137,10 +139,11 @@ public class GameController : Node
             fs.Close();
 
             // Set the music level
-            GetNode<AudioStreamPlayer2D>("/root/BackgroundMusic/AudioStreamPlayer2D").PitchScale = CurrentGameSettings._MusicLevel;
+            GetNode<AudioStreamPlayer2D>("/root/BackgroundMusic/AudioStreamPlayer2D").VolumeDb = CurrentGameSettings._MusicLevel;
 
         }
 
+        
         
     }
 
@@ -152,4 +155,6 @@ public class GameController : Node
         fs.Close();
         GD.Print("Settings Saved");
     }
+
+    public Settings GetCurrentSettings() => CurrentGameSettings;
 }
