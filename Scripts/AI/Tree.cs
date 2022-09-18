@@ -8,6 +8,7 @@ namespace EilexFramework.AI
         private Node _Root = null;
         protected CharacterController _Owner;                       // Reference to the owning character
         protected Blackboard _Blackboard;                           // Reference to the characters blackboard
+        public Blackboard GetBlackboard() => _Blackboard;           // Getter for the blackboard
 
         public Tree(CharacterController character, Blackboard blackboard)
         {
