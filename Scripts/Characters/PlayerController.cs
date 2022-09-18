@@ -205,7 +205,7 @@ public class PlayerController : CharacterController
 
 
         // Trigger sword sound
-        if(_SwordAudio != null)
+        if(_SwordAudio != null && GetNode<GameController>("/root/GameController").GetCurrentSettings().SFXOn)
             _SwordAudio.Play();
 
         switch(_FacingDirection)
