@@ -16,6 +16,7 @@ public class SettingsController : Control
 
     public void SetupSettings()
     {
+        
         _MusicSlider.Value = GetNode<GameController>("/root/GameController").GetCurrentSettings()._MusicLevel;
         _SFXCheckbox.Pressed = GetNode<GameController>("/root/GameController").GetCurrentSettings().SFXOn;
     }
@@ -38,12 +39,14 @@ public class SettingsController : Control
 
     public void OnBackPressed()
     {
+        GetNode<MainMenu>("/root/Node2D").PlaySFX();
         this.Hide();
         GetNode<VBoxContainer>("/root/Node2D/Canvas/ColorRect/OptionsMenu").Show();
     }
 
     public void OnSavePressed()
     {
+        GetNode<MainMenu>("/root/Node2D").PlaySFX();
         SaveSettings();
     }
 }
