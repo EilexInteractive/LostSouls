@@ -1,9 +1,11 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class MainMenu : Node2D
 {
     [Export] private PackedScene _LoadGameBtn;
+    private List<Node> _LoadedLoadGameBtns = new List<Node>();
 
     public void OnNewGame()
     {
@@ -36,14 +38,15 @@ public class MainMenu : Node2D
                 GD.Print(file);
 
                 
-                var loadGameInstance = _LoadGameBtn.Instance();
+                Node loadGameInstance = _LoadGameBtn.Instance();
                 GetNode<VBoxContainer>("Canvas/ColorRect/LoadGame").AddChild(loadGameInstance);
+                GetNode<VBoxContainer>("Canvas/ColorRect/LoadGame").MoveChild(loadGameInstance, 0);
+                _LoadedLoadGameBtns.Add(loadGameInstance);
                 var loadGameObj = loadGameInstance as LoadGameButton;
                 if(loadGameObj != null)
                 {
                     loadGameObj.SavePath = files[i];
-                    loadGameObj.SaveGameName = file;
-                    loadGameObj.Text = file;
+                    loadGameObj.SetSaveGameName(file);
                 }
 
                 
@@ -65,6 +68,20 @@ public class MainMenu : Node2D
         GetNode<VBoxContainer>("Canvas/ColorRect/OptionsMenu").Hide();                 // Hide the menu options
         GetNode<Control>("Canvas/ColorRect/Settings").Show();                    // Display the settings
         GetNode<SettingsController>("Canvas/ColorRect/Settings").SetupSettings();               // Displauy the current Settings
+    }
+
+    public void LoadGameBack()
+    {
+        PlaySFX();
+        GetNode<VBoxContainer>("Canvas/ColorRect/LoadGame").Hide();
+        GetNode<VBoxContainer>("Canvas/ColorRect/OptionsMenu").Show();
+
+        foreach(var btn in _LoadedLoadGameBtns)
+        {
+            btn.QueueFree();
+        }
+
+        _LoadedLoadGameBtns.Clear();
     }
 
     public void PlaySFX()
