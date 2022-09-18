@@ -34,6 +34,7 @@ public class EnemyController : CharacterController
 
     // === AI === //
     Blackboard _Blackboard = new Blackboard();              // Reference to the blackboard
+    private EilexFramework.AI.Tree _EnemyBT;
 
 
 
@@ -49,12 +50,16 @@ public class EnemyController : CharacterController
         // Get reference to the player controller
         _Player = GetNode<PlayerController>("/root/Main/Player");
 
-        SetupBlackboard();
         
+        // Setup the navigation agent
         _NavAgent = GetNode<NavAgent>("NavAgent");
         _NavAgent.SetOwner(this);
         _NavAgent.SetMovementSpeed(_MovementSpeed);
+
+        // Setup AI
+        SetupBlackboard();
         _Blackboard.SetValueAsEnemyState("EnemyState", EnemyState.ATTACKING);
+        _Blackboard.SetValueAsNode2D("Player", GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController());
         
     }
     
@@ -65,14 +70,17 @@ public class EnemyController : CharacterController
         
         base._Process(delta);
 
+        // Update the player position within the blackboard so that we can access it from the BT
         if (_Player != null)
-            _PlayerPosition = _Player.Position;
-
-        if(_Blackboard.GetValueAsEnemyState("EnemyState") == EnemyState.ATTACKING)
         {
-            _Blackboard.SetValueAsVector2("TargetLocation",
-                GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController().Position);
+            _PlayerPosition = _Player.Position;
+            _Blackboard.SetValueAsVector2("TargetLocation", _PlayerPosition);
         }
+            
+
+        // Update the BT
+        if(_EnemyBT != null)
+            _EnemyBT.Update(delta);
 
         if(_HasAttackCooldown && _AttackCooldownTimer != null)
         {
@@ -93,7 +101,6 @@ public class EnemyController : CharacterController
 
     private void FollowPlayer(float delta)
     {
-        _NavAgent.SetPath(_Blackboard.GetValueAsVector2("TargetLocation"));
         SetFacingDirection(_NavAgent.GetMovementDirection());
         AnimationUpdate(_NavAgent.GetMovementDirection());
     }
@@ -355,6 +362,8 @@ public class EnemyController : CharacterController
         _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
         LoadEnemySprite(EnemyType.WOLF_DEMON);
 
+        _EnemyBT = new WolfDemonBT(this, _Blackboard);
+
         // Equip the weapon
         EquipWeapon("The HellBard");
     }
@@ -421,4 +430,5 @@ public class EnemyController : CharacterController
     public AI_HealthBar GetHealthBar() => GetNode<AI_HealthBar>("HealthBar") as AI_HealthBar;
     public int GetCharacterLevel() => _OwningCharacter.GetCurrentLevel();
     public Blackboard GetBlackboard() => _Blackboard;
+    public NavAgent GetNavAgent() => _NavAgent;
 }
