@@ -56,7 +56,8 @@ public class MainMenu : Node2D
     
     public void OnSettingsPressed()
     {
-        GetNode<Node2D>("Canvas/ColorRect/OptionsMenu").Hide();                 // Hide the menu options
-        GetNode<Node2D>("Canvas/ColorRect/Settings").Show();                    // Display the settings
+        GetNode<VBoxContainer>("Canvas/ColorRect/OptionsMenu").Hide();                 // Hide the menu options
+        GetNode<Control>("Canvas/ColorRect/Settings").Show();                    // Display the settings
+        GetNode<SettingsController>("Canvas/ColorRect/Settings").SetupSettings();               // Displauy the current Settings
     }
 }
