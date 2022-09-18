@@ -30,7 +30,7 @@ public class FireBallController : Area2D
             _destroyTimer.UpdateTimer(delta);
     }
 
-    public void OnFireballHit(Node body)
+        public void OnFireballHit(Node body)
     {
         if(body is PlayerController)
         {
