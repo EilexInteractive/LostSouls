@@ -16,11 +16,11 @@ public class MainMenu : Node2D
 
     public void OnStartGame()
     {
-        // TODO: Create new save game
+        PlaySFX();
         var name = GetNode<LineEdit>("Canvas/ColorRect/NewGame/LineEdit").Text;
         GetNode<GameController>("/root/GameController").GameName = name;
         GetTree().ChangeScene("res://Scenes/Main.tscn");
-        PlaySFX();
+        
     }
 
     public void OnLoadGame()
