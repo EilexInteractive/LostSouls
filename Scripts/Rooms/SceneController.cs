@@ -40,6 +40,7 @@ public class SceneController : Node2D
             return;
 
 
+        // TODO: Spawn same enemies that spawned when it saved
         // Get all the spawn points
         var spawnPoints = GetTree().GetNodesInGroup("SpawnPoint");
         // Generate a random number of enemies
@@ -108,6 +109,9 @@ public class SceneController : Node2D
         {
             LoadEnemyCharacters();
             LoadLootChest();
+
+            if(gc.MovingForward == false)
+                gc.GetPlayerCharacter().GetController().Position = GetNode<Node2D>("/root/Main/ReturnPoint").Position;
         }
         
 
