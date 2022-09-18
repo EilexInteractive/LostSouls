@@ -9,6 +9,7 @@ public class MainMenu : Node2D
     {
         GetNode<VBoxContainer>("Canvas/ColorRect/OptionsMenu").Hide();
         GetNode<Control>("Canvas/ColorRect/NewGame").Show();
+        PlaySFX();
     }
 
     public void OnStartGame()
@@ -17,6 +18,7 @@ public class MainMenu : Node2D
         var name = GetNode<LineEdit>("Canvas/ColorRect/NewGame/LineEdit").Text;
         GetNode<GameController>("/root/GameController").GameName = name;
         GetTree().ChangeScene("res://Scenes/Main.tscn");
+        PlaySFX();
     }
 
     public void OnLoadGame()
@@ -47,17 +49,27 @@ public class MainMenu : Node2D
                 
             }
         } 
+
+        PlaySFX();
     }
 
     public void OnQuitGame()
     {
+        PlaySFX();
         GetTree().Quit();
     }
     
     public void OnSettingsPressed()
     {
+        PlaySFX();
         GetNode<VBoxContainer>("Canvas/ColorRect/OptionsMenu").Hide();                 // Hide the menu options
         GetNode<Control>("Canvas/ColorRect/Settings").Show();                    // Display the settings
         GetNode<SettingsController>("Canvas/ColorRect/Settings").SetupSettings();               // Displauy the current Settings
+    }
+
+    public void PlaySFX()
+    {
+        if(GetNode<GameController>("/root/GameController").GetCurrentSettings().SFXOn)
+            GetNode<AudioStreamPlayer2D>("MenuSFX").Play();
     }
 }
