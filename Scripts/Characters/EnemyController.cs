@@ -231,7 +231,7 @@ public class EnemyController : CharacterController
 
     protected override void Attack()
     {
-        
+        /*
         base.Attack();
 
         if(!_CanAttack)
@@ -270,8 +270,8 @@ public class EnemyController : CharacterController
             _AttackCooldownTimer = new Timer(5.0f, false, CompleteCooldownTimer);
         }
 
-        
-        
+        */
+
     }
 
     private void CompleteCooldownTimer()
@@ -280,7 +280,7 @@ public class EnemyController : CharacterController
         _AttackCooldownTimer = null;
     }
 
-    private void PlayAttackAnimation()
+    public void PlayAttackAnimation()
     {
         switch(_FacingDirection)
         {
@@ -306,6 +306,7 @@ public class EnemyController : CharacterController
     {
         if(_IsAttacking && !_HasAttackCooldown)
         {
+            _Blackboard.SetValueAsBool("CanAttack", true);
             _IsAttacking = false;
         }
     }
@@ -362,6 +363,9 @@ public class EnemyController : CharacterController
         _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
         LoadEnemySprite(EnemyType.WOLF_DEMON);
 
+        // Setup Blackboard
+        _Blackboard.SetValueAsFloat("AttackDistance", _AttackDistance);
+        _Blackboard.SetValueAsBool("CanAttack", true);
         _EnemyBT = new WolfDemonBT(this as CharacterController, _Blackboard);
 
         // Equip the weapon
