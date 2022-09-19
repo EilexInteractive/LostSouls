@@ -11,8 +11,13 @@ public class FollowPlayerTask : EilexFramework.AI.Node
 
     public override NodeState Evaluate()
     {
-        if(_Owner == null)
-            GD.Print("Null Owner");
+        if(_Owner == null || _OwningTree == null)
+        {
+            _State = NodeState.FAILURE;
+            return _State;
+        }
+
+        
         var playerLocation = _Owner.GetBlackboard().GetValueAsVector2("TargetLocation");
         _Owner.GetNavAgent().SetPath(playerLocation);
 
