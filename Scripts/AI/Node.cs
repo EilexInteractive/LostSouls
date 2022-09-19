@@ -46,4 +46,5 @@ namespace EilexFramework.AI
         }
 
         public virtual NodeState Evaluate() => NodeState.FAILURE;
+    }
 }

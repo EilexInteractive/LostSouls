@@ -5,7 +5,7 @@ namespace EilexFramework.AI
 {
     public class Sequence : Node 
     {
-        public Sequence() : base()
+        public Sequence(EilexFramework.AI.Tree owningTree, EnemyController owner) : base(owningTree, owner)
         {}
 
         public Sequence(List<Node> children) : base(children)

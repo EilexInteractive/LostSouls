@@ -5,7 +5,7 @@ namespace EilexFramework.AI
 {
     public class Selector : Node 
     {
-        public Selector() : base()
+        public Selector(EilexFramework.AI.Tree owningTree, EnemyController owner) : base(owningTree, owner)
         {}
 
         public Selector(List<Node> children) : base(children)
