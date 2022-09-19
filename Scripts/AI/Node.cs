@@ -20,8 +20,14 @@ namespace EilexFramework.AI
 
         private Dictionary<string, object> DataContext = new Dictionary<string, object>();
 
-        public Node()
+
+        protected EilexFramework.AI.Tree _OwningTree;
+        protected EnemyController _Owner;
+
+        public Node(EilexFramework.AI.Tree owningTree, EnemyController owner)
         {
+            _OwningTree = owningTree;
+            _Owner = owner;
             Parent = null;
         }
 
@@ -40,50 +46,4 @@ namespace EilexFramework.AI
         }
 
         public virtual NodeState Evaluate() => NodeState.FAILURE;
-
-        public void SetData(string key, object value)
-        {
-            DataContext[key] = value;
-        }
-
-        public object GetData(string key)
-        {
-            object value = null;
-
-            if(DataContext.TryGetValue(key, out value))
-                return value;
-
-            Node node = Parent;
-            while(node != null)
-            {
-                value = node.GetData(key);
-                if(value != null)
-                    return value;
-
-                node = node.Parent;
-            }
-            return null;
-        }
-
-        public bool ClearData(string key)
-        {
-            if(DataContext.ContainsKey(key))
-            {
-                DataContext.Remove(key);
-                return true;
-            }
-
-            Node node = Parent;
-            while(node != null)
-            {
-                bool cleared = node.ClearData(key);
-                if(cleared)
-                    return true;
-
-                node = node.Parent;
-            }
-
-            return false;
-        }
-    }
 }

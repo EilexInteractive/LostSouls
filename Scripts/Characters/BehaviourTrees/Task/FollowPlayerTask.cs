@@ -5,14 +5,9 @@ using Godot;
 
 public class FollowPlayerTask : EilexFramework.AI.Node 
 {
-    private EilexFramework.AI.Tree _OwningTree;
-    private EnemyController _Owner;
-
-    public FollowPlayerTask(EilexFramework.AI.Tree owningTree, EnemyController owner)
-    {
-        _OwningTree = owningTree;
-        _Owner = owner;
-    }
+    
+    public FollowPlayerTask(EilexFramework.AI.Tree owningTree, EnemyController owner) : base(owningTree, owner)
+    {}
 
     public override NodeState Evaluate()
     {
