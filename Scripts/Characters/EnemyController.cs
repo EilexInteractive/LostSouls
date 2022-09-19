@@ -362,7 +362,7 @@ public class EnemyController : CharacterController
         _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
         LoadEnemySprite(EnemyType.WOLF_DEMON);
 
-        _EnemyBT = new WolfDemonBT(this, _Blackboard);
+        _EnemyBT = new WolfDemonBT(this as CharacterController, _Blackboard);
 
         // Equip the weapon
         EquipWeapon("The HellBard");

@@ -12,9 +12,9 @@ namespace EilexFramework.AI
 
         public Tree(CharacterController character, Blackboard blackboard)
         {
-            _Root = SetupTree();
             _Owner = character;
             _Blackboard = blackboard;
+            _Root = SetupTree();
         }
 
         public void Update(float delta)
