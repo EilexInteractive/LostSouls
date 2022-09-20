@@ -33,6 +33,11 @@ namespace EilexFramework.AI
 
         public Node(List<Node> children)
         {
+            AddChildren(children);
+        }
+
+        public void AddChildren(List<Node> children)
+        {
             foreach(var child in children)
             {
                 Attach(child);

@@ -105,6 +105,11 @@ public class Character
             _IsAlive = false;               // Player has died
             GetController().CanMove = false;
             _OwningController.TriggerDeathAnim();           // Trigger death animation
+            if(_OwningController is EnemyController)
+            {
+                EnemyController enemy = _OwningController as EnemyController;
+                enemy.GetBlackboard().SetValueAsBool("IsAlive", false);
+            }
         } else 
         {
             _OwningController.TakeHit();
@@ -179,6 +184,14 @@ public class Character
             _IsAlive = true;
             _CurrentHealth = _MaxHealth;
         }
+    }
+
+    public float GenerateAttackPoints()
+    {
+        if(_Inventory != null && _Inventory.GetEquippedWeapon() != null)
+            return _CurrentAttackPoints * _Inventory.GetEquippedWeapon().GenerateDP();
+
+        return _CurrentAttackPoints;
     }
 
     public void SetOwningController(CharacterController controller) => _OwningController = controller;

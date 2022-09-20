@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using EilexFramework.AI;
 
 public enum EnemyState
 {
@@ -33,8 +34,9 @@ public class EnemyController : CharacterController
 
 
     // === AI === //
-    Blackboard _Blackboard = new Blackboard();              // Reference to the blackboard
-    private EilexFramework.AI.Tree _EnemyBT;
+    private Blackboard _Blackboard = new Blackboard();              // Reference to the blackboard
+    private FiniteStateMachine FSM;
+    
 
 
 
@@ -60,7 +62,7 @@ public class EnemyController : CharacterController
         SetupBlackboard();
         _Blackboard.SetValueAsEnemyState("EnemyState", EnemyState.ATTACKING);
         _Blackboard.SetValueAsNode2D("Player", GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController());
-        
+    
     }
     
     
@@ -79,8 +81,8 @@ public class EnemyController : CharacterController
             
 
         // Update the BT
-        if(_EnemyBT != null)
-            _EnemyBT.Update(delta);
+        if(FSM != null)
+            FSM.Update(delta);
 
         if(_HasAttackCooldown && _AttackCooldownTimer != null)
         {
@@ -93,13 +95,12 @@ public class EnemyController : CharacterController
     {
         base._PhysicsProcess(delta);
         
-        DetectPlayerAttack();
-        FollowPlayer(delta);
+        UpdateDirection();
         
     }
 
 
-    private void FollowPlayer(float delta)
+    private void UpdateDirection()
     {
         SetFacingDirection(_NavAgent.GetMovementDirection());
         AnimationUpdate(_NavAgent.GetMovementDirection());
@@ -134,26 +135,6 @@ public class EnemyController : CharacterController
         }
     }
 
-    /// <summary>
-    /// Detect if they are in range to attack the player
-    /// </summary>
-    private void DetectPlayerAttack()
-    {
-        // If the character is dead he can no longer attack
-        if (!_OwningCharacter.IsAlive())
-            return;
-        
-        // Update the player position
-        _PlayerPosition = GetNode<PlayerController>("/root/Main/Player").Position;
-        
-        // Determine the distance 
-        var distanceToPlayer = this.Position.DistanceTo(_PlayerPosition);
-
-        // If close to the player start attacking
-        if (distanceToPlayer < _AttackDistance && _CanAttack)
-            Attack();
-    }
-
 
     /// <summary>
     /// Determines the animation play based on the move direction of the enemy
@@ -164,7 +145,7 @@ public class EnemyController : CharacterController
         base.AnimationUpdate(vel);
 
         // Don't perform animations if the enemy is attacking or dead
-        if (_OwningCharacter.IsAlive() == false || _IsAttacking)
+        if (_OwningCharacter.IsAlive() == false || _Blackboard.GetValueAsBool("IsAttacking") == true)
             return;
 
         
@@ -229,55 +210,16 @@ public class EnemyController : CharacterController
             
     }
 
-    protected override void Attack()
+    public void StartAttackCooldown()
     {
-        /*
-        base.Attack();
-
-        if(!_CanAttack)
-            return;
-
-        _IsAttacking = true;                // Allow the character to attack again
-
-        // Get reference to the player controller
-        var player = GetNode<PlayerController>("/root/Main/Player");
-
-        // Ensure the player controller is valid
-        if (player != null)
-        {
-            PlayAttackAnimation();
-            if(_OwningCharacter.GetEnemyType() != EnemyType.FIRE_DEMON)
-                player.GetOwningCharacter()?.TakeDamage(GetOwningCharacter().GetCurrentAP());
-
-            // TODO: Add Dodge feature for character
-        }
-
-        if(GetOwningCharacter().GetEnemyType() == EnemyType.FIRE_DEMON)
-        {
-            var fireBall = GD.Load<PackedScene>("res://Prefabs/FireBall.tscn");
-            var fireBallInstance = fireBall.Instance();
-            GetTree().Root.AddChild(fireBallInstance);
-            var fireBallNode = fireBallInstance as Node2D;
-            fireBallNode.Position = this.Position;
-            fireBallNode.LookAt(GetNode<PlayerController>("/root/Main/Player").Position); 
-            
-        }
-
-        _CanAttack = false;
-
-        if(_HasAttackCooldown)
-        {
-            _AttackCooldownTimer = new Timer(5.0f, false, CompleteCooldownTimer);
-        }
-
-        */
-
+        _AttackCooldownTimer = new Timer(_AttackCooldown, false, CompleteCooldownTimer);
     }
 
     private void CompleteCooldownTimer()
     {
-        _CanAttack = true;
+        _Blackboard.SetValueAsBool("CanAttack", true);
         _AttackCooldownTimer = null;
+        GetBlackboard().SetValueAsBool("IsAttacking", false);
     }
 
     public void PlayAttackAnimation()
@@ -304,17 +246,17 @@ public class EnemyController : CharacterController
     /// </summary>
     public void OnAnimFinished()
     {
-        if(_IsAttacking && !_HasAttackCooldown)
+        if(_Blackboard.GetValueAsBool("IsAttacking") && !_HasAttackCooldown)
         {
-            _Blackboard.SetValueAsBool("CanAttack", true);
-            _IsAttacking = false;
-        }
+             _Blackboard.SetValueAsBool("IsAttacking", false);
+         }
     }
 
     protected virtual void SetupBlackboard()
     {
         _Blackboard.SetValueAsNode2D("EnemyTarget", GetNode<GameController>("/root/GameController").GetPlayerCharacter().GetController());
         _Blackboard.SetValueAsEnemyState("EnemyState", EnemyState.ATTACKING);
+        _Blackboard.SetValueAsBool("IsAlive", true);
     }
 
     private void GenerateCharacter()
@@ -362,14 +304,24 @@ public class EnemyController : CharacterController
         _OwningCharacter.SetupAI_Stats((float)GD.RandRange(25, 40), (float)GD.RandRange(25, 40));
         _OwningCharacter.SetEnemyType(EnemyType.WOLF_DEMON);
         LoadEnemySprite(EnemyType.WOLF_DEMON);
+        _HasAttackCooldown = true;                     
+        _AttackCooldown = 0.3f;   
+        EquipWeapon("Old Sword");
+                     
+        
 
         // Setup Blackboard
-        _Blackboard.SetValueAsFloat("AttackDistance", _AttackDistance);
+        _Blackboard.SetValueAsFloat("AttackDistance", 25.0f);
         _Blackboard.SetValueAsBool("CanAttack", true);
-        _EnemyBT = new WolfDemonBT(this as CharacterController, _Blackboard);
+        _Blackboard.SetValueAsBool("IsAttacking", false);
 
-        // Equip the weapon
-        EquipWeapon("The HellBard");
+        // Setup state machinex
+        FSM = new BaseEnemyFSM(this);
+        FSM.AddState(new FollowPlayerState(this));
+        FSM.AddState(new AttackState(this));
+        FSM.SetState("FollowPlayer");
+        
+        
     }
 
     private void SpawnWingedDemon()
@@ -378,7 +330,19 @@ public class EnemyController : CharacterController
         _OwningCharacter.SetEnemyType(EnemyType.WINGED_DEMON);
         _OwningCharacter.SetupAI_Stats((float)GD.RandRange(30, 65), (float)GD.RandRange(30, 65));
         LoadEnemySprite(EnemyType.WINGED_DEMON);
-        EquipWeapon("Old Sword");
+        // Equip the weapon
+        EquipWeapon("The HellBard");
+        
+
+        _Blackboard.SetValueAsFloat("AttackDistance", 25.0f);
+        _Blackboard.SetValueAsBool("CanAttack", true);
+        _Blackboard.SetValueAsBool("IsAttacking", false);
+
+        // Setup state machinex
+        FSM = new BaseEnemyFSM(this);
+        FSM.AddState(new FollowPlayerState(this));
+        FSM.AddState(new AttackState(this));
+        FSM.SetState("FollowPlayer");
     }
 
     private void SpawnFireDemon()
@@ -389,6 +353,15 @@ public class EnemyController : CharacterController
         _AttackDistance = 150.0f;
         _HasAttackCooldown = true;
         _AttackCooldown = 5.0f;
+
+        // Setup Blackboard
+        _Blackboard.SetValueAsFloat("AttackDistance", 150.0f);
+        _Blackboard.SetValueAsBool("CanAttack", true);
+        _Blackboard.SetValueAsBool("IsAttacking", false);
+
+        // Setup state machinex
+        FSM = new BaseEnemyFSM(this);
+        FSM.AddState(new FireballAttack(this, GetTree().Root));
         
         EquipWeapon("Staff of Fire");
     }
@@ -435,4 +408,5 @@ public class EnemyController : CharacterController
     public int GetCharacterLevel() => _OwningCharacter.GetCurrentLevel();
     public Blackboard GetBlackboard() => _Blackboard;
     public NavAgent GetNavAgent() => _NavAgent;
+    public FiniteStateMachine GetFSM() => FSM;
 }

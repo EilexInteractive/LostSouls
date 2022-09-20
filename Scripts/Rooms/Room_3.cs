@@ -9,6 +9,9 @@ public class Room_3 : SceneController
 
         var playerController = GetNode<PlayerController>("Player");
         playerController.GetUI().FollowUpMessageEvent += FollowUpEventMessage;
+
+        if(playerController.Position == new Vector2(0, 0))
+            GD.Print("Zerooooooo");
     }
 
     public void FollowUpEventMessage()
